@@ -1,0 +1,4 @@
+def test(pt) -> str:
+    return pt
+
+print(type(test(5)))
