@@ -4,14 +4,14 @@ import pygame as pyg
 import pygame.locals as pygl
 from PIL import Image
 import keyboard
-import plyer as py
 from bouton_pygame import Button
 import random as rng
+import math
 test = "le test a été effectuer"
 #-------------------------------------------------------------
 pyg.init()
 last_screen = 0
-icone = pyg.image.load("projet nsi/image/icone/images.png")
+icone = pyg.image.load("image\icone\images.png")
 screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
 B_jouer = B_nbjoueur = B_nbot = B_botO = B_botN = None
 end = False
@@ -22,41 +22,45 @@ pyg.display.set_icon(icone)
 #--------------------------------------------------------------
 def ecran(comment = "debut") -> None:
     global B_jouer,B_nbjoueur,B_nbot,B_botO,B_botN
+    taille_screen = pyg.display.get_window_size()
     if comment == "debut":
         test_gif = pyg.image.load("majo-no-tabitabi-the-journey-of-elaina.gif")
         print(pyg.image.get_extended())
         test_fond = pyg.image.load("mare_naturelle.jpg")
-        image_size_fond = (pyg.display.get_window_size()[0],pyg.display.get_window_size()[1])
+        image_size_fond = (taille_screen[0],taille_screen[1])
         test_fond = pyg.transform.scale(test_fond,image_size_fond)
         test_debut = pyg.image.load(r"image\bouton\jouer.png")
-        image_size_debut = (pyg.display.get_window_size()[0]*(1/2),pyg.display.get_window_size()[1]*(1/2))
+        image_size_debut = (taille_screen[0]*(1/2),taille_screen[1]*(1/2))
         test_debut = pyg.transform.scale(test_debut,image_size_debut)
         B_jouer = Button(fild = test_debut)
         screen.blit(test_fond,(0,0))
 
     elif comment == "choix_bot/J":
         center = screen.get_rect().center
-        B_botO = Button(fild=pyg.image.load(r"projet nsi\image\pas d'ami.png"),y= 2)
+        image_O = pyg.image.load(r"image\pas d_ami.png")
+        image_N = pyg.image.load(r"image\g_amis.png")
+        image_N = pyg.transform.scale(image_N,(taille_screen[0]/2,taille_screen[1]*0.80))
+        image_O = pyg.transform.scale(image_O,(taille_screen[0]/2,taille_screen[1]*0.80))
+        B_botO = Button(fild=image_O,x=center[0]-4)
+        B_botN = Button(fild=image_N,x=4)
         screen.fill((150,210,255,0))
-
-
 
 
 
     elif comment == "partie":
         screen.fill((150,210,255,0))
-        plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
-        plateaux = pyg.transform.scale(plateaux,(pyg.display.get_window_size()[0]*0.5,pyg.display.get_window_size()[1]))
+        plateaux = pyg.image.load(r"image\image sans droit et utilisable\plateau\plateau.png")
+        plateaux = pyg.transform.scale(plateaux,(taille_screen[0]*0.5,taille_screen[1]))
         bottomright = screen.get_rect().bottomright
         bottom = screen.get_rect().bottom
         for i in range(10):
-            dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
+            dée_1_img = pyg.image.load(f"image\dée\{rng.randint(1,6)}.png")
             screen.blit(dée_1_img,dée_1_img.get_rect(bottomright = bottomright))
             screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
             #dée_size = (pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/2)
             #dée_1_img = pyg.transform.scale(dée_1_img,dée_size)
             pyg.display.flip()
-            dée_sound = pyg.mixer.Sound(r"projet nsi\Son\dée\test.mp3")
+            dée_sound = pyg.mixer.Sound(r"Son\dée\test.mp3")
             #dée_sound.play()
             pyg.time.wait(1)
             #Son\dée\test.mp3
@@ -173,7 +177,6 @@ pyg.display.flip()
 
 while not(end):
 
-
     if comment == "debut":
         if B_jouer.draw(screen = screen, precis= "center") == True:
             comment = "choix_bot/J"
@@ -182,12 +185,11 @@ while not(end):
     elif comment == "choix_bot/J":
         if B_botO.draw(screen = screen) == True:
             print("ok")
-
+        elif B_botN.draw(screen = screen) == True:
+            print("ok")
 
     pyg.display.flip()
-
     for event in pyg.event.get():
-
 
         if event.type == pyg.QUIT:
             end = True
