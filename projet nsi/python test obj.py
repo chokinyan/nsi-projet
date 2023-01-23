@@ -11,7 +11,7 @@ test = "le test a été effectuer"
 #-------------------------------------------------------------
 pyg.init()
 last_screen = 0
-icone = pyg.image.load("image\icone\images.png")
+icone = pyg.image.load("projet nsi/image/icone/images.png")
 screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
 B_jouer = B_nbjoueur = B_nbot = B_botO = B_botN = None
 end = False
@@ -36,7 +36,7 @@ def ecran(comment = "debut") -> None:
 
     elif comment == "choix_bot/J":
         center = screen.get_rect().center
-        B_botO = Button(fild=pyg.image.load(r"image\pas d'ami.png"),y= 2)
+        B_botO = Button(fild=pyg.image.load(r"projet nsi\image\pas d'ami.png"),y= 2)
         screen.fill((150,210,255,0))
 
 
@@ -45,18 +45,18 @@ def ecran(comment = "debut") -> None:
 
     elif comment == "partie":
         screen.fill((150,210,255,0))
-        plateaux = pyg.image.load(r"image\image sans droit et utilisable\plateau\plateau.png")
+        plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
         plateaux = pyg.transform.scale(plateaux,(pyg.display.get_window_size()[0]*0.5,pyg.display.get_window_size()[1]))
         bottomright = screen.get_rect().bottomright
         bottom = screen.get_rect().bottom
         for i in range(10):
-            dée_1_img = pyg.image.load(f"image\dée\{rng.randint(1,6)}.png")
+            dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
             screen.blit(dée_1_img,dée_1_img.get_rect(bottomright = bottomright))
             screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
             #dée_size = (pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/2)
             #dée_1_img = pyg.transform.scale(dée_1_img,dée_size)
             pyg.display.flip()
-            dée_sound = pyg.mixer.Sound(r"Son\dée\test.mp3")
+            dée_sound = pyg.mixer.Sound(r"projet nsi\Son\dée\test.mp3")
             #dée_sound.play()
             pyg.time.wait(1)
             #Son\dée\test.mp3
