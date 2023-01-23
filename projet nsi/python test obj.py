@@ -227,7 +227,7 @@ if why == 1:
 else:
     # int(input("nombre de joueur (entre 2 et 4) -->"))
     stuck = ["prison","puits","hotel_2","hotel"]
-    joueur = [joueur_info(i+1) for i in range(3)]
+    joueur = [joueur_info(numero = i+1,bot=False) for i in range(3)]
     plateau_jeu = [plateau(i+1) for i in range(63)]
     fin = False
     tour = 0
