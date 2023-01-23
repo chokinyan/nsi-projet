@@ -117,7 +117,7 @@ why = int(input("entrer le truc ->"))
 if why == 1:
     pyg.init()
     last_screen = 0
-    icone = pyg.image.load("image\icone\images.png")
+    icone = pyg.image.load("projet nsi\image\icone\images.png")
     screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
     B_jouer = B_nbjoueur = B_nbot = B_botO = B_botN = None
     end = False
@@ -135,7 +135,7 @@ if why == 1:
             test_fond = pyg.image.load("mare_naturelle.jpg")
             image_size_fond = (taille_screen[0],taille_screen[1])
             test_fond = pyg.transform.scale(test_fond,image_size_fond)
-            test_debut = pyg.image.load(r"image\bouton\jouer.png")
+            test_debut = pyg.image.load(r"projet nsi\image\bouton\jouer.png")
             image_size_debut = (taille_screen[0]*(1/2),taille_screen[1]*(1/2))
             test_debut = pyg.transform.scale(test_debut,image_size_debut)
             B_jouer = Button(fild = test_debut)
@@ -143,8 +143,8 @@ if why == 1:
 
         elif comment == "choix_bot/J":
             center = screen.get_rect().center
-            image_O = pyg.image.load(r"image\pas d_ami.png")
-            image_N = pyg.image.load(r"image\g_amis.png")
+            image_O = pyg.image.load(r"projet nsi\image\pas d_ami.png")
+            image_N = pyg.image.load(r"projet nsi\image\g_amis.png")
             image_N = pyg.transform.scale(image_N,(taille_screen[0]/2,taille_screen[1]*0.80))
             image_O = pyg.transform.scale(image_O,(taille_screen[0]/2,taille_screen[1]*0.80))
             B_botO = Button(fild=image_O,x=center[0]-4)
@@ -155,18 +155,18 @@ if why == 1:
 
         elif comment == "partie":
             screen.fill((150,210,255,0))
-            plateaux = pyg.image.load(r"image\image sans droit et utilisable\plateau\plateau.png")
+            plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
             plateaux = pyg.transform.scale(plateaux,(taille_screen[0]*0.5,taille_screen[1]))
             bottomright = screen.get_rect().bottomright
             bottom = screen.get_rect().bottom
             for i in range(10):
-                dée_1_img = pyg.image.load(f"image\dée\{rng.randint(1,6)}.png")
+                dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
                 screen.blit(dée_1_img,dée_1_img.get_rect(bottomright = bottomright))
                 screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
                 #dée_size = (pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/2)
                 #dée_1_img = pyg.transform.scale(dée_1_img,dée_size)
                 pyg.display.flip()
-                dée_sound = pyg.mixer.Sound(r"Son\dée\test.mp3")
+                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\dée\test.mp3")
                 #dée_sound.play()
                 pyg.time.wait(1)
                 #Son\dée\test.mp3
