@@ -130,7 +130,9 @@ if why == 1:
         global B_jouer,B_nbjoueur,B_nbot,B_botO,B_botN
         taille_screen = pyg.display.get_window_size()
         if comment == "debut":
-            #test_gif = pyg.image.load("majo-no-tabitabi-the-journey-of-elaina.gif")
+            test_gif = []
+            for i in os.listdir(r"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png"):
+                test_gif.append(pyg.image.load(f"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png\{i}"))
             print(pyg.image.get_extended())
             test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
             image_size_fond = (taille_screen[0],taille_screen[1])
