@@ -143,8 +143,8 @@ if why == 1:
 
         elif comment == "choix_bot/J":
             center = screen.get_rect().center
-            image_O = pyg.image.load(r"projet nsi\image\pas d_ami.png")
-            image_N = pyg.image.load(r"projet nsi\image\g_amis.png")
+            image_O = pyg.image.load(r"projet nsi\image\bouton\pas d_ami.png")
+            image_N = pyg.image.load(r"projet nsi\image\bouton\g_amis.png")
             image_N = pyg.transform.scale(image_N,(taille_screen[0]/2,taille_screen[1]*0.80))
             image_O = pyg.transform.scale(image_O,(taille_screen[0]/2,taille_screen[1]*0.80))
             B_botO = Button(fild=image_O,x=center[0]-4)
