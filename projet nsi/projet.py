@@ -132,7 +132,7 @@ if why == 1:
         if comment == "debut":
             #test_gif = pyg.image.load("majo-no-tabitabi-the-journey-of-elaina.gif")
             print(pyg.image.get_extended())
-            test_fond = pyg.image.load("mare_naturelle.jpg")
+            test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
             image_size_fond = (taille_screen[0],taille_screen[1])
             test_fond = pyg.transform.scale(test_fond,image_size_fond)
             test_debut = pyg.image.load(r"projet nsi\image\bouton\jouer.png")
