@@ -125,11 +125,10 @@ if why == 1:
     comment = "debut"
     pyg.mouse.set_cursor(*pyg.cursors.arrow)
     pyg.display.set_icon(icone)
+    pyg.display.set_caption(title="Jeu de l'oie")
     #--------------------------------------------------------------
-    test_gif = []
-    for i in os.listdir(r"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png"):
-                test_gif.append(pyg.image.load(f"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png\{i}"))
-    clock = pyg.time.Clock()
+    
+    #temp charge
 
     #--------------------------------------------------------------
     def ecran(comment = "debut") -> None:
@@ -187,10 +186,6 @@ if why == 1:
     while not(end):
 
         if comment == "debut":
-            for frame in test_gif:
-                screen.blit(frame,(0,0))
-                clock.tick(100)
-                pyg.display.update()
             if B_jouer.draw(screen = screen, precis= "center") == True:
                 comment = "choix_bot/J"
                 ecran(comment)
@@ -204,8 +199,9 @@ if why == 1:
             elif B_botN.draw(screen = screen) == True:
                 print("ok")
 
+
         pyg.display.flip()
-        for event in pyg.event.get():
+        for event in pyg.event.get():           
 
             if event.type == pyg.QUIT:
                 end = True
