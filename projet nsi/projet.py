@@ -126,13 +126,18 @@ if why == 1:
     pyg.mouse.set_cursor(*pyg.cursors.arrow)
     pyg.display.set_icon(icone)
     #--------------------------------------------------------------
+    test_gif = []
+    for i in os.listdir(r"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png"):
+                test_gif.append(pyg.image.load(f"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png\{i}"))
+    clock = pyg.time.Clock()
+
+    #--------------------------------------------------------------
     def ecran(comment = "debut") -> None:
         global B_jouer,B_nbjoueur,B_nbot,B_botO,B_botN
         taille_screen = pyg.display.get_window_size()
         if comment == "debut":
-            test_gif = []
-            for i in os.listdir(r"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png"):
-                test_gif.append(pyg.image.load(f"projet nsi\image\image_test\ezgif-4-a971497fe1-gif-png\{i}"))
+            screen.fill((0,0,0))
+            pyg.display.flip()
             print(pyg.image.get_extended())
             test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
             image_size_fond = (taille_screen[0],taille_screen[1])
@@ -141,7 +146,7 @@ if why == 1:
             image_size_debut = (taille_screen[0]*(1/2),taille_screen[1]*(1/2))
             test_debut = pyg.transform.scale(test_debut,image_size_debut)
             B_jouer = Button(fild = test_debut)
-            screen.blit(test_fond,(0,0))
+            #screen.blit(test_fond,(0,0))
 
         elif comment == "choix_bot/J":
             center = screen.get_rect().center
@@ -175,20 +180,27 @@ if why == 1:
 
 #---------------------------------------------------------------
 
-    ecran(comment=comment)
+    ecran(comment)
 
     pyg.display.flip()
 
     while not(end):
 
         if comment == "debut":
+            for frame in test_gif:
+                screen.blit(frame,(0,0))
+                clock.tick(100)
+                pyg.display.update()
             if B_jouer.draw(screen = screen, precis= "center") == True:
                 comment = "choix_bot/J"
                 ecran(comment)
                 print("test")
+                pyg.time.wait(100)
         elif comment == "choix_bot/J":
             if B_botO.draw(screen = screen) == True:
-                print("ok")
+                comment = "debut"
+                ecran(comment)
+                pyg.time.wait(100)
             elif B_botN.draw(screen = screen) == True:
                 print("ok")
 
