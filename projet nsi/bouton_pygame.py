@@ -9,12 +9,19 @@ class Button:
         self.click = False
 
 
-    def draw(self,screen, precis = "") -> bool:
+    def draw(self,screen, precis = "",curseur = "",bruit = "") -> bool:
         action = False
         pos = pygame.mouse.get_pos()
         
         if self.coo.collidepoint(pos):
+            if curseur != "":
+                pygame.mouse.set_visible(False)
+                cursor_img_rect = curseur.get_rect()
+                cursor_img_rect.center = pygame.mouse.get_pos()
+                screen.blit(curseur,cursor_img_rect)
             if pygame.mouse.get_pressed()[0] == 1 and self.click == False:
+                if bruit != "":
+                    pygame.mixer.Sound(bruit).play
                 self.click = True
                 action = True
         

@@ -2,7 +2,6 @@ import os as os
 import random as rng
 import pygame as pyg
 import pygame.locals as pygl
-from PIL import Image
 import keyboard
 from bouton_pygame import Button
 import random as rng
@@ -116,6 +115,9 @@ class plateau:
 why = int(input("entrer le truc ->"))
 if why == 1:
     pyg.init()
+    pyg.mouse.set_visible(False)
+    curseur = pyg.image.load("projet nsi\image\curseur\l'oie ouf.png")
+    curseur_rect = curseur.get_rect()
     last_screen = 0
     icone = pyg.image.load("projet nsi\image\icone\images.png")
     screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
@@ -123,9 +125,8 @@ if why == 1:
     end = False
     affichage_etape = 0
     comment = "debut"
-    pyg.mouse.set_cursor(*pyg.cursors.arrow)
     pyg.display.set_icon(icone)
-    pyg.display.set_caption(title="Jeu de l'oie")
+    pyg.display.set_caption("Jeu de l'oie")
     #--------------------------------------------------------------
     
     #temp charge
@@ -145,9 +146,11 @@ if why == 1:
             image_size_debut = (taille_screen[0]*(1/2),taille_screen[1]*(1/2))
             test_debut = pyg.transform.scale(test_debut,image_size_debut)
             B_jouer = Button(fild = test_debut)
-            #screen.blit(test_fond,(0,0))
+            screen.blit(test_fond,(0,0))
 
         elif comment == "choix_bot/J":
+            font = pyg.font.SysFont('arial',30,italic=False,bold=True)
+            texte = font.render('Veux tu jouer avec des bots ?',True,(0,0,0))
             center = screen.get_rect().center
             image_O = pyg.image.load(r"projet nsi\image\bouton\pas d_ami.png")
             image_N = pyg.image.load(r"projet nsi\image\bouton\g_amis.png")
@@ -156,6 +159,7 @@ if why == 1:
             B_botO = Button(fild=image_O,x=center[0]-4)
             B_botN = Button(fild=image_N,x=4)
             screen.fill((150,210,255,0))
+            screen.blit(texte,(0,0))
 
 
 
@@ -199,6 +203,8 @@ if why == 1:
             elif B_botN.draw(screen = screen) == True:
                 print("ok")
 
+        curseur_rect.center = pyg.mouse.get_pos()
+        screen.blit(curseur,curseur_rect)
 
         pyg.display.flip()
         for event in pyg.event.get():           
