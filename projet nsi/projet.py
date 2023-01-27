@@ -1,3 +1,6 @@
+#Saber LALAOUNA T°F
+#Lycée Louis Armand
+#Mulhouse
 import os as os
 import random as rng
 import pygame as pyg
@@ -181,6 +184,11 @@ if why == 1:
                 pyg.time.wait(1)
                 #Son\dée\test.mp3
 
+
+        elif comment == "test":
+            print(pyg.display.get_driver())
+            pass
+
 #---------------------------------------------------------------
 
     ecran(comment)
@@ -197,7 +205,7 @@ if why == 1:
                 pyg.time.wait(100)
         elif comment == "choix_bot/J":
             if B_botO.draw(screen = screen) == True:
-                comment = "debut"
+                comment = "test"
                 ecran(comment)
                 pyg.time.wait(100)
             elif B_botN.draw(screen = screen) == True:
