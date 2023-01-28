@@ -1,4 +1,4 @@
-#Saber LALAOUNA T°F
+#Saber LALAOUNA T°F aussi nommer chokinyan
 #Lycée Louis Armand
 #Mulhouse
 import os as os
@@ -118,9 +118,6 @@ class plateau:
 why = int(input("entrer le truc ->"))
 if why == 1:
     pyg.init()
-    pyg.mouse.set_visible(False)
-    curseur = pyg.image.load("projet nsi\image\curseur\l'oie ouf.png")
-    curseur_rect = curseur.get_rect()
     last_screen = 0
     icone = pyg.image.load("projet nsi\image\icone\images.png")
     screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
@@ -179,7 +176,7 @@ if why == 1:
                 #dée_size = (pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/2)
                 #dée_1_img = pyg.transform.scale(dée_1_img,dée_size)
                 pyg.display.flip()
-                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\dée\test.mp3")
+                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
                 #dée_sound.play()
                 pyg.time.wait(1)
                 #Son\dée\test.mp3
@@ -210,9 +207,6 @@ if why == 1:
                 pyg.time.wait(100)
             elif B_botN.draw(screen = screen) == True:
                 print("ok")
-
-        curseur_rect.center = pyg.mouse.get_pos()
-        screen.blit(curseur,curseur_rect)
 
         pyg.display.flip()
         for event in pyg.event.get():           
