@@ -12,16 +12,12 @@ class Button:
         self.click = False
 
 
-    def draw(self,screen, precis = "",curseur = "",bruit = "") -> bool:
+    def draw(self,screen, precis = "",bruit = "") -> bool:
+
         action = False
         pos = pygame.mouse.get_pos()
         
         if self.coo.collidepoint(pos):
-            if curseur != "":
-                pygame.mouse.set_visible(False)
-                cursor_img_rect = curseur.get_rect()
-                cursor_img_rect.center = pygame.mouse.get_pos()
-                screen.blit(curseur,cursor_img_rect)
             if pygame.mouse.get_pressed()[0] == 1 and self.click == False:
                 if bruit != "":
                     pygame.mixer.Sound(bruit).play
@@ -43,6 +39,28 @@ class Button:
             bottom = screen.get_rect().bottom
             self.coo = self.fild.get_rect(bottom = bottom)
             screen.blit(self.fild, self.fild.get_rect(bottom = bottom))
+        elif precis == "right":
+            right = screen.get_rect().right
+            self.coo = self.fild.get_rect(right = right)
+            screen.blit(self.fild, self.fild.get_rect(right = right))
+        elif precis == "topright":
+            topright = screen.get_rect().topright
+            self.coo = self.fild.get_rect(topright = topright)
+            screen.blit(self.fild,self.fild.get_rect(topright=topright))
+        elif precis == "bottomleft":
+            topleft = screen.get_rect().topleft
+            self.coo = self.fild.get_rect(topleft = topleft)
+            screen.blit(self.fild,self.fild.get_rect(topleft=topleft))
+        elif precis == "bottomright":
+            bottomright = screen.get_rect().bottomright
+            self.coo = self.fild.get_rect(bottomright = bottomright)
+            screen.blit(self.fild,self.fild.get_rect(bottomright=bottomright))
+        elif precis == "topleft":
+            topleft = screen.get_rect().topleft
+            self.coo = self.fild.get_rect(topleft = topleft)
+            screen.blit(self.fild,self.fild.get_rect(topleft = topleft))
+        elif precis == "bottomcenter":
+            pass
         else:
             screen.blit(self.fild, (self.coo.x,self.coo.y))
         
