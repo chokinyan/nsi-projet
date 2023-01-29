@@ -59,8 +59,6 @@ class Button:
             topleft = screen.get_rect().topleft
             self.coo = self.fild.get_rect(topleft = topleft)
             screen.blit(self.fild,self.fild.get_rect(topleft = topleft))
-        elif precis == "bottomcenter":
-            pass
         else:
             screen.blit(self.fild, (self.coo.x,self.coo.y))
         

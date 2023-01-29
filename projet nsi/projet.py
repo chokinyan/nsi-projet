@@ -147,6 +147,8 @@ if why == 1:
         bottom = screen.get_rect().bottom
         bottomleft =  screen.get_rect().bottomleft
         bottomright = screen.get_rect().bottomright
+        left = screen.get_rect().left
+        right = screen.get_rect().right
 
         if comment == "debut":
             screen.fill((0,0,0))
@@ -178,9 +180,13 @@ if why == 1:
             image_1 = pyg.image.load(r"projet nsi\image\nb robot\1.jpg")
             image_2 = pyg.image.load(r"projet nsi\image\nb robot\2.jpg")
             image_3 = pyg.image.load(r"projet nsi\image\nb robot\3.jpg")
-            bouton["bot1"] = Button(fild=image_1)
-            bouton["bot2"] = Button(fild=image_2)
-            bouton["bot3"] = Button(fild=image_3)
+            image_1 = pyg.transform.scale(image_1,)
+
+
+
+            bouton["bot1"] = Button(fild=image_1,x=left)
+            bouton["bot2"] = Button(fild=image_2,x=center[0])
+            bouton["bot3"] = Button(fild=image_3,x=right)
 
         elif comment=="choix_nb_joueur":
             pass
@@ -235,11 +241,11 @@ if why == 1:
                 print("ok")
 
         elif comment == "choix_nb_bot":
-            if bouton["bot1"].draw(screen = screen,precis = "left") == True:
+            if bouton["bot1"].draw(screen = screen) == True:
                 print("1")
-            elif bouton["bot2"].draw(screen = screen,precis = "center") == True:
+            elif bouton["bot2"].draw(screen = screen) == True:
                 print("2")
-            elif bouton["bot3"].draw(screen = screen,precis = "right") == True:
+            elif bouton["bot3"].draw(screen = screen) == True:
                 print("3")
 
         pyg.display.flip()
