@@ -6,19 +6,24 @@ import random as rng
 import pygame as pyg
 import pygame.locals as pygl
 import keyboard
-from bouton_pygame import Button
+from add_pygame import *
 import random as rng
 import math
 from time import sleep
 test = "le test a été effectuer"
 #-------------------------------------------------------------
 class joueur_info:
-        def __init__(self,numero,bot) -> None:
+        def __init__(self,numero,bot,nom = "") -> None:
             self.numero = numero
             self.position = 0
             self.effet = ""
             self.joue = True
             self.bot = bot
+            if nom == "":
+                self.nom = f"joueur {numero}"
+            else:
+                self.nom = nom
+            
 
         def new_position(self,total) -> None:
             global tour
@@ -149,7 +154,7 @@ if why == 1:
             screen.blit(test_fond,(0,0))
 
         elif comment == "choix_bot/J":
-            font = pyg.font.SysFont('arial',30,italic=False,bold=True)
+            font = pyg.font.SysFont('arial',50,italic=False,bold=True)
             texte = font.render('Veux tu jouer avec des bots ?',True,(0,0,0))
             center = screen.get_rect().center
             image_O = pyg.image.load(r"projet nsi\image\bouton\pas d_ami.png")
@@ -159,8 +164,13 @@ if why == 1:
             B_botO = Button(fild=image_O,x=center[0]-4)
             B_botN = Button(fild=image_N,x=4)
             screen.fill((150,210,255,0))
-            screen.blit(texte,(0,0))
+            screen.blit(texte,(image_N.get_width()/2,image_N.get_height()))
 
+        elif comment=="choix_nb_bot":
+            pass
+
+        elif comment=="choix_nb_joueur":
+            pass
 
 
         elif comment == "partie":
@@ -180,6 +190,7 @@ if why == 1:
                 #dée_sound.play()
                 pyg.time.wait(1)
                 #Son\dée\test.mp3
+                
 
 
         elif comment == "test":
