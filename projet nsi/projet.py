@@ -126,7 +126,7 @@ if why == 1:
     last_screen = 0
     icone = pyg.image.load("projet nsi\image\icone\images.png")
     screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
-    B_jouer = B_nbjoueur = B_nbot = B_botO = B_botN = None
+    bouton = {}
     end = False
     affichage_etape = 0
     comment = "debut"
@@ -138,7 +138,7 @@ if why == 1:
 
     #--------------------------------------------------------------
     def ecran(comment = "debut") -> None:
-        global B_jouer,B_nbjoueur,B_nbot,B_botO,B_botN
+        global bouton
         taille_screen = pyg.display.get_window_size()
         if comment == "debut":
             screen.fill((0,0,0))
@@ -150,7 +150,7 @@ if why == 1:
             test_debut = pyg.image.load(r"projet nsi\image\bouton\jouer.png")
             image_size_debut = (taille_screen[0]*(1/2),taille_screen[1]*(1/2))
             test_debut = pyg.transform.scale(test_debut,image_size_debut)
-            B_jouer = Button(fild = test_debut)
+            bouton['B_jouer'] = Button(fild = test_debut)
             screen.blit(test_fond,(0,0))
 
         elif comment == "choix_bot/J":
@@ -161,8 +161,8 @@ if why == 1:
             image_N = pyg.image.load(r"projet nsi\image\bouton\g_amis.png")
             image_N = pyg.transform.scale(image_N,(taille_screen[0]/2,taille_screen[1]*0.80))
             image_O = pyg.transform.scale(image_O,(taille_screen[0]/2,taille_screen[1]*0.80))
-            B_botO = Button(fild=image_O,x=center[0]-4)
-            B_botN = Button(fild=image_N,x=4)
+            bouton["B_botO"] = Button(fild=image_O,x=center[0]-4)
+            bouton["B_botN"] = Button(fild=image_N,x=4)
             screen.fill((150,210,255,0))
             screen.blit(texte,(image_N.get_width()/2,image_N.get_height()))
 
@@ -206,17 +206,17 @@ if why == 1:
     while not(end):
 
         if comment == "debut":
-            if B_jouer.draw(screen = screen, precis= "center") == True:
+            if bouton["B_jouer"].draw(screen = screen, precis= "center") == True:
                 comment = "choix_bot/J"
                 ecran(comment)
                 print("test")
                 pyg.time.wait(100)
         elif comment == "choix_bot/J":
-            if B_botO.draw(screen = screen) == True:
+            if bouton["B_botO"].draw(screen = screen) == True:
                 comment = "test"
                 ecran(comment)
                 pyg.time.wait(100)
-            elif B_botN.draw(screen = screen) == True:
+            elif bouton["B_botN"].draw(screen = screen) == True:
                 print("ok")
 
         pyg.display.flip()
