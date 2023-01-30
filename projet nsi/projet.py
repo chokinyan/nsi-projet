@@ -180,13 +180,13 @@ if why == 1:
             image_1 = pyg.image.load(r"projet nsi\image\nb robot\1.jpg")
             image_2 = pyg.image.load(r"projet nsi\image\nb robot\2.jpg")
             image_3 = pyg.image.load(r"projet nsi\image\nb robot\3.jpg")
-            image_1 = pyg.transform.scale(image_1,)
+            image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*0.4,image_1.get_size()[1]*0.4))
+            image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*0.4,image_2.get_size()[1]*0.4))
+            image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*0.4,image_3.get_size()[1]*0.4))
 
-
-
-            bouton["bot1"] = Button(fild=image_1,x=left)
+            bouton["bot1"] = Button(fild=image_1,x=image_2.get_width()-center[0])
             bouton["bot2"] = Button(fild=image_2,x=center[0])
-            bouton["bot3"] = Button(fild=image_3,x=right)
+            bouton["bot3"] = Button(fild=image_3,x=image_2.get_width()+center[0])
 
         elif comment=="choix_nb_joueur":
             pass
