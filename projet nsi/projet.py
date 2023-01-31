@@ -5,7 +5,6 @@ import os as os
 import random as rng
 import pygame as pyg
 import pygame.locals as pygl
-import keyboard
 from add_pygame import *
 import random as rng
 import math
@@ -139,6 +138,10 @@ if why == 1:
 
     #--------------------------------------------------------------
     def ecran(comment = "debut") -> None:
+        
+        """ debut | nchoix_bot/J | choix_nb_bot | choix_nb_joueur | partie | test"""
+        
+        
         global bouton,image_R
         
         taille_screen = pyg.display.get_window_size()
@@ -191,7 +194,8 @@ if why == 1:
             bouton["bot1"] = Button(fild=image_1,x=(center[0]-image_2.get_width())-image_1.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
             bouton["bot2"] = Button(fild=image_2,x=center[0],y=center[1]-(image_1.get_height()/2))
             bouton["bot3"] = Button(fild=image_3,x=image_2.get_width()+center[0]+image_3.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
-            screen.blit(texte,(pyg.display.get_window_size()[0]*(1/3),0))
+            bouton["B_retour"] = Button(fild=image_R,y=pyg.display.get_window_size()[1]-image_R.get_height(),x=center[0]-image_R.get_width()/2)
+            screen.blit(texte,(center[0],0))
 
         elif comment=="choix_nb_joueur":
             pass
@@ -247,11 +251,24 @@ if why == 1:
 
         elif comment == "choix_nb_bot":
             if bouton["bot1"].draw(screen = screen) == True:
-                print("1")
+                nb_bot = 1
+                comment = "choix_nb_joueur"
+                ecran(comment)
+                pyg.time.wait(100)
             elif bouton["bot2"].draw(screen = screen) == True:
-                print("2")
+                nb_bot = 2
+                comment = "choix_nb_joueur"
+                ecran(comment)
+                pyg.time.wait(100)
             elif bouton["bot3"].draw(screen = screen) == True:
-                print("3")
+                nb_bot = 3
+                comment = "partie"
+                ecran(comment)
+                pyg.time.wait(100)
+            elif bouton["B_retour"].draw(screen=screen) == True:
+                comment = "choix_bot/J"
+                ecran(comment)
+                pyg.time.wait(100)
 
         pyg.display.flip()
         for event in pyg.event.get():           
