@@ -127,6 +127,7 @@ if why == 1:
     icone = pyg.image.load("projet nsi\image\icone\images.png")
     screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
     bouton = {}
+    image_R = pyg.image.load(r"projet nsi\image\retour\Sans titre.png")
     end = False
     affichage_etape = 0
     comment = "debut"
@@ -138,7 +139,7 @@ if why == 1:
 
     #--------------------------------------------------------------
     def ecran(comment = "debut") -> None:
-        global bouton
+        global bouton,image_R
         
         taille_screen = pyg.display.get_window_size()
         center = screen.get_rect().center
@@ -177,16 +178,20 @@ if why == 1:
 
         elif comment=="choix_nb_bot":
             screen.fill((150,210,255,0))
+            font = pyg.font.SysFont('arial',50,italic=False,bold=True)
+            texte = font.render('Avec combien de bot voulez-vous jouer ?',True,(240,0,30))
             image_1 = pyg.image.load(r"projet nsi\image\nb robot\1.jpg")
             image_2 = pyg.image.load(r"projet nsi\image\nb robot\2.jpg")
             image_3 = pyg.image.load(r"projet nsi\image\nb robot\3.jpg")
-            image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*0.4,image_1.get_size()[1]*0.4))
-            image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*0.4,image_2.get_size()[1]*0.4))
-            image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*0.4,image_3.get_size()[1]*0.4))
-
-            bouton["bot1"] = Button(fild=image_1,x=image_2.get_width()-center[0])
-            bouton["bot2"] = Button(fild=image_2,x=center[0])
-            bouton["bot3"] = Button(fild=image_3,x=image_2.get_width()+center[0])
+            image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*(1/3),image_1.get_size()[1]*0.5))
+            image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*(1/3),image_2.get_size()[1]*0.5))
+            image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*(1/3),image_3.get_size()[1]*0.5))
+            image_R = pyg.transform.scale(image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
+            
+            bouton["bot1"] = Button(fild=image_1,x=(center[0]-image_2.get_width())-image_1.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
+            bouton["bot2"] = Button(fild=image_2,x=center[0],y=center[1]-(image_1.get_height()/2))
+            bouton["bot3"] = Button(fild=image_3,x=image_2.get_width()+center[0]+image_3.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
+            screen.blit(texte,(pyg.display.get_window_size()[0]*(1/3),0))
 
         elif comment=="choix_nb_joueur":
             pass
