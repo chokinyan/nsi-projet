@@ -3,7 +3,7 @@ class Button:
     """comme son nom l'indique permet de cré de bouton clicable
         quoi jsp ecrire francais ?
         ba c'est vrai"""
-    def __init__(self,x = 0 , y = 0 , fild = "", scale = 1) -> None:
+    def __init__(self,x :int = 0, y :int = 0, fild :str = "", scale :float = 1) -> None:
         width = fild.get_width()
         height = fild.get_height()
         self.fild = pygame.transform.scale(fild,((width*scale),(height*scale)))
@@ -12,7 +12,7 @@ class Button:
         self.click = False
 
 
-    def draw(self,screen, precis = "",bruit = "") -> bool:
+    def draw(self,screen, precis :str = "",bruit :str = "") -> bool:
 
         action = False
         pos = pygame.mouse.get_pos()

@@ -12,7 +12,7 @@ from time import sleep
 test = "le test a été effectuer"
 #-------------------------------------------------------------
 class joueur_info:
-        def __init__(self,numero,bot,nom = "") -> None:
+        def __init__(self,numero:int,bot:bool,nom :str = "") -> None:
             self.numero = numero
             self.position = 0
             self.effet = ""
@@ -24,7 +24,7 @@ class joueur_info:
                 self.nom = nom
             
 
-        def new_position(self,total) -> None:
+        def new_position(self,total:int) -> None:
             global tour
             if tour < len(joueur):
                 if (déP == 6 and déD == 3) or (déP == 6 and déD == 3):
@@ -66,7 +66,7 @@ class joueur_info:
                     self.effet = "Fini"
                     quit()
 
-        def id_case(self,new_pos) -> None:
+        def id_case(self,new_pos:int) -> None:
             for i in joueur:
                 if i.numero != self.numero:
                     if i.position == new_pos:
@@ -96,7 +96,7 @@ class joueur_info:
                 self.effet = ""
 
 class plateau:
-        def __init__(self,numero_case) -> None:
+        def __init__(self,numero_case : int) -> None:
             if numero_case == 19:
                 self.effect = "hotel_2"
 
@@ -115,11 +115,11 @@ class plateau:
             else:
                 self.effect = ""
         
-        def joueur_effet(case) -> str:
+        def joueur_effet(case:int) -> str:
             return (plateau_jeu[case-1].effect)
 
 #-------------------------------------------------------------
-why = int(input("entrer le truc ->"))
+why = 1
 if why == 1:
     pyg.init()
     last_screen = 0
@@ -137,7 +137,7 @@ if why == 1:
     #temp charge
 
     #--------------------------------------------------------------
-    def ecran(comment = "debut") -> None:
+    def ecran(comment : str= "debut") -> None:
         
         """ debut | nchoix_bot/J | choix_nb_bot | choix_nb_joueur | partie | test"""
         
@@ -198,7 +198,22 @@ if why == 1:
             screen.blit(texte,(center[0],0))
 
         elif comment=="choix_nb_joueur":
-            pass
+            screen.fill((150,210,255,0))
+            font = pyg.font.SysFont('arial',50,italic=False,bold=True)
+            texte = font.render('Combien etes-vous ?',True,(240,0,30))
+            image_1 = pyg.image.load(r"projet nsi\image\nb joueur\2V.jpg")
+            image_2 = pyg.image.load(r"projet nsi\image\nb joueur\3V.jpg")
+            image_3 = pyg.image.load(r"projet nsi\image\nb joueur\4V.jpg")
+            image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*(1/3),image_1.get_size()[1]*0.5))
+            image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*(1/3),image_2.get_size()[1]*0.5))
+            image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*(1/3),image_3.get_size()[1]*0.5))
+            image_R = pyg.transform.scale(image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
+            
+            bouton["BJ2"] = Button(fild=image_1,x=(center[0]-image_2.get_width())-image_1.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
+            bouton["BJ3"] = Button(fild=image_2,x=center[0],y=center[1]-(image_1.get_height()/2))
+            bouton["BJ4"] = Button(fild=image_3,x=image_2.get_width()+center[0]+image_3.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
+            bouton["B_retour"] = Button(fild=image_R,y=pyg.display.get_window_size()[1]-image_R.get_height(),x=center[0]-image_R.get_width()/2)
+            screen.blit(texte,(center[0],0))
 
 
         elif comment == "partie":
@@ -265,6 +280,21 @@ if why == 1:
                 comment = "partie"
                 ecran(comment)
                 pyg.time.wait(100)
+            elif bouton["B_retour"].draw(screen=screen) == True:
+                comment = "choix_bot/J"
+                ecran(comment)
+                pyg.time.wait(100)
+        
+        elif comment == "choix_nb_joueur":
+            if bouton["BJ2"].draw(screen=screen) == True:
+                ecran(comment)
+                print(test,2)
+            elif bouton["BJ3"].draw(screen=screen) == True:
+                ecran(comment)
+                print(test,3)
+            elif bouton["BJ4"].draw(screen=screen) == True:
+                ecran(comment)
+                print(test,4)
             elif bouton["B_retour"].draw(screen=screen) == True:
                 comment = "choix_bot/J"
                 ecran(comment)
