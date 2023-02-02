@@ -1,6 +1,5 @@
-#Saber LALAOUNA T°F aussi nommer chokinyan
-#Lycée Louis Armand
-#Mulhouse
+#chokinyan 
+#juste voila
 import os as os
 import random as rng
 import pygame as pyg
