@@ -134,17 +134,7 @@ if why == 1:
     pyg.display.set_caption("Jeu de l'oie")
     #--------------------------------------------------------------
     
-    """for i in range(10):
-                dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
-                screen.blit(dée_1_img,dée_1_img.get_rect(bottomright = bottomright))
-                screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
-                #dée_size = (pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/2)
-                #dée_1_img = pyg.transform.scale(dée_1_img,dée_size)
-                pyg.display.flip()
-                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
-                #dée_sound.play()
-                pyg.time.wait(1)
-                #Son\dée\test.mp3"""
+    #temp code test
 
     #--------------------------------------------------------------
     def ecran(comment : str= "debut", dée : int= 0) -> None:
@@ -239,6 +229,7 @@ if why == 1:
 
         elif comment == "partie":
             screen.fill((150,210,255,0))
+            font = pyg.font.SysFont(name = 'arial',size = 10,italic=False,bold=False)
             image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
             image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
             plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
@@ -252,6 +243,7 @@ if why == 1:
             if dée == 1:
             
                 for i in range(10):
+
                     dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
                     screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
                     screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
