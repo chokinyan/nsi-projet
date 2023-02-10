@@ -134,12 +134,22 @@ if why == 1:
     pyg.display.set_caption("Jeu de l'oie")
     #--------------------------------------------------------------
     
-    #temp charge
+    """for i in range(10):
+                dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
+                screen.blit(dée_1_img,dée_1_img.get_rect(bottomright = bottomright))
+                screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
+                #dée_size = (pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/2)
+                #dée_1_img = pyg.transform.scale(dée_1_img,dée_size)
+                pyg.display.flip()
+                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
+                #dée_sound.play()
+                pyg.time.wait(1)
+                #Son\dée\test.mp3"""
 
     #--------------------------------------------------------------
-    def ecran(comment : str= "debut") -> None:
+    def ecran(comment : str= "debut", dée : int= 0) -> None:
         
-        """ debut | nchoix_bot/J | choix_nb_bot | choix_nb_joueur | partie | test"""
+        """ debut | nchoix_bot/J | choix_nb_bot | choix_nb_joueur | partie | choix_nom |test"""
         
         
         global bouton,image_R
@@ -195,7 +205,7 @@ if why == 1:
             bouton["bot2"] = Button(fild=image_2,x=center[0],y=center[1]-(image_1.get_height()/2))
             bouton["bot3"] = Button(fild=image_3,x=image_2.get_width()+center[0]+image_3.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
             bouton["B_retour"] = Button(fild=image_R,y=pyg.display.get_window_size()[1]-image_R.get_height(),x=center[0]-image_R.get_width()/2)
-            screen.blit(texte,(center[0],0))
+            screen.blit(texte,(image_1.get_rect().center[0],0))
 
         elif comment=="choix_nb_joueur":
             screen.fill((150,210,255,0))
@@ -227,26 +237,33 @@ if why == 1:
             bouton["B_retour"] = Button(fild=image_R,y=pyg.display.get_window_size()[1]-image_R.get_height(),x=center[0]-image_R.get_width()/2)
             screen.blit(texte,(center[0],0))
 
-
         elif comment == "partie":
             screen.fill((150,210,255,0))
+            image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
+            image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
             plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
             plateaux = pyg.transform.scale(plateaux,(taille_screen[0]*0.5,taille_screen[1]))
-            bottomright = screen.get_rect().bottomright
             bottom = screen.get_rect().bottom
-            for i in range(10):
-                dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
-                screen.blit(dée_1_img,dée_1_img.get_rect(bottomright = bottomright))
-                screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
-                #dée_size = (pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/2)
-                #dée_1_img = pyg.transform.scale(dée_1_img,dée_size)
-                pyg.display.flip()
-                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
-                #dée_sound.play()
-                pyg.time.wait(1)
-                #Son\dée\test.mp3
+            bouton["Blance"] = Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance)
+            dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
+            screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
+            screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
+            
+            if dée == 1:
+            
+                for i in range(10):
+                    dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
+                    screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
+                    screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
+                    pyg.display.flip()
+                    dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
+                    #dée_sound.play()
+                    pyg.time.wait(300)
+                    #Son\dée\test.mp3
+            
                 
-
+        elif comment == "choix_nom":
+            screen.fill((150,210,255,0))
 
         elif comment == "test":
             print(pyg.display.get_driver())
@@ -297,30 +314,31 @@ if why == 1:
                 pyg.time.wait(100)
         
         elif comment == "choix_nb_joueur":
+
             if nb_bot == 0:
                 if bouton["BJ2"].draw(screen=screen) == True:
+                    ecran = "choix_nom"
                     ecran(comment)
-                    print(test,2)
                 elif bouton["BJ3"].draw(screen=screen) == True:
+                    comment = "choix_nom"
                     ecran(comment)
-                    print(test,3)
                 elif bouton["BJ4"].draw(screen=screen) == True:
+                    comment = "choix_nom"
                     ecran(comment)
-                    print(test,4)
             elif nb_bot == 1:
                 if bouton["BJ2"].draw(screen=screen) == True:
+                    comment = "choix_nom"
                     ecran(comment)
-                    print(test,2)
                 elif bouton["BJ3"].draw(screen=screen) == True:
+                    comment = "choix_nom"
                     ecran(comment)
-                    print(test,3)
                 elif bouton["BJ4F"].draw(screen=screen) == True:
                     ecran(comment)
                     print(test,4)
             elif nb_bot == 2:
                 if bouton["BJ2"].draw(screen=screen) == True:
+                    comment = "choix_nom"
                     ecran(comment)
-                    print(test,2)
                 elif bouton["BJ3F"].draw(screen=screen) == True:
                     ecran(comment)
                     print(test,3)
@@ -332,6 +350,18 @@ if why == 1:
                 comment = "choix_bot/J"
                 ecran(comment)
                 pyg.time.wait(100)
+
+        elif comment == "choix_nom":
+
+            """temporaire pour le moment"""
+            
+            comment = "partie"
+            ecran(comment)
+
+        elif comment == "partie":
+            if bouton["Blance"].draw(screen = screen) == True:
+                print(test,68)
+                ecran(comment=comment,dée=1)
 
         pyg.display.flip()
         for event in pyg.event.get():           
