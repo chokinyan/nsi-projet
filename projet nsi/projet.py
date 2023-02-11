@@ -121,6 +121,8 @@ class plateau:
 why = 1
 if why == 1:
     nb_bot = 0
+    nb_j = 1
+    joueur = [(f'joueur {i}',i) for i in range(1,5)]
     pyg.init()
     last_screen = 0
     icone = pyg.image.load("projet nsi\image\icone\images.png")
@@ -137,22 +139,13 @@ if why == 1:
     #temp code test
 
     #--------------------------------------------------------------
-    def ecran(comment : str= "debut", dée : int= 0) -> None:
+    def ecran(comment : str= "debut", dée : bool= False) -> None:
         
         """ debut | nchoix_bot/J | choix_nb_bot | choix_nb_joueur | partie | choix_nom |test"""
         
-        
         global bouton,image_R
         
-        taille_screen = pyg.display.get_window_size()
-        center = screen.get_rect().center
-        topleft = screen.get_rect().topleft
-        topright = screen.get_rect().topright
-        bottom = screen.get_rect().bottom
-        bottomleft =  screen.get_rect().bottomleft
-        bottomright = screen.get_rect().bottomright
-        left = screen.get_rect().left
-        right = screen.get_rect().right
+        taille_screen = pyg.display.get_window_size();center = screen.get_rect().center;topleft = screen.get_rect().topleft;topright = screen.get_rect().topright;bottom = screen.get_rect().bottom;bottomleft =  screen.get_rect().bottomleft;bottomright = screen.get_rect().bottomright;left = screen.get_rect().left;right = screen.get_rect().right
 
         if comment == "debut":
             screen.fill((0,0,0))
@@ -229,18 +222,21 @@ if why == 1:
 
         elif comment == "partie":
             screen.fill((150,210,255,0))
-            font = pyg.font.SysFont(name = 'arial',size = 10,italic=False,bold=False)
+            font = pyg.font.SysFont(name = 'arial',size = 30,italic=False,bold=False)
+            texte = ""
+            for i in joueur: texte += str(i) + "\n"
+            texte = font.render(texte,True,(0,0,0))
             image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
             image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
             plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
             plateaux = pyg.transform.scale(plateaux,(taille_screen[0]*0.5,taille_screen[1]))
-            bottom = screen.get_rect().bottom
             bouton["Blance"] = Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance)
             dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
             screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
             screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
+            screen.blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0))
             
-            if dée == 1:
+            if dée == True:
             
                 for i in range(10):
 
@@ -308,35 +304,38 @@ if why == 1:
 
             if nb_bot == 0:
                 if bouton["BJ2"].draw(screen=screen) == True:
+                    nb_j = 1
                     ecran = "choix_nom"
                     ecran(comment)
                 elif bouton["BJ3"].draw(screen=screen) == True:
+                    nb_j = 3
                     comment = "choix_nom"
                     ecran(comment)
                 elif bouton["BJ4"].draw(screen=screen) == True:
+                    nb_j = 4
                     comment = "choix_nom"
                     ecran(comment)
             elif nb_bot == 1:
                 if bouton["BJ2"].draw(screen=screen) == True:
+                    nb_j = 2
                     comment = "choix_nom"
                     ecran(comment)
                 elif bouton["BJ3"].draw(screen=screen) == True:
+                    nb_j = 3
                     comment = "choix_nom"
                     ecran(comment)
                 elif bouton["BJ4F"].draw(screen=screen) == True:
-                    ecran(comment)
-                    print(test,4)
+                    pass
             elif nb_bot == 2:
                 if bouton["BJ2"].draw(screen=screen) == True:
+                    nb_j = 2
                     comment = "choix_nom"
                     ecran(comment)
                 elif bouton["BJ3F"].draw(screen=screen) == True:
-                    ecran(comment)
-                    print(test,3)
+                    pass
                 elif bouton["BJ4F"].draw(screen=screen) == True:
-                    ecran(comment)
-                    print(test,4)
-
+                    pass
+            
             if bouton["B_retour"].draw(screen=screen) == True:
                 comment = "choix_bot/J"
                 ecran(comment)
@@ -351,11 +350,13 @@ if why == 1:
 
         elif comment == "partie":
             if bouton["Blance"].draw(screen = screen) == True:
-                print(test,68)
-                ecran(comment=comment,dée=1)
+                print(joueur)
+                ecran(comment=comment,dée=True)
+                quit()
 
         pyg.display.flip()
-        for event in pyg.event.get():           
+
+        for event in pyg.event.get():
 
             if event.type == pyg.QUIT:
                 end = True
