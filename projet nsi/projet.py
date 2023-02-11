@@ -253,7 +253,6 @@ if why == 1:
                     pyg.time.wait(300)
                     #Son\dée\test.mp3
             
-                
         elif comment == "choix_nom":
             screen.fill((150,210,255,0))
 
