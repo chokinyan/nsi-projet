@@ -224,7 +224,7 @@ if why == 1:
             screen.fill((150,210,255,0))
             font = pyg.font.SysFont(name = 'arial',size = 30,italic=False,bold=False)
             texte = ""
-            for i in joueur: texte += str(i) + "\n"
+            for i in joueur: texte += f"{str(i)} \n"
             texte = font.render(texte,True,(0,0,0))
             image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
             image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
