@@ -282,7 +282,7 @@ if why == 1:
                 comment = "choix_nom"
                 ecran(comment)
                 pyg.time.wait(100)
-                
+
         elif comment == "choix_nb_bot":
             if bouton["bot1"].draw(screen = screen) == True:
                 nb_bot = 1
@@ -347,8 +347,6 @@ if why == 1:
         elif comment == "choix_nom":
 
             """temporaire pour le moment"""
-            
-            comment = "partie"
             ecran(comment)
 
         elif comment == "partie":
