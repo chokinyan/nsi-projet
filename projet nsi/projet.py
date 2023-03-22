@@ -117,8 +117,6 @@ class plateau:
         def joueur_effet(case:int) -> str:
             return (plateau_jeu[case-1].effect)
 
-def text(surface,txt,font,couleur):
-    pass
 #-------------------------------------------------------------
 why = 1
 if why == 1:
@@ -223,11 +221,8 @@ if why == 1:
 
         elif comment == "partie":
             screen.fill((150,210,255,0))
+            haut = 0
             font = pyg.font.SysFont(name = 'None',size = 30)
-            texte = "joueur1"
-            #texte = texte.split(' ')
-            #for i in joueur: texte += f"{str(i)} \n"
-            texte = font.render(texte,False,(0,0,0))
             image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
             image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
             plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
@@ -236,8 +231,12 @@ if why == 1:
             dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
             screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
             screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
-            screen.blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0))
-            
+            for i in joueur:
+                texte = i[0]," est a la position : ",
+                texte = font.render(texte,False,(0,0,0))
+                screen.blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0+haut))
+                haut += texte.get_height()
+
             if dée == True:
             
                 for i in range(10):
