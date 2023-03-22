@@ -232,7 +232,7 @@ if why == 1:
             screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
             screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
             for i in joueur:
-                texte = i[0]," est a la position : ",
+                texte = i[0]+" ,Position : "
                 texte = font.render(texte,False,(0,0,0))
                 screen.blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0+haut))
                 haut += texte.get_height()
