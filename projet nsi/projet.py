@@ -122,7 +122,7 @@ why = 1
 if why == 1:
     nb_bot = 0
     nb_j = 1
-    joueur = [(f'joueur {i}',i) for i in range(1,5)]
+    joueur = [joueur_info(i,False,f"joueur {i}") for i in range(4)]
     pyg.init()
     last_screen = 0
     icone = pyg.image.load("projet nsi\image\icone\images.png")
@@ -232,7 +232,7 @@ if why == 1:
             screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
             screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
             for i in joueur:
-                texte = i[0]+" ,Position : "
+                texte = f"{i.nom} , postion : {i.position}"
                 texte = font.render(texte,False,(0,0,0))
                 screen.blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0+haut))
                 haut += texte.get_height()
@@ -279,8 +279,10 @@ if why == 1:
                 ecran(comment)
                 pyg.time.wait(100)
             elif bouton["B_botN"].draw(screen = screen) == True:
-                print("ok")
-
+                comment = "choix_nom"
+                ecran(comment)
+                pyg.time.wait(100)
+                
         elif comment == "choix_nb_bot":
             if bouton["bot1"].draw(screen = screen) == True:
                 nb_bot = 1
