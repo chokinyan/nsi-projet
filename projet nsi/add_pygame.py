@@ -81,6 +81,7 @@ class TextInput:
         self.text = text
         self.focus = False
         self.pos = pygame.Rect(x,y,w,h)
+        self.surftext = pygame.font.Font(None, 32).render(text,True,self.color)
 
     def draw(self,screen : pygame.Surface) -> bool:
         
@@ -98,7 +99,7 @@ class TextInput:
         if pygame.mouse.get_pressed()[0] == 0:
             self.focus == False
         
-        screen.blit()
+        screen.blit(self.surftext,self.pos)
         
         return act
 

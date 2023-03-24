@@ -9,11 +9,8 @@ pygame.display.flip()
 
 end = False
 while not(end):
-
-    if text.draw(screen=screen):
-        pass
-
     for event in pygame.event.get():
+        text.draw(screen=screen)
         if event.type == pygame.QUIT:
             end = True
 
