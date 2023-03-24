@@ -79,7 +79,26 @@ class TextInput:
         self.h = h
         self.color = color
         self.text = text
-        self.activer = False
+        self.focus = False
+        self.pos = pygame.Rect(x,y,w,h)
 
-    def draw(self,screen):
-        pass
+    def draw(self,screen : pygame.Surface) -> bool:
+        
+        act = False
+
+        pos_mouse = pygame.mouse.get_pos()
+
+        if self.pos.collidepoint(pos_mouse):
+
+            if pygame.mouse.get_pressed()[0] == 1 and self.focus == False:
+                print("test")
+                self.focus == True
+                act = True
+        
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.focus == False
+        
+        screen.blit()
+        
+        return act
+

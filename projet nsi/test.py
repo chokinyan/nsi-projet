@@ -2,12 +2,17 @@ from add_pygame import TextInput
 import pygame
 
 pygame.init()
-screen = pygame.display.set_mode((500,500),pygame.RESIZABLE)
-text = TextInput(color=(10,50,20,0))
+screen = pygame.display.set_mode((1000,1000),pygame.RESIZABLE)
+text = TextInput(h = 500,w = 500,color=(125,120,60,50))
+
+pygame.display.flip()
 
 end = False
 while not(end):
-    text.draw(screen=screen)
+
+    if text.draw(screen=screen):
+        pass
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             end = True
