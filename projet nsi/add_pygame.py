@@ -1,8 +1,9 @@
 import pygame
 class Button:
-    """comme son nom l'indique permet de cré de bouton clicable
-        quoi jsp ecrire francais ?
-        ba c'est vrai"""
+    """comme son nom l'indique permet de cré de bouton clicable\n
+        quoi jsp ecrire francais ?\n
+        ba c'est vrai
+    """
     def __init__(self,x :int = 0, y :int = 0, fild :str = "", scale :float = 1) -> None:
         width = fild.get_width()
         height = fild.get_height()
@@ -63,3 +64,22 @@ class Button:
             screen.blit(self.fild, (self.coo.x,self.coo.y))
         
         return action
+    
+class TextInput:
+    """
+    Text input creator\n
+    x,y is the position\n
+    h = height\n
+    w = width
+    """
+    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (0,0,0,0),text : str = "") -> None:
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.color = color
+        self.text = text
+        self.activer = False
+
+    def draw(self,screen):
+        pass
