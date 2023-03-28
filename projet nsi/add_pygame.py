@@ -13,7 +13,7 @@ class Button:
         self.click = False
 
 
-    def draw(self,screen, precis :str = "",bruit :str = "") -> bool:
+    def draw(self,screen : pygame.Surface, precis :str = "",bruit :str = "") -> bool:
 
         action = False
         pos = pygame.mouse.get_pos()
@@ -85,9 +85,7 @@ class TextInput:
         self.bg = bg
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
 
-    def draw(self,screen : pygame.Surface) -> bool:
-        
-        act = False
+    def draw(self,screen : pygame.Surface) -> None:
 
         pos_mouse = pygame.mouse.get_pos()
 
@@ -96,14 +94,9 @@ class TextInput:
             pygame.mouse.set_cursor(pygame.cursors.tri_left)
 
             if pygame.mouse.get_pressed()[0] == 1 and self.focus == False:
-                self.taille += 1
-                print(self.taille)
                 self.focus == True
-                act = True
         
         if pygame.mouse.get_pressed()[0] == 0:
             self.focus == False
         
         screen.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
-
-        return act
