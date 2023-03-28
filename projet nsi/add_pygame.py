@@ -72,7 +72,7 @@ class TextInput:
     h = height\n
     w = width
     """
-    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (0,0,0,0),text : str = "") -> None:
+    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (0,0,0,0),text : str = " ",taille : int = 16, bg : tuple[int,int,int,int] = None) -> None:
         self.x = x
         self.y = y
         self.w = w
@@ -81,7 +81,9 @@ class TextInput:
         self.text = text
         self.focus = False
         self.pos = pygame.Rect(x,y,w,h)
-        self.surftext = pygame.font.Font(None, 32).render(text,True,self.color)
+        self.taille = taille
+        self.bg = bg
+        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
 
     def draw(self,screen : pygame.Surface) -> bool:
         
@@ -91,15 +93,17 @@ class TextInput:
 
         if self.pos.collidepoint(pos_mouse):
 
+            pygame.mouse.set_cursor(pygame.cursors.tri_left)
+
             if pygame.mouse.get_pressed()[0] == 1 and self.focus == False:
-                print("test")
+                self.taille += 1
+                print(self.taille)
                 self.focus == True
                 act = True
         
         if pygame.mouse.get_pressed()[0] == 0:
             self.focus == False
         
-        screen.blit(self.surftext,self.pos)
-        
-        return act
+        screen.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
 
+        return act
