@@ -70,9 +70,12 @@ class TextInput:
     Text input creator\n
     x,y is the position\n
     h = height\n
-    w = width
+    w = width\n
+    size = text size\n 
+    bg != beau gosse\n
+    bg = background\n
     """
-    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (0,0,0,0),text : str = " ",taille : int = 16, bg : tuple[int,int,int,int] = None) -> None:
+    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (0,0,0,0),text : str = " ",size : int = 16, bg : tuple[int,int,int,int] = None) -> None:
         self.x = x
         self.y = y
         self.w = w
@@ -81,9 +84,9 @@ class TextInput:
         self.text = text
         self.focus = False
         self.pos = pygame.Rect(x,y,w,h)
-        self.taille = taille
+        self.taille = size
+        #self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color)
         self.bg = bg
-        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
 
     def draw(self,screen : pygame.Surface) -> None:
 
@@ -91,12 +94,14 @@ class TextInput:
 
         if self.pos.collidepoint(pos_mouse):
 
-            pygame.mouse.set_cursor(pygame.cursors.tri_left)
+            #pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
 
             if pygame.mouse.get_pressed()[0] == 1 and self.focus == False:
                 self.focus == True
-        
+
         if pygame.mouse.get_pressed()[0] == 0:
             self.focus == False
         
+        if self.bg != None:
+            pygame.draw.rect(screen,self.bg,self.pos)
         screen.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
