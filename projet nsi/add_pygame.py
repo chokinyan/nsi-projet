@@ -97,11 +97,15 @@ class TextInput:
             #pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
 
             if pygame.mouse.get_pressed()[0] == 1 and self.focus == False:
-                self.focus == True
-
-        if pygame.mouse.get_pressed()[0] == 0:
-            self.focus == False
+                self.focus = True
+                
+        if pygame.mouse.get_pressed()[0] == 1 and not(self.pos.collidepoint(pos_mouse))  and self.focus == True:
+            self.focus = False
         
+        if self.focus == True:
+            if pygame.key.get_focused():
+                print(pygame.KEYDOWN)
+
         if self.bg != None:
             pygame.draw.rect(screen,self.bg,self.pos)
         screen.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)

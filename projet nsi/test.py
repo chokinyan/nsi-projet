@@ -12,8 +12,7 @@ while not(end):
     pygame.display.flip()
 
     for event in pygame.event.get():
-        if text.draw(screen=screen):
-            print("dalut")
+        text.draw(screen=screen)
         if event.type == pygame.QUIT:
             end = True
 
