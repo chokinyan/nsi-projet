@@ -86,7 +86,7 @@ class TextInput:
         self.pos = pygame.Rect(x,y,w,h)
         self.taille = size
         self.surface = screen
-        #self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color)
+        self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
         self.bg = bg
 
     def draw(self,event : pygame.event.Event) -> None:
@@ -105,6 +105,7 @@ class TextInput:
         
         if self.focus == True:
             if event.type == pygame.KEYDOWN:
+                print(self.text)
                 #print(pygame.key.name(event.key) == "backspace")
                 if pygame.key.name(event.key) == "backspace":
                     self.text = self.text[:-1]
@@ -124,5 +125,4 @@ class TextInput:
         if self.bg != None:
             pygame.draw.rect(self.surface,self.bg,self.pos)
 
-        self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
-        
+        #self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
