@@ -12,7 +12,7 @@ while not(end):
     pygame.display.flip()
 
     for event in pygame.event.get():
-        text.draw(screen=screen)
+        text.draw(screen=screen,event=event)
         if event.type == pygame.QUIT:
             end = True
 

@@ -88,7 +88,7 @@ class TextInput:
         #self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color)
         self.bg = bg
 
-    def draw(self,screen : pygame.Surface) -> None:
+    def draw(self,screen : pygame.Surface,event : pygame.event.Event) -> None:
 
         pos_mouse = pygame.mouse.get_pos()
 
@@ -103,8 +103,12 @@ class TextInput:
             self.focus = False
         
         if self.focus == True:
-            if pygame.key.get_focused():
-                print(pygame.KEYDOWN)
+            if event.type == pygame.KEYDOWN:
+                if pygame.key.name(event.key) == "backspace":
+                    self.text = self.text[:-1]
+                else:
+                    self.text += pygame.key.name(event.key)
+
 
         if self.bg != None:
             pygame.draw.rect(screen,self.bg,self.pos)
