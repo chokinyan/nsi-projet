@@ -3,7 +3,7 @@ import pygame
 
 pygame.init()
 screen = pygame.display.set_mode((500,500),pygame.RESIZABLE)
-text = TextInput(h = 100,w = 100,color=(125,120,60,5),bg=(255,255,255))
+text = TextInput(h = 100,w = 100,color=(125,120,60,5))
 
 pygame.display.flip()
 

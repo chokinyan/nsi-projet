@@ -75,7 +75,7 @@ class TextInput:
     bg != beau gosse\n
     bg = background\n
     """
-    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (0,0,0,0),text : str = " ",size : int = 16, bg : tuple[int,int,int,int] = None) -> None:
+    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),text : str = " ",size : int = 16, bg : tuple[int,int,int,int] = None) -> None:
         self.x = x
         self.y = y
         self.w = w
@@ -104,11 +104,11 @@ class TextInput:
         
         if self.focus == True:
             if event.type == pygame.KEYDOWN:
-                print(pygame.)
+                print(pygame.key.name(event.key))
                 if pygame.key.name(event.key) == "backspace":
                     self.text = self.text[:-1]
                 else:
-                    self.text += pygame.key.name(event.key)
+                    self.text += event.unicode
 
         if self.bg != None:
             pygame.draw.rect(screen,self.bg,self.pos)
