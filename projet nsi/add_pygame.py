@@ -109,7 +109,6 @@ class TextInput:
                 else:
                     self.text += pygame.key.name(event.key)
 
-
         if self.bg != None:
             pygame.draw.rect(screen,self.bg,self.pos)
         screen.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
