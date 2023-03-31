@@ -75,20 +75,21 @@ class TextInput:
     bg != beau gosse\n
     bg = background\n
     """
-    def __init__(self,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),text : str = " ",size : int = 16, bg : tuple[int,int,int,int] = None) -> None:
+    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 16, bg : tuple[int,int,int,int] = None) -> None:
         self.x = x
         self.y = y
         self.w = w
         self.h = h
         self.color = color
-        self.text = text
+        self.text = ""
         self.focus = False
         self.pos = pygame.Rect(x,y,w,h)
         self.taille = size
+        self.surface = screen
         #self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color)
         self.bg = bg
 
-    def draw(self,screen : pygame.Surface,event : pygame.event.Event) -> None:
+    def draw(self,event : pygame.event.Event) -> None:
 
         pos_mouse = pygame.mouse.get_pos()
 
@@ -104,12 +105,24 @@ class TextInput:
         
         if self.focus == True:
             if event.type == pygame.KEYDOWN:
-                print(pygame.key.name(event.key))
+                #print(pygame.key.name(event.key) == "backspace")
                 if pygame.key.name(event.key) == "backspace":
                     self.text = self.text[:-1]
+                    self.__update()
                 else:
-                    self.text += event.unicode
+                    self.text += pygame.key.name(event.key)
+                    self.__update()
+                #print(self.text)
+
+
+    def __update(self) -> None:
+
+        """
+        Don't use this
+        """
 
         if self.bg != None:
-            pygame.draw.rect(screen,self.bg,self.pos)
-        screen.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
+            pygame.draw.rect(self.surface,self.bg,self.pos)
+
+        self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
+        
