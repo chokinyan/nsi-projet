@@ -104,6 +104,7 @@ class TextInput:
         
         if self.focus == True:
             if event.type == pygame.KEYDOWN:
+                print(pygame.)
                 if pygame.key.name(event.key) == "backspace":
                     self.text = self.text[:-1]
                 else:
