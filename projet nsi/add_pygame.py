@@ -75,7 +75,7 @@ class TextInput:
     bg != beau gosse\n
     bg = background\n
     """
-    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 16, bg : tuple[int,int,int,int] = None,nb_car_max : int = None) -> None:
+    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 30, bg : tuple[int,int,int,int] = None,nb_car_max : int = None) -> None:
         self.x = x
         self.y = y
         self.w = w
