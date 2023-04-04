@@ -75,7 +75,7 @@ class TextInput:
     bg != beau gosse\n
     bg = background\n
     """
-    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 16, bg : tuple[int,int,int,int] = None) -> None:
+    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 16, bg : tuple[int,int,int,int] = None,nb_car_max : int = None) -> None:
         self.x = x
         self.y = y
         self.w = w
@@ -83,7 +83,7 @@ class TextInput:
         self.color = color
         self.text = ""
         self.focus = False
-        self.pos = pygame.Rect(x,y,w,h)
+        self.pos = pygame.Rect(self.x,self.y,self.w,self.h)
         self.taille = size
         self.surface = screen
         self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
@@ -92,6 +92,7 @@ class TextInput:
         else:
             self.bg = bg
         self.sub = screen.subsurface(self.pos)
+        self.nb_max = nb_car_max
 
     def draw(self,event : pygame.event.Event) -> None:
 
@@ -114,22 +115,24 @@ class TextInput:
                     self.text = self.text[:-1]
                 else:
                     self.text += pygame.key.name(event.key)
-                self.__update()
+                self.__update__()
                 #print(self.text)
 
 
-    def __update(self) -> None:
+    def __update__(self) -> None:
 
         """
         Don't use this
         """
+
         if self.bg != None:
             pygame.draw.rect(self.surface,self.bg,self.pos)
 
+        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
+        if self.w < self.surftext.get_width():
+            print('out of surface text')
+            self.text = self.text[:-1]
+        print("ok")
         self.sub.fill(self.bg)
-        self.sub.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
-        try:
-            self.surface.blit(self.sub.copy(),self.pos)
-            print("ok")
-        except pygame.error as e:
-            print(e)
+        self.sub.blit(self.surftext,self.pos)
+        self.surface.blit(self.sub.copy(),self.pos)
