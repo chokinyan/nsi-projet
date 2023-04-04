@@ -87,7 +87,10 @@ class TextInput:
         self.taille = size
         self.surface = screen
         self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
-        self.bg = bg
+        if bg == None:
+            self.bg = (0,0,0,0)
+        else:
+            self.bg = bg
         self.sub = screen.subsurface(self.pos)
 
     def draw(self,event : pygame.event.Event) -> None:
@@ -122,14 +125,11 @@ class TextInput:
         """
         if self.bg != None:
             pygame.draw.rect(self.surface,self.bg,self.pos)
-        
-        #self.sub.lock()
-        #print(self.sub.get_locked())
-        #self.sub.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
-        #print(self.surface.get_locked())
+
+        self.sub.fill(self.bg)
+        self.sub.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
         try:
-            self.surface.blit(self.sub,self.pos)
+            self.surface.blit(self.sub.copy(),self.pos)
             print("ok")
         except pygame.error as e:
             print(e)
-            print(self.surface.get_locks())
