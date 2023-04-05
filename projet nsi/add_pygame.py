@@ -96,6 +96,8 @@ class TextInput:
 
     def draw(self,event : pygame.event.Event) -> None:
 
+        autre_touche = ["tab","space","left shift","alt","right shift","left ctrl","right","left","down","up","right","page down","page up","home"]
+
         pos_mouse = pygame.mouse.get_pos()
 
         if self.pos.collidepoint(pos_mouse):
@@ -110,29 +112,27 @@ class TextInput:
         
         if self.focus == True:
             if event.type == pygame.KEYDOWN:
-                #print(pygame.key.name(event.key) == "backspace")
                 if pygame.key.name(event.key) == "backspace":
                     self.text = self.text[:-1]
+                elif event.unicode == "" or pygame.key.name(event.key) == "tab":
+                    pass
                 else:
-                    self.text += pygame.key.name(event.key)
+                    self.text += event.unicode
                 self.__update__()
-                #print(self.text)
-
 
     def __update__(self) -> None:
-
-        """
-        Don't use this
-        """
-
-        if self.bg != None:
-            pygame.draw.rect(self.surface,self.bg,self.pos)
 
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
         if self.w < self.surftext.get_width():
             print('out of surface text')
             self.text = self.text[:-1]
-        print("ok")
+            self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
+            #self.sub.fill((255,0,0))
+            #self.sub.blit(self.surftext,self.pos)
+            #self.surface.blit(self.sub.copy(),self.pos)
+            pygame.draw.rect(self.sub,(255,0,0),self.pos)
+            pygame.time.wait(10)
+        pygame.draw.rect(self.sub,self.bg,self.pos)
         self.sub.fill(self.bg)
         self.sub.blit(self.surftext,self.pos)
         self.surface.blit(self.sub.copy(),self.pos)
