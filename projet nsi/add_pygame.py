@@ -76,7 +76,7 @@ class TextInput:
     bg = background\n
     """
     def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 30, bg : tuple[int,int,int,int] = None,nb_car_max : int = None) -> None:
-        self.info = {"x" : self.x,"y" : self.y,"w" : self.w,"h" : self.h}
+        self.info = {"x" : x,"y" : y,"w" : w,"h" : h}
         self.color = color
         self.text = ""
         self.focus = False
@@ -113,6 +113,7 @@ class TextInput:
                     pass
                 else:
                     self.text += event.unicode
+                    self.update_size()
                 self.__update__()
 
     def __update__(self) -> None:
@@ -138,7 +139,7 @@ class TextInput:
         arks = {x,y,w,h}
         to keep the default value use 'default'
         """
-        
+        print(arks.keys())
 
         
         pass
