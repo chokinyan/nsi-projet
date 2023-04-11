@@ -25,6 +25,7 @@ int main(){
     for (int i; i<6;i++){
         x.lol();
     };
-    cout << x.waw;
+    bool tes = (x.waw == 10) ? 3 : 7; 
+    cout << tes;
     return 0;
 }

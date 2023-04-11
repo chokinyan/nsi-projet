@@ -124,14 +124,14 @@ class TextInput:
             pygame.draw.rect(self.surface,self.bg,self.pos)
 
         self.__changetxt__()
+
         if self.w < self.surftext.get_width():
-            print('out of surface text')
+            print('out of text surface')
             self.text = self.text[:-1]
             self.__changetxt__()
-        print("ok")
         self.sub.fill(self.bg)
         self.sub.blit(self.surftext,self.pos)
-        self.surface.blit(self.sub.copy(),self.pos)
+        self.surface.blit(self.sub.copy(),self.pos) 
 
     def __changetxt__(self)-> None:
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
