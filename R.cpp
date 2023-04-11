@@ -29,3 +29,14 @@ int main(){
     cout << tes;
     return 0;
 }
+
+namespace lez{
+    void wait(){
+        cout << "ok";
+    };
+};
+
+
+void ok(){
+    cout << "ee";
+}
