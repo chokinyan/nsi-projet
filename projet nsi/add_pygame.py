@@ -113,7 +113,7 @@ class TextInput:
                     pass
                 else:
                     self.text += event.unicode
-                    self.update_size()
+                    self.update_size("x" : 4,"y" : 5,"z" : 6, "f" :5,'w' : 4,'h' : 5)
                 self.__update__()
 
     def __update__(self) -> None:
