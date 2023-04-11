@@ -76,14 +76,11 @@ class TextInput:
     bg = background\n
     """
     def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 30, bg : tuple[int,int,int,int] = None,nb_car_max : int = None) -> None:
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
+        self.info = {"x" : self.x,"y" : self.y,"w" : self.w,"h" : self.h}
         self.color = color
         self.text = ""
         self.focus = False
-        self.pos = pygame.Rect(self.x,self.y,self.w,self.h)
+        self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
         self.taille = size
         self.surface = screen
         self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
@@ -125,7 +122,7 @@ class TextInput:
 
         self.__changetxt__()
 
-        if self.w < self.surftext.get_width():
+        while self.w < self.surftext.get_width():
             print('out of text surface')
             self.text = self.text[:-1]
             self.__changetxt__()
@@ -135,3 +132,13 @@ class TextInput:
 
     def __changetxt__(self)-> None:
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
+
+    def update_size(self,**arks : int | str) -> None:
+        """
+        arks = {x,y,w,h}
+        to keep the default value use 'default'
+        """
+        print()
+
+        
+        pass
