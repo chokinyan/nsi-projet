@@ -1,3 +1,2 @@
-let y = 5
-let z = (y == 4) ? "salut" : "bonsoir"
-console.log(z)
+const test = require("openai")
+console.log(test)
