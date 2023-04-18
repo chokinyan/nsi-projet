@@ -133,12 +133,18 @@ class TextInput:
         update the size of the text input\n
         possbile value : x,y,w,h
         """
-        for i,j in arks.items():
-            if i in self.info:
-                self.info[i] = j
+        if arks.__len__() != 0:
+            for i,j in arks.items():
+                if i in self.info:
+                    self.info[i] = j
 
         self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
-        self.sub = self.surface.subsurface(self.pos)
+        self.__changetxt__()
+        try:
+            self.sub = self.surface.subsurface(self.pos)
+        except:
+            self.info["w"] = pygame.display.get_window_size()[1]
+            self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
         self.__upsurf__()
 
     def __upsurf__(self) -> None:

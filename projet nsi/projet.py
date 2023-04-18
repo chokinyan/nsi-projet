@@ -3,10 +3,9 @@
 import os as os
 import random as rng
 import pygame as pyg
-import pygame.locals as pygl
 import add_pygame as addp
 import random as rng
-import math
+import math as math
 from time import sleep
 test = "le test a été effectuer"
 #-------------------------------------------------------------
@@ -222,7 +221,7 @@ class etat_screen:
     def choix_nom(self) -> None:
         self.etat = "choix_nom"
         ((self.disp).scr).fill((150,210,255,0))
-
+        textinp["nom"] = addp.TextInput(screen = self.disp.scr,color=(125,120,60,5),bg = (255,255,255))
 
     def partie(self) -> None:
         self.etat = "partie"
@@ -270,6 +269,7 @@ if why == 1:
     pyg.init()
     last_screen = 0
     bouton = {}
+    textinp = {}
     end = False
     ecran = screen(icone = "projet nsi\image\icone\images.png",dis_name="Jeu de l'oie")
     etat = etat_screen(disp=ecran)
@@ -286,31 +286,31 @@ if why == 1:
         
             if bouton["B_jouer"].draw(screen = ecran.scr, precis= "center") == True:
                 etat.choix_bot_or_J()
-                pyg.time.wait(100)
+                pyg.time.wait(200)
         
         elif etat.etat == "choix_bot_or_J":
             if bouton["B_botO"].draw(screen = ecran.scr) == True:
                 etat.choix_nb_bot()
-                pyg.time.wait(100)
+                pyg.time.wait(200)
             elif bouton["B_botN"].draw(screen = ecran.scr) == True:
                 etat.choix_nb_joueur()
-                pyg.time.wait(100)
+                pyg.time.wait(200)
 
         elif etat.etat == "choix_nb_bot":
             if bouton["bot1"].draw(screen = ecran.scr) == True:
                 nb_bot = 1
                 etat.choix_nb_joueur()
-                pyg.time.wait(100)
+                pyg.time.wait(200)
             elif bouton["bot2"].draw(screen = ecran.scr) == True:
                 nb_bot = 2
                 etat.choix_nb_joueur()
-                pyg.time.wait(100)
+                pyg.time.wait(200)
             elif bouton["bot3"].draw(screen = ecran.scr) == True:
                 etat.partie()
-                pyg.time.wait(100)
+                pyg.time.wait(200)
             elif bouton["B_retour"].draw(screen=ecran.scr) == True:
-                etat.choix_bot_or_J
-                pyg.time.wait(100)
+                etat.choix_bot_or_J()
+                pyg.time.wait(200)
         
         elif etat.etat == "choix_nb_joueur":
 
@@ -344,13 +344,12 @@ if why == 1:
             
             if bouton["B_retour"].draw(screen=ecran.scr) == True:
                 etat.choix_bot_or_J()
-                pyg.time.wait(100)
+                pyg.time.wait(200)
 
-        elif etat.etat == "choix_nom":
-
-            """temporaire pour le moment"""
-            etat.choix_nom()
-
+        if etat.etat == "choix_nom":
+            #etat.choix_nom()
+            pass
+        
         elif etat.etat == "partie":
             if bouton["Blance"].draw(screen = ecran.scr) == True:
                 print(joueur)
@@ -362,11 +361,16 @@ if why == 1:
 
         for event in pyg.event.get():
 
+            if etat.etat == "choix_nom":
+                textinp["nom"].draw(event = event)
+
             if event.type == pyg.QUIT:
                 end = True
             
             elif event.type == pyg.WINDOWRESIZED:
                 etat.reload_screen()
+                if etat.etat == "choix_nom":
+                    textinp["nom"].update_size()
 
             elif event.type == pyg.KEYDOWN:
                 if event.key == pyg.K_F11:
@@ -382,9 +386,10 @@ if why == 1:
                         etat.reload_screen()
 
                 if event.key == pyg.K_a:
-                    print(pyg.display.get_window_size())
-                    print(ecran.scr.get_size())
-                    print(etat.disp.scr.get_size())
+                    try:
+                        print(textinp["nom"])
+                    except:
+                        print("zrzrzrezrzerze")
             
             """elif event.type == pyg.WINDOWFOCUSLOST:
                 py.notification.notify(

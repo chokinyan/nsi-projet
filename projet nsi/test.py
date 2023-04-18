@@ -19,6 +19,6 @@ while not(end):
             if event.key == pygame.K_ESCAPE:
                 end = True
         if event.type == pygame.WINDOWRESIZED:
-            text.update_size(h = screen.get_height(),w = screen.get_width())
+            text.update_size()
 pygame.quit()
 quit()
