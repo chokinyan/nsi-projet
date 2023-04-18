@@ -22,4 +22,3 @@ while not(end):
             text.update_size(h = screen.get_height(),w = screen.get_width())
 pygame.quit()
 quit()
-

@@ -129,10 +129,18 @@ class screen:
 class etat_screen:
     def __init__(self,disp : screen) -> None:
         self.disp = disp
-        self.taille_screen = pyg.display.get_window_size();self.center = (disp.scr).get_rect().center;self.topleft = (disp.scr).get_rect().topleft;self.topright = (disp.scr).get_rect().topright;self.bottom = (disp.scr).get_rect().bottom;self.bottomleft =  (disp.scr).get_rect().bottomleft;self.bottomright = (disp.scr).get_rect().bottomright;self.left = (disp.scr).get_rect().left;self.right = (disp.scr).get_rect().right
+        self.__size__()
         self.dée = False
         self.etat = ""
         self.image_R = pyg.image.load(r"projet nsi\image\retour\Sans titre.png")
+
+    def __size__(self) -> None:
+        self.taille_screen = self.disp.scr.get_size();self.center = (self.disp.scr).get_rect().center;self.topleft = (self.disp.scr).get_rect().topleft;self.topright = (self.disp.scr).get_rect().topright;self.bottom = (self.disp.scr).get_rect().bottom;self.bottomleft =  (self.disp.scr).get_rect().bottomleft;self.bottomright = (self.disp.scr).get_rect().bottomright;self.left = (self.disp.scr).get_rect().left;self.right = (self.disp.scr).get_rect().right
+
+    def reload_screen(self) -> None:
+        self.__size__()
+        reload = getattr(self,self.etat)
+        reload()
 
     def debut(self)-> None:
         self.etat = "debut"
@@ -211,6 +219,11 @@ class etat_screen:
         bouton["B_retour"] = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2)
         ((self.disp).scr).blit(texte,(self.center[0],0))
     
+    def choix_nom(self) -> None:
+        self.etat = "choix_nom"
+        ((self.disp).scr).fill((150,210,255,0))
+
+
     def partie(self) -> None:
         self.etat = "partie"
         ((self.disp).scr).fill((150,210,255,0))
@@ -243,10 +256,6 @@ class etat_screen:
                 pyg.time.wait(300)
                 #Son\dée\test.mp3
     
-    def choix_nom(self) -> None:
-        self.etat = "choix_nom"
-        ((self.disp).scr).fill((150,210,255,0))
-
     def test(self) -> None:
         self.etat = "test"
         print(pyg.display.get_driver())
@@ -357,8 +366,7 @@ if why == 1:
                 end = True
             
             elif event.type == pyg.WINDOWRESIZED:
-                etat.disp = ecran
-                getattr(etat,etat.etat)
+                etat.reload_screen()
 
             elif event.type == pyg.KEYDOWN:
                 if event.key == pyg.K_F11:
@@ -367,15 +375,16 @@ if why == 1:
 
                     if window == ecran_taille[0]:
                         ecran.scr = pyg.display.set_mode(last_screen,pyg.RESIZABLE)
-                        etat.disp = ecran
-                        getattr(etat,etat.etat)
+                        etat.reload_screen()
                     else:
                         last_screen = pyg.display.get_window_size()
                         ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
-                        etat.disp = ecran
-                        getattr(etat,etat.etat)
+                        etat.reload_screen()
+
                 if event.key == pyg.K_a:
-                    print(etat.etat)
+                    print(pyg.display.get_window_size())
+                    print(ecran.scr.get_size())
+                    print(etat.disp.scr.get_size())
             
             """elif event.type == pyg.WINDOWFOCUSLOST:
                 py.notification.notify(
