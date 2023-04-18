@@ -5,6 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "projet start",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\projet nsi\\projet.py",
+            "console": "internalConsole",
+            "justMyCode": true
+        },
+        {
+            "name": "test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\projet nsi\\test.py",
+            "console": "internalConsole",
+            "justMyCode": true
+        },
+        {
             "name": "Python : fichier actif",
             "type": "python",
             "request": "launch",

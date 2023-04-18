@@ -75,7 +75,7 @@ class TextInput:
     bg != beau gosse\n
     bg = background\n
     """
-    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 30, bg : tuple[int,int,int,int] = None,nb_car_max : int = None) -> None:
+    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 30, bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
         self.info = {"x" : x,"y" : y,"w" : w,"h" : h}
         self.color = color
         self.text = ""
@@ -84,10 +84,7 @@ class TextInput:
         self.taille = size
         self.surface = screen
         self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
-        if bg == None:
-            self.bg = (0,0,0,0)
-        else:
-            self.bg = bg
+        self.bg = bg
         self.sub = screen.subsurface(self.pos)
         self.nb_max = nb_car_max
 
@@ -113,7 +110,6 @@ class TextInput:
                     pass
                 else:
                     self.text += event.unicode
-                    self.update_size("x" : 4,"y" : 5,"z" : 6, "f" :5,'w' : 4,'h' : 5)
                 self.__update__()
 
     def __update__(self) -> None:
@@ -123,23 +119,29 @@ class TextInput:
 
         self.__changetxt__()
 
-        while self.w < self.surftext.get_width():
+        while self.info["w"] < self.surftext.get_width():
             print('out of text surface')
             self.text = self.text[:-1]
             self.__changetxt__()
-        self.sub.fill(self.bg)
-        self.sub.blit(self.surftext,self.pos)
-        self.surface.blit(self.sub.copy(),self.pos) 
+        self.__upsurf__() 
 
     def __changetxt__(self)-> None:
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
 
-    def update_size(self,**arks : int | str) -> None:
+    def update_size(self,**arks : int) -> None:
         """
-        arks = {x,y,w,h}
-        to keep the default value use 'default'
+        update the size of the text input\n
+        possbile value : x,y,w,h
         """
-        print(arks.keys())
+        for i,j in arks.items():
+            if i in self.info:
+                self.info[i] = j
 
-        
-        pass
+        self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
+        self.sub = self.surface.subsurface(self.pos)
+        self.__upsurf__()
+
+    def __upsurf__(self):
+        self.sub.fill(self.bg)
+        self.sub.blit(self.surftext,self.pos)
+        self.surface.blit(self.sub.copy(),self.pos)

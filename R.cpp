@@ -25,18 +25,7 @@ int main(){
     for (int i; i<6;i++){
         x.lol();
     };
-    bool tes = (x.waw == 10) ? 3 : 7; 
+    int tes = (x.waw == 10) ? 3 : 7; 
     cout << tes;
     return 0;
-}
-
-namespace lez{
-    void wait(){
-        cout << "ok";
-    };
-};
-
-
-void ok(){
-    cout << "ee";
 }
