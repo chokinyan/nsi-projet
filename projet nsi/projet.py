@@ -117,6 +117,131 @@ class plateau:
         def joueur_effet(case:int) -> str:
             return (plateau_jeu[case-1].effect)
 
+class etat_jeu:
+    def __init__(self) -> None:
+        self.taille_screen = pyg.display.get_window_size();self.center = screen.get_rect().center;self.topleft = screen.get_rect().topleft;self.topright = screen.get_rect().topright;self.bottom = screen.get_rect().bottom;self.bottomleft =  screen.get_rect().bottomleft;self.bottomright = screen.get_rect().bottomright;self.left = screen.get_rect().left;self.right = screen.get_rect().right
+        self.dée = False
+        self.etat = ""
+        self.image_R = pyg.image.load(r"projet nsi\image\retour\Sans titre.png")
+
+    def debut(self)-> None:
+        self.etat = "debut"
+        screen.fill((0,0,0))
+        pyg.display.flip()
+        print(pyg.image.get_extended())
+        test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
+        image_size_fond = (self.taille_screen[0],self.taille_screen[1])
+        test_fond = pyg.transform.scale(test_fond,image_size_fond)
+        test_debut = pyg.image.load(r"projet nsi\image\bouton\jouer.png")
+        image_size_debut = (self.taille_screen[0]*(1/2),self.taille_screen[1]*(1/2))
+        test_debut = pyg.transform.scale(test_debut,image_size_debut)
+        bouton['B_jouer'] = addp.Button(fild = test_debut)
+        screen.blit(test_fond,(0,0))
+
+    def choix_bot_or_J(self) -> None:
+        self.etat = "choix_bot/J"
+        screen.fill((150,210,255,0))
+        font = pyg.font.SysFont('arial',50,italic=False,bold=True)
+        texte = font.render('Veux tu jouer avec des bots ?',True,(0,0,0))
+        image_O = pyg.image.load(r"projet nsi\image\bouton\pas d_ami.png")
+        image_N = pyg.image.load(r"projet nsi\image\bouton\g_amis.png")
+        image_N = pyg.transform.scale(image_N,(self.taille_screen[0]/2,self.taille_screen[1]*0.80))
+        image_O = pyg.transform.scale(image_O,(self.taille_screen[0]/2,self.taille_screen[1]*0.80))
+        bouton["B_botO"] = addp.Button(fild=image_O,x=self.center[0]-4)
+        bouton["B_botN"] = addp.Button(fild=image_N,x=4)
+        screen.blit(texte,(image_N.get_width()/2,image_N.get_height()))
+
+    def choix_nb_bot(self) -> None:
+        self.etat = "choix_nb_bot"
+        screen.fill((150,210,255,0))
+        font = pyg.font.SysFont('arial',50,italic=False,bold=True)
+        texte = font.render('Avec combien de bot voulez-vous jouer ?',True,(240,0,30))
+        image_1 = pyg.image.load(r"projet nsi\image\nb robot\1.jpg")
+        image_2 = pyg.image.load(r"projet nsi\image\nb robot\2.jpg")
+        image_3 = pyg.image.load(r"projet nsi\image\nb robot\3.jpg")
+        image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*(1/3),image_1.get_size()[1]*0.5))
+        image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*(1/3),image_2.get_size()[1]*0.5))
+        image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*(1/3),image_3.get_size()[1]*0.5))
+        self.image_R = pyg.transform.scale(self.image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
+        
+        bouton["bot1"] = addp.Button(fild=image_1,x=(self.center[0]-image_2.get_width())-image_1.get_width()*0.5,y=self.center[1]-(image_1.get_height()/2))
+        bouton["bot2"] = addp.Button(fild=image_2,x=self.center[0],y=self.center[1]-(image_1.get_height()/2))
+        bouton["bot3"] = addp.Button(fild=image_3,x=image_2.get_width()+self.center[0]+image_3.get_width()*0.5,y=self.center[1]-(image_1.get_height()/2))
+        bouton["B_retour"] = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2)
+        screen.blit(texte,(image_1.get_rect().center[0],0))
+
+    def choix_nb_joueur(self) -> None:
+        self.etat = "choix_nb_joueur"
+        screen.fill((150,210,255,0))
+        font = pyg.font.SysFont('arial',50,italic=False,bold=True)
+        texte = font.render('Combien etes-vous ?',True,(240,0,30))
+        image_1 = pyg.image.load(r"projet nsi\image\nb joueur\2V.jpg")
+        image_1_F = pyg.image.load(r"projet nsi\image\nb joueur\2X.jpg")
+        image_2 = pyg.image.load(r"projet nsi\image\nb joueur\3V.jpg")
+        image_2_F = pyg.image.load(r"projet nsi\image\nb joueur\3X.jpg")
+        image_3 = pyg.image.load(r"projet nsi\image\nb joueur\4V.jpg")
+        image_3_F = pyg.image.load(r"projet nsi\image\nb joueur\4X.jpg")
+        image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*(1/3),image_1.get_size()[1]*0.5))
+        image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*(1/3),image_2.get_size()[1]*0.5))
+        image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*(1/3),image_3.get_size()[1]*0.5))
+        image_1_F = pyg.transform.scale(image_1_F,(image_1_F.get_size()[0]*(1/3),image_1_F.get_size()[1]*0.5))
+        image_2_F = pyg.transform.scale(image_2_F,(image_2_F.get_size()[0]*(1/3),image_2_F.get_size()[1]*0.5))
+        image_3_F = pyg.transform.scale(image_3_F,(image_3_F.get_size()[0]*(1/3),image_3_F.get_size()[1]*0.5))
+
+        self.image_R = pyg.transform.scale(self.image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
+        
+        bouton["BJ2"] = addp.Button(fild=image_1,x=(self.center[0]-image_2.get_width())-image_1.get_width()*0.5,y=self.center[1]-(image_1.get_height()/2))
+        bouton["BJ3"] = addp.Button(fild=image_2,x=self.center[0],y=self.center[1]-(image_1.get_height()/2))
+        bouton["BJ4"] = addp.Button(fild=image_3,x=image_2.get_width()+self.center[0]+image_3.get_width()*0.5,y=self.center[1]-(image_1.get_height()/2))
+
+        bouton["BJ2F"] = addp.Button(fild=image_1_F,x=(self.center[0]-image_2_F.get_width())-image_1_F.get_width()*0.5,y=self.center[1]-(image_1_F.get_height()/2))
+        bouton["BJ3F"] = addp.Button(fild=image_2_F,x=self.center[0],y=self.center[1]-(image_1_F.get_height()/2))
+        bouton["BJ4F"] = addp.Button(fild=image_3_F,x=image_2_F.get_width()+self.center[0]+image_3_F.get_width()*0.5,y=self.center[1]-(image_1_F.get_height()/2))
+
+        bouton["B_retour"] = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2)
+        screen.blit(texte,(self.center[0],0))
+    
+    def partie(self) -> None:
+        self.etat = "partie"
+        screen.fill((150,210,255,0))
+        haut = 0
+        font = pyg.font.SysFont(name = 'None',size = 30)
+        image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
+        image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
+        plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
+        plateaux = pyg.transform.scale(plateaux,(self.taille_screen[0]*0.5,self.taille_screen[1]))
+        bouton["Blance"] = addp.Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance)
+        dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
+        screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
+        screen.blit(plateaux,plateaux.get_rect(bottom = self.bottom))
+        for i in joueur:
+            texte = f"{i.nom} , postion : {i.position}"
+            texte = font.render(texte,False,(0,0,0))
+            screen.blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0+haut))
+            haut += texte.get_height()
+
+        if self.dée:
+        
+            for i in range(10):
+
+                dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
+                screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
+                screen.blit(plateaux,plateaux.get_rect(bottom = self.bottom))
+                pyg.display.flip()
+                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
+                #dée_sound.play()
+                pyg.time.wait(300)
+                #Son\dée\test.mp3
+    
+    def choix_nom(self) -> None:
+        self.etat = "choix_nom"
+        screen.fill((150,210,255,0))
+
+    def test(self) -> None:
+        self.etat = "test"
+        print(pyg.display.get_driver())
+        pass
+
 #-------------------------------------------------------------
 why = 1
 if why == 1:
@@ -128,231 +253,97 @@ if why == 1:
     icone = pyg.image.load("projet nsi\image\icone\images.png")
     screen = pyg.display.set_mode((500,500),pyg.RESIZABLE)
     bouton = {}
-    image_R = pyg.image.load(r"projet nsi\image\retour\Sans titre.png")
     end = False
-    affichage_etape = 0
-    comment = "debut"
     pyg.display.set_icon(icone)
     pyg.display.set_caption("Jeu de l'oie")
+    etat = etat_jeu()
     #--------------------------------------------------------------
     
     #temp code test
 
     #--------------------------------------------------------------
-    def ecran(comment : str= "debut", dée : bool= False) -> None:
-        """ debut | nchoix_bot/J | choix_nb_bot | choix_nb_joueur | partie | choix_nom |test"""
-        
-        global bouton,image_R
-        
-        taille_screen = pyg.display.get_window_size();center = screen.get_rect().center;topleft = screen.get_rect().topleft;topright = screen.get_rect().topright;bottom = screen.get_rect().bottom;bottomleft =  screen.get_rect().bottomleft;bottomright = screen.get_rect().bottomright;left = screen.get_rect().left;right = screen.get_rect().right
 
-        if comment == "debut":
-            screen.fill((0,0,0))
-            pyg.display.flip()
-            print(pyg.image.get_extended())
-            test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
-            image_size_fond = (taille_screen[0],taille_screen[1])
-            test_fond = pyg.transform.scale(test_fond,image_size_fond)
-            test_debut = pyg.image.load(r"projet nsi\image\bouton\jouer.png")
-            image_size_debut = (taille_screen[0]*(1/2),taille_screen[1]*(1/2))
-            test_debut = pyg.transform.scale(test_debut,image_size_debut)
-            bouton['B_jouer'] = addp.Button(fild = test_debut)
-            screen.blit(test_fond,(0,0))
-
-        elif comment == "choix_bot/J":
-            screen.fill((150,210,255,0))
-            font = pyg.font.SysFont('arial',50,italic=False,bold=True)
-            texte = font.render('Veux tu jouer avec des bots ?',True,(0,0,0))
-            image_O = pyg.image.load(r"projet nsi\image\bouton\pas d_ami.png")
-            image_N = pyg.image.load(r"projet nsi\image\bouton\g_amis.png")
-            image_N = pyg.transform.scale(image_N,(taille_screen[0]/2,taille_screen[1]*0.80))
-            image_O = pyg.transform.scale(image_O,(taille_screen[0]/2,taille_screen[1]*0.80))
-            bouton["B_botO"] = addp.Button(fild=image_O,x=center[0]-4)
-            bouton["B_botN"] = addp.Button(fild=image_N,x=4)
-            screen.blit(texte,(image_N.get_width()/2,image_N.get_height()))
-
-        elif comment=="choix_nb_bot":
-            screen.fill((150,210,255,0))
-            font = pyg.font.SysFont('arial',50,italic=False,bold=True)
-            texte = font.render('Avec combien de bot voulez-vous jouer ?',True,(240,0,30))
-            image_1 = pyg.image.load(r"projet nsi\image\nb robot\1.jpg")
-            image_2 = pyg.image.load(r"projet nsi\image\nb robot\2.jpg")
-            image_3 = pyg.image.load(r"projet nsi\image\nb robot\3.jpg")
-            image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*(1/3),image_1.get_size()[1]*0.5))
-            image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*(1/3),image_2.get_size()[1]*0.5))
-            image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*(1/3),image_3.get_size()[1]*0.5))
-            image_R = pyg.transform.scale(image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
-            
-            bouton["bot1"] = addp.Button(fild=image_1,x=(center[0]-image_2.get_width())-image_1.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
-            bouton["bot2"] = addp.Button(fild=image_2,x=center[0],y=center[1]-(image_1.get_height()/2))
-            bouton["bot3"] = addp.Button(fild=image_3,x=image_2.get_width()+center[0]+image_3.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
-            bouton["B_retour"] = addp.Button(fild=image_R,y=pyg.display.get_window_size()[1]-image_R.get_height(),x=center[0]-image_R.get_width()/2)
-            screen.blit(texte,(image_1.get_rect().center[0],0))
-
-        elif comment=="choix_nb_joueur":
-            screen.fill((150,210,255,0))
-            font = pyg.font.SysFont('arial',50,italic=False,bold=True)
-            texte = font.render('Combien etes-vous ?',True,(240,0,30))
-            image_1 = pyg.image.load(r"projet nsi\image\nb joueur\2V.jpg")
-            image_1_F = pyg.image.load(r"projet nsi\image\nb joueur\2X.jpg")
-            image_2 = pyg.image.load(r"projet nsi\image\nb joueur\3V.jpg")
-            image_2_F = pyg.image.load(r"projet nsi\image\nb joueur\3X.jpg")
-            image_3 = pyg.image.load(r"projet nsi\image\nb joueur\4V.jpg")
-            image_3_F = pyg.image.load(r"projet nsi\image\nb joueur\4X.jpg")
-            image_1 = pyg.transform.scale(image_1,(image_1.get_size()[0]*(1/3),image_1.get_size()[1]*0.5))
-            image_2 = pyg.transform.scale(image_2,(image_2.get_size()[0]*(1/3),image_2.get_size()[1]*0.5))
-            image_3 = pyg.transform.scale(image_3,(image_3.get_size()[0]*(1/3),image_3.get_size()[1]*0.5))
-            image_1_F = pyg.transform.scale(image_1_F,(image_1_F.get_size()[0]*(1/3),image_1_F.get_size()[1]*0.5))
-            image_2_F = pyg.transform.scale(image_2_F,(image_2_F.get_size()[0]*(1/3),image_2_F.get_size()[1]*0.5))
-            image_3_F = pyg.transform.scale(image_3_F,(image_3_F.get_size()[0]*(1/3),image_3_F.get_size()[1]*0.5))
-
-            image_R = pyg.transform.scale(image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
-            
-            bouton["BJ2"] = addp.Button(fild=image_1,x=(center[0]-image_2.get_width())-image_1.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
-            bouton["BJ3"] = addp.Button(fild=image_2,x=center[0],y=center[1]-(image_1.get_height()/2))
-            bouton["BJ4"] = addp.Button(fild=image_3,x=image_2.get_width()+center[0]+image_3.get_width()*0.5,y=center[1]-(image_1.get_height()/2))
-
-            bouton["BJ2F"] = addp.Button(fild=image_1_F,x=(center[0]-image_2_F.get_width())-image_1_F.get_width()*0.5,y=center[1]-(image_1_F.get_height()/2))
-            bouton["BJ3F"] = addp.Button(fild=image_2_F,x=center[0],y=center[1]-(image_1_F.get_height()/2))
-            bouton["BJ4F"] = addp.Button(fild=image_3_F,x=image_2_F.get_width()+center[0]+image_3_F.get_width()*0.5,y=center[1]-(image_1_F.get_height()/2))
-
-            bouton["B_retour"] = addp.Button(fild=image_R,y=pyg.display.get_window_size()[1]-image_R.get_height(),x=center[0]-image_R.get_width()/2)
-            screen.blit(texte,(center[0],0))
-
-        elif comment == "partie":
-            screen.fill((150,210,255,0))
-            haut = 0
-            font = pyg.font.SysFont(name = 'None',size = 30)
-            image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
-            image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
-            plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
-            plateaux = pyg.transform.scale(plateaux,(taille_screen[0]*0.5,taille_screen[1]))
-            bouton["Blance"] = addp.Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance)
-            dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
-            screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
-            screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
-            for i in joueur:
-                texte = f"{i.nom} , postion : {i.position}"
-                texte = font.render(texte,False,(0,0,0))
-                screen.blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0+haut))
-                haut += texte.get_height()
-
-            if dée == True:
-            
-                for i in range(10):
-
-                    dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
-                    screen.blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
-                    screen.blit(plateaux,plateaux.get_rect(bottom = bottom))
-                    pyg.display.flip()
-                    dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
-                    #dée_sound.play()
-                    pyg.time.wait(300)
-                    #Son\dée\test.mp3
-            
-        elif comment == "choix_nom":
-            screen.fill((150,210,255,0))
-
-        elif comment == "test":
-            print(pyg.display.get_driver())
-            pass
-
-#---------------------------------------------------------------
-
-    ecran(comment)
+    etat.debut()
 
     pyg.display.flip()
 
     while not(end):
 
-        if comment == "debut":
+        if etat.etat == "debut":
         
             if bouton["B_jouer"].draw(screen = screen, precis= "center") == True:
-                comment = "choix_bot/J"
-                ecran(comment)
+                etat.choix_bot_or_J()
                 print("test")
                 pyg.time.wait(100)
         
-        elif comment == "choix_bot/J":
+        elif etat.etat == "choix_bot/J":
             if bouton["B_botO"].draw(screen = screen) == True:
-                comment = "choix_nb_bot"
-                ecran(comment)
+                etat.choix_nb_bot()
                 pyg.time.wait(100)
             elif bouton["B_botN"].draw(screen = screen) == True:
-                comment = "choix_nom"
-                ecran(comment)
+                etat.choix_nom()
                 pyg.time.wait(100)
 
-        elif comment == "choix_nb_bot":
+        elif etat.etat == "choix_nb_bot":
             if bouton["bot1"].draw(screen = screen) == True:
                 nb_bot = 1
-                comment = "choix_nb_joueur"
-                ecran(comment)
+                etat.choix_nb_joueur()
                 pyg.time.wait(100)
             elif bouton["bot2"].draw(screen = screen) == True:
                 nb_bot = 2
-                comment = "choix_nb_joueur"
-                ecran(comment)
+                etat.choix_nb_joueur()
                 pyg.time.wait(100)
             elif bouton["bot3"].draw(screen = screen) == True:
-                comment = "partie"
-                ecran(comment)
+                etat.partie()
                 pyg.time.wait(100)
             elif bouton["B_retour"].draw(screen=screen) == True:
-                comment = "choix_bot/J"
-                ecran(comment)
+                etat.choix_bot_or_J
                 pyg.time.wait(100)
         
-        elif comment == "choix_nb_joueur":
+        elif etat.etat == "choix_nb_joueur":
 
             if nb_bot == 0:
                 if bouton["BJ2"].draw(screen=screen) == True:
                     nb_j = 1
-                    ecran = "choix_nom"
-                    ecran(comment)
+                    etat.choix_nom()
                 elif bouton["BJ3"].draw(screen=screen) == True:
                     nb_j = 3
-                    comment = "choix_nom"
-                    ecran(comment)
+                    etat.choix_nom()
                 elif bouton["BJ4"].draw(screen=screen) == True:
                     nb_j = 4
-                    comment = "choix_nom"
-                    ecran(comment)
+                    etat.choix_nom()
             elif nb_bot == 1:
                 if bouton["BJ2"].draw(screen=screen) == True:
                     nb_j = 2
-                    comment = "choix_nom"
-                    ecran(comment)
+                    etat.choix_nom()
                 elif bouton["BJ3"].draw(screen=screen) == True:
                     nb_j = 3
-                    comment = "choix_nom"
-                    ecran(comment)
+                    etat.choix_nom()
                 elif bouton["BJ4F"].draw(screen=screen) == True:
                     pass
             elif nb_bot == 2:
                 if bouton["BJ2"].draw(screen=screen) == True:
                     nb_j = 2
-                    comment = "choix_nom"
-                    ecran(comment)
+                    etat.choix_nom()
                 elif bouton["BJ3F"].draw(screen=screen) == True:
                     pass
                 elif bouton["BJ4F"].draw(screen=screen) == True:
                     pass
             
             if bouton["B_retour"].draw(screen=screen) == True:
-                comment = "choix_bot/J"
-                ecran(comment)
+                etat.choix_bot_or_J()
                 pyg.time.wait(100)
 
-        elif comment == "choix_nom":
+        elif etat.etat == "choix_nom":
 
             """temporaire pour le moment"""
-            ecran(comment)
+            etat.choix_nom()
 
-        elif comment == "partie":
+        elif etat.etat == "partie":
             if bouton["Blance"].draw(screen = screen) == True:
                 print(joueur)
-                ecran(comment=comment,dée=True)
+                etat.dée = True
+                etat.partie()
                 quit()
 
         pyg.display.flip()
@@ -363,7 +354,7 @@ if why == 1:
                 end = True
             
             elif event.type == pyg.WINDOWRESIZED:
-                ecran(comment=comment)
+                getattr(etat,etat.etat)
 
             elif event.type == pyg.KEYDOWN:
                 if event.key == pyg.K_F11:
@@ -372,11 +363,11 @@ if why == 1:
 
                     if window == ecran_taille[0]:
                         screen = pyg.display.set_mode(last_screen,pyg.RESIZABLE)
-                        ecran(comment=comment)
+                        getattr(etat,etat.etat)
                     else:
                         last_screen = pyg.display.get_window_size()
                         screen = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
-                        ecran(comment=comment)
+                        getattr(etat,etat.etat)
 
             
             

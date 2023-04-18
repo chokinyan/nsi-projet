@@ -123,7 +123,7 @@ class TextInput:
             print('out of text surface')
             self.text = self.text[:-1]
             self.__changetxt__()
-        self.__upsurf__() 
+        self.__upsurf__()
 
     def __changetxt__(self)-> None:
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
@@ -141,7 +141,7 @@ class TextInput:
         self.sub = self.surface.subsurface(self.pos)
         self.__upsurf__()
 
-    def __upsurf__(self):
+    def __upsurf__(self) -> None:
         self.sub.fill(self.bg)
         self.sub.blit(self.surftext,self.pos)
         self.surface.blit(self.sub.copy(),self.pos)
