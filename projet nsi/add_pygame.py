@@ -110,22 +110,18 @@ class TextInput:
                     pass
                 else:
                     self.text += event.unicode
-                self.__update__()
+                self.__update()
 
-    def __update__(self) -> None:
+    def __update(self) -> None:
 
         if self.bg != None:
             pygame.draw.rect(self.surface,self.bg,self.pos)
 
-        self.__changetxt__()
+        self.__changetxt()
+        self.__verif_taille()
+        self.update_size()
 
-        while self.info["w"] < self.surftext.get_width():
-            print('out of text surface')
-            self.text = self.text[:-1]
-            self.__changetxt__()
-        self.__upsurf__()
-
-    def __changetxt__(self)-> None:
+    def __changetxt(self)-> None:
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
 
     def update_size(self,**arks : int) -> None:
@@ -133,21 +129,31 @@ class TextInput:
         update the size of the text input\n
         possbile value : x,y,w,h
         """
-        if arks.__len__() != 0:
-            for i,j in arks.items():
+        
+        if arks.__len__() == 0:
+            return None
+
+        for i,j in arks.items():
                 if i in self.info:
                     self.info[i] = j
-
         self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
-        self.__changetxt__()
         try:
             self.sub = self.surface.subsurface(self.pos)
         except:
             self.info["w"] = pygame.display.get_window_size()[1]
             self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
-        self.__upsurf__()
+        self.__verif_taille()
+        self.__upsurf()
 
-    def __upsurf__(self) -> None:
+    def __upsurf(self) -> None:
+        """
+        bug a partir d'ici
+        """
         self.sub.fill(self.bg)
         self.sub.blit(self.surftext,self.pos)
         self.surface.blit(self.sub.copy(),self.pos)
+
+    def __verif_taille(self) -> None:
+        while self.info["w"] < self.surftext.get_width():
+            self.text = self.text[:-1]
+            self.__changetxt()
