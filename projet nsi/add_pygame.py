@@ -92,18 +92,19 @@ class TextInput:
     def draw(self,event : pygame.event.Event) -> None:
 
         pos_mouse = pygame.mouse.get_pos()
+        click = True if pygame.mouse.get_pressed()[0] else False
 
         if self.pos.collidepoint(pos_mouse):
 
             #pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
 
-            if pygame.mouse.get_pressed()[0] == 1 and self.focus == False:
+            if click and not(self.focus):
                 self.focus = True
                 
-        if pygame.mouse.get_pressed()[0] == 1 and not(self.pos.collidepoint(pos_mouse))  and self.focus == True:
+        if click and not(self.pos.collidepoint(pos_mouse)) and self.focus:
             self.focus = False
         
-        if self.focus == True:
+        if self.focus:
             if event.type == pygame.KEYDOWN:
                 if pygame.key.name(event.key) == "backspace":
                     self.text = self.text[:-1]
@@ -114,20 +115,25 @@ class TextInput:
                 self.update()
 
     def update(self) -> None:
+        
         pygame.draw.rect(self.surface,self.bg,self.pos)
         self.texte_edit()
         self.update_size()
 
-    def update_size(self,**arks : int) -> None:
+    def update_size(self,changement : dict[str,int] = {}) -> None:
+        
         """
         update the size of the text input\n
         possbile value : x,y,w,h\n
         change inition value of w,h : ini_w,ini_h
         """
-        if arks.__len__() != 0:
-            for i,j in arks.items():
-                if i in self.info:
-                    self.info[i] = j
+
+        
+        for i,j in changement.items():
+            if i in self.info:
+                self.info[i] = j
+        
+
         
         self.position()
         try:
@@ -137,24 +143,25 @@ class TextInput:
             self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
         
         self.texte_edit()
-        self.upsurf()
+        self.update_surf()
 
-    def upsurf(self) -> None:
-        if  type(self.surftext) == pygame.surface.Surface:
-            print("test")
+    def update_surf(self) -> None:
+
+        if type(self.surftext) == pygame.surface.Surface:
             self.sub.blit(self.surftext,self.pos)
             self.sub.fill(self.bg)
             self.surface.blit(self.sub.copy(),self.pos)
 
     def texte_edit(self) -> None:
-        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg)
+        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
         txt_size = self.surftext.get_width() if type(self.surftext) == pygame.surface.Surface else self.surftext.x
         while self.info["w"] < txt_size:
             self.text = self.text[:-1]
             self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg)
             txt_size = self.surftext.get_width() if type(self.surftext) == pygame.surface.Surface else self.surftext.x
 
-    def position(self):
+    def position(self) -> None:
+        
         self.info["w"] = pygame.display.get_window_size()[0] if self.info["w"] > pygame.display.get_window_size()[0] else self.info["ini_w"]
         self.info["h"] = pygame.display.get_window_size()[1] if self.info["h"] > pygame.display.get_window_size()[1] else self.info["ini_h"]
         self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
