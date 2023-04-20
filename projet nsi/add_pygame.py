@@ -1,4 +1,5 @@
 import pygame
+import inspect
 class Button:
     """comme son nom l'indique permet de cré de bouton clicable\n
         quoi jsp ecrire francais ?\n
@@ -76,11 +77,11 @@ class TextInput:
     bg = background\n
     """
     def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 30, bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
-        self.info = {"x" : x,"y" : y,"w" : w,"h" : h}
+        self.info = {"x" : x,"y" : y,"w" : w,"h" : h,"ini_h" : h,"ini_w" : w}
+        self.position()
         self.color = color
         self.text = ""
         self.focus = False
-        self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
         self.taille = size
         self.surface = screen
         self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
@@ -110,50 +111,50 @@ class TextInput:
                     pass
                 else:
                     self.text += event.unicode
-                self.__update()
+                self.update()
 
-    def __update(self) -> None:
-
-        if self.bg != None:
-            pygame.draw.rect(self.surface,self.bg,self.pos)
-
-        self.__changetxt()
-        self.__verif_taille()
+    def update(self) -> None:
+        pygame.draw.rect(self.surface,self.bg,self.pos)
+        self.texte_edit()
         self.update_size()
-
-    def __changetxt(self)-> None:
-        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
 
     def update_size(self,**arks : int) -> None:
         """
         update the size of the text input\n
-        possbile value : x,y,w,h
+        possbile value : x,y,w,h\n
+        change inition value of w,h : ini_w,ini_h
         """
-        
-        if arks.__len__() == 0:
-            return None
-
-        for i,j in arks.items():
+        if arks.__len__() != 0:
+            for i,j in arks.items():
                 if i in self.info:
                     self.info[i] = j
-        self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
+        
+        self.position()
         try:
             self.sub = self.surface.subsurface(self.pos)
         except:
-            self.info["w"] = pygame.display.get_window_size()[1]
+            self.info["w"] = pygame.display.get_window_size()[0]
             self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
-        self.__verif_taille()
-        self.__upsurf()
+        
+        self.texte_edit()
+        self.upsurf()
 
-    def __upsurf(self) -> None:
-        """
-        bug a partir d'ici
-        """
-        self.sub.fill(self.bg)
-        self.sub.blit(self.surftext,self.pos)
-        self.surface.blit(self.sub.copy(),self.pos)
+    def upsurf(self) -> None:
+        if  type(self.surftext) == pygame.surface.Surface:
+            print("test")
+            self.sub.blit(self.surftext,self.pos)
+            self.sub.fill(self.bg)
+            self.surface.blit(self.sub.copy(),self.pos)
 
-    def __verif_taille(self) -> None:
-        while self.info["w"] < self.surftext.get_width():
+    def texte_edit(self) -> None:
+        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg)
+        txt_size = self.surftext.get_width() if type(self.surftext) == pygame.surface.Surface else self.surftext.x
+        while self.info["w"] < txt_size:
             self.text = self.text[:-1]
-            self.__changetxt()
+            self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg)
+            txt_size = self.surftext.get_width() if type(self.surftext) == pygame.surface.Surface else self.surftext.x
+
+    def position(self):
+        self.info["w"] = pygame.display.get_window_size()[0] if self.info["w"] > pygame.display.get_window_size()[0] else self.info["ini_w"]
+        self.info["h"] = pygame.display.get_window_size()[1] if self.info["h"] > pygame.display.get_window_size()[1] else self.info["ini_h"]
+        self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
