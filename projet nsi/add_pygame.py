@@ -134,7 +134,7 @@ class TextInput:
                 self.info[i] = j
         
 
-        
+
         self.position()
         try:
             self.sub = self.surface.subsurface(self.pos)
@@ -148,8 +148,8 @@ class TextInput:
     def update_surf(self) -> None:
 
         if type(self.surftext) == pygame.surface.Surface:
-            self.sub.blit(self.surftext,self.pos)
             self.sub.fill(self.bg)
+            self.sub.blit(self.surftext,self.pos)
             self.surface.blit(self.sub.copy(),self.pos)
 
     def texte_edit(self) -> None:
