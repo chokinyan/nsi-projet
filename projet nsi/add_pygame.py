@@ -1,5 +1,4 @@
 import pygame
-import inspect
 class Button:
     """comme son nom l'indique permet de cré de bouton clicable\n
         quoi jsp ecrire francais ?\n
@@ -84,19 +83,22 @@ class TextInput:
         self.focus = False
         self.taille = size
         self.surface = screen
-        self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255)),self.pos)
         self.bg = bg
+        self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg),self.pos)
         self.sub = screen.subsurface(self.pos)
         self.nb_max = nb_car_max
+        self.update()
+        self.cursor = pygame.mouse.get_cursor().copy()
 
     def draw(self,event : pygame.event.Event) -> None:
 
         pos_mouse = pygame.mouse.get_pos()
         click = True if pygame.mouse.get_pressed()[0] else False
+        pygame.mouse.set_cursor(self.cursor)
 
         if self.pos.collidepoint(pos_mouse):
 
-            #pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_IBEAM)
 
             if click and not(self.focus):
                 self.focus = True
@@ -153,7 +155,7 @@ class TextInput:
             self.surface.blit(self.sub.copy(),self.pos)
 
     def texte_edit(self) -> None:
-        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,(255,255,255))
+        self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg)
         txt_size = self.surftext.get_width() if type(self.surftext) == pygame.surface.Surface else self.surftext.x
         while self.info["w"] < txt_size:
             self.text = self.text[:-1]

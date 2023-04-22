@@ -221,7 +221,7 @@ class etat_screen:
     def choix_nom(self) -> None:
         self.etat = "choix_nom"
         ((self.disp).scr).fill((150,210,255,0))
-        textinp["nom"] = addp.TextInput(screen = self.disp.scr,color=(125,120,60,5),bg = (255,255,255))
+        textinp["nom"] = addp.TextInput(screen = self.disp.scr,color=(125,120,60,5),bg = (255,255,255),x = self.taille_screen[0]/2,y = self.taille_screen[1]/2,h = self.taille_screen[1]/3,w = self.taille_screen[0]/3)
 
     def partie(self) -> None:
         self.etat = "partie"
@@ -384,12 +384,6 @@ if why == 1:
                         last_screen = pyg.display.get_window_size()
                         ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
                         etat.reload_screen()
-
-                if event.key == pyg.K_a:
-                    try:
-                        print(textinp["nom"])
-                    except:
-                        print("zrzrzrezrzerze")
             
             """elif event.type == pyg.WINDOWFOCUSLOST:
                 py.notification.notify(
