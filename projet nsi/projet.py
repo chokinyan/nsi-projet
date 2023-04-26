@@ -128,18 +128,17 @@ class screen:
 class etat_screen:
     def __init__(self,disp : screen) -> None:
         self.disp = disp
-        self.__size__()
+        self.size()
         self.dée = False
         self.etat = ""
         self.image_R = pyg.image.load(r"projet nsi\image\retour\Sans titre.png")
 
-    def __size__(self) -> None:
+    def size(self) -> None:
         self.taille_screen = self.disp.scr.get_size();self.center = (self.disp.scr).get_rect().center;self.topleft = (self.disp.scr).get_rect().topleft;self.topright = (self.disp.scr).get_rect().topright;self.bottom = (self.disp.scr).get_rect().bottom;self.bottomleft =  (self.disp.scr).get_rect().bottomleft;self.bottomright = (self.disp.scr).get_rect().bottomright;self.left = (self.disp.scr).get_rect().left;self.right = (self.disp.scr).get_rect().right
 
     def reload_screen(self) -> None:
-        self.__size__()
-        reload = getattr(self,self.etat)
-        reload()
+        self.size()
+        getattr(self,self.etat)()
 
     def debut(self)-> None:
         self.etat = "debut"
@@ -220,8 +219,8 @@ class etat_screen:
     
     def choix_nom(self) -> None:
         self.etat = "choix_nom"
+        #print("test")
         ((self.disp).scr).fill((150,210,255,0))
-        textinp["nom"] = addp.TextInput(screen = self.disp.scr,color=(125,120,60,5),bg = (255,255,255),x = self.taille_screen[0]/2,y = self.taille_screen[1]/2,h = self.taille_screen[1]/3,w = self.taille_screen[0]/3)
 
     def partie(self) -> None:
         self.etat = "partie"
@@ -274,6 +273,7 @@ if why == 1:
     ecran = screen(icone = "projet nsi\image\icone\images.png",dis_name="Jeu de l'oie")
     etat = etat_screen(disp=ecran)
     etat.debut()
+    textinp["nom"] = addp.TextInput(screen = etat.disp.scr,color=(125,120,60,5),bg = (255,255,255),x = etat.taille_screen[0]/2,y = etat.taille_screen[1]/2,h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3)
     #--------------------------------------------------------------
     
     #temp code test
@@ -282,95 +282,95 @@ if why == 1:
 
     while not(end):
 
-        if etat.etat == "debut":
-        
-            if bouton["B_jouer"].draw(screen = ecran.scr, precis= "center") == True:
-                etat.choix_bot_or_J()
-                pyg.time.wait(200)
-        
-        elif etat.etat == "choix_bot_or_J":
-            if bouton["B_botO"].draw(screen = ecran.scr) == True:
-                etat.choix_nb_bot()
-                pyg.time.wait(200)
-            elif bouton["B_botN"].draw(screen = ecran.scr) == True:
-                etat.choix_nb_joueur()
-                pyg.time.wait(200)
+        match etat.etat:
 
-        elif etat.etat == "choix_nb_bot":
-            if bouton["bot1"].draw(screen = ecran.scr) == True:
-                nb_bot = 1
-                etat.choix_nb_joueur()
-                pyg.time.wait(200)
-            elif bouton["bot2"].draw(screen = ecran.scr) == True:
-                nb_bot = 2
-                etat.choix_nb_joueur()
-                pyg.time.wait(200)
-            elif bouton["bot3"].draw(screen = ecran.scr) == True:
-                etat.partie()
-                pyg.time.wait(200)
-            elif bouton["B_retour"].draw(screen=ecran.scr) == True:
-                etat.choix_bot_or_J()
-                pyg.time.wait(200)
-        
-        elif etat.etat == "choix_nb_joueur":
+            case "debut":
+                if bouton["B_jouer"].draw(screen = ecran.scr, precis= "center"):
+                    etat.choix_bot_or_J()
+                    pyg.time.wait(200)
 
-            if nb_bot == 0:
-                if bouton["BJ2"].draw(screen=ecran.scr) == True:
-                    nb_j = 1
-                    etat.choix_nom()
-                elif bouton["BJ3"].draw(screen=ecran.scr) == True:
-                    nb_j = 3
-                    etat.choix_nom()
-                elif bouton["BJ4"].draw(screen=ecran.scr) == True:
-                    nb_j = 4
-                    etat.choix_nom()
-            elif nb_bot == 1:
-                if bouton["BJ2"].draw(screen=ecran.scr) == True:
-                    nb_j = 2
-                    etat.choix_nom()
-                elif bouton["BJ3"].draw(screen=ecran.scr) == True:
-                    nb_j = 3
-                    etat.choix_nom()
-                elif bouton["BJ4F"].draw(screen=ecran.scr) == True:
-                    pass
-            elif nb_bot == 2:
-                if bouton["BJ2"].draw(screen=ecran.scr) == True:
-                    nb_j = 2
-                    etat.choix_nom()
-                elif bouton["BJ3F"].draw(screen=ecran.scr) == True:
-                    pass
-                elif bouton["BJ4F"].draw(screen=ecran.scr) == True:
-                    pass
-            
-            if bouton["B_retour"].draw(screen=ecran.scr) == True:
-                etat.choix_bot_or_J()
-                pyg.time.wait(200)
+            case "choix_bot_or_J":
+                if bouton["B_botO"].draw(screen = ecran.scr):
+                    etat.choix_nb_bot()
+                    pyg.time.wait(200)
+                elif bouton["B_botN"].draw(screen = ecran.scr):
+                    etat.choix_nb_joueur()
+                    pyg.time.wait(200)
 
-        if etat.etat == "choix_nom":
-            #etat.choix_nom()
-            pass
+            case "choix_nb_bot":
+                if bouton["bot1"].draw(screen = ecran.scr):
+                    nb_bot = 1
+                    etat.choix_nb_joueur()
+                    pyg.time.wait(200)
+                elif bouton["bot2"].draw(screen = ecran.scr):
+                    nb_bot = 2
+                    etat.choix_nb_joueur()
+                    pyg.time.wait(200)
+                elif bouton["bot3"].draw(screen = ecran.scr):
+                    etat.partie()
+                    pyg.time.wait(200)
+                elif bouton["B_retour"].draw(screen=ecran.scr):
+                    etat.choix_bot_or_J()
+                    pyg.time.wait(200)
         
-        elif etat.etat == "partie":
-            if bouton["Blance"].draw(screen = ecran.scr) == True:
-                print(joueur)
-                etat.dée = True
-                etat.partie()
-                quit()
+            case "choix_nb_joueur":
+
+                if nb_bot == 0:
+                    if bouton["BJ2"].draw(screen=ecran.scr):
+                        nb_j = 1
+                        etat.choix_nom()
+                    elif bouton["BJ3"].draw(screen=ecran.scr):
+                        nb_j = 3
+                        etat.choix_nom()
+                    elif bouton["BJ4"].draw(screen=ecran.scr):
+                        nb_j = 4
+                        etat.choix_nom()
+                elif nb_bot == 1:
+                    if bouton["BJ2"].draw(screen=ecran.scr):
+                        nb_j = 2
+                        etat.choix_nom()
+                    elif bouton["BJ3"].draw(screen=ecran.scr):
+                        nb_j = 3
+                        etat.choix_nom()
+                    elif bouton["BJ4F"].draw(screen=ecran.scr):
+                        pass
+                elif nb_bot == 2:
+                    if bouton["BJ2"].draw(screen=ecran.scr):
+                        nb_j = 2
+                        etat.choix_nom()
+                    elif bouton["BJ3F"].draw(screen=ecran.scr):
+                        pass
+                    elif bouton["BJ4F"].draw(screen=ecran.scr):
+                        pass
+                
+                if bouton["B_retour"].draw(screen=ecran.scr):
+                    etat.choix_bot_or_J()
+                    pyg.time.wait(200)
+
+            case "choix_nom":
+                pass
+        
+            case "partie":
+                if bouton["Blance"].draw(screen = ecran.scr):
+                    print(joueur)
+                    etat.dée = True
+                    etat.partie()
+                    quit()
 
         pyg.display.flip()
 
         for event in pyg.event.get():
 
             if etat.etat == "choix_nom":
-                textinp["nom"].draw(event = event)
+                textinp["nom"].draw(event=event)
 
             if event.type == pyg.QUIT:
                 end = True
             
             elif event.type == pyg.WINDOWRESIZED:
-                etat.reload_screen()
                 if etat.etat == "choix_nom":
                     textinp["nom"].update_size()
+                etat.reload_screen()
 
             elif event.type == pyg.KEYDOWN:
                 if event.key == pyg.K_F11:

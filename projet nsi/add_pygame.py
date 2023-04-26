@@ -75,13 +75,13 @@ class TextInput:
     bg != beau gosse\n
     bg = background\n
     """
-    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0),size : int = 30, bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
+    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
         self.info = {"x" : x,"y" : y,"w" : w,"h" : h,"ini_h" : h,"ini_w" : w}
         self.position()
         self.color = color
         self.text = ""
         self.focus = False
-        self.taille = size
+        self.taille = int(h)
         self.surface = screen
         self.bg = bg
         self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg),self.pos)
@@ -135,8 +135,6 @@ class TextInput:
             if i in self.info:
                 self.info[i] = j
         
-
-
         self.position()
         try:
             self.sub = self.surface.subsurface(self.pos)
