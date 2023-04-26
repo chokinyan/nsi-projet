@@ -12,19 +12,18 @@ while not(end):
     pygame.display.flip()
 
     for event in pygame.event.get():
-        text.draw(event=event)
+        text.draw(event=event,screen = screen)
         if event.type == pygame.QUIT:
             end = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 end = True
         if event.type == pygame.WINDOWRESIZED:
-            #text.update_size()
-            print('ok')
+            text.update_size({"h" : screen.get_height()/2,"w" : screen.get_width()/2})
+            print(text.info)
         if event.type == pygame.MOUSEBUTTONUP:
             print(text.taille)
             print(pygame.mouse.get_pos())
-
 
 pygame.quit() 
 quit()

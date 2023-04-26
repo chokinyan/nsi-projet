@@ -71,17 +71,17 @@ class TextInput:
     x,y is the position\n
     h = height\n
     w = width\n
-    size = text size\n 
-    bg != beau gosse\n
+    text_size = text size\n 
     bg = background\n
+    if using resizable display when display rizible use update_size()
     """
-    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100, color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
+    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100,text_size : int = 30, color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
         self.info = {"x" : x,"y" : y,"w" : w,"h" : h,"ini_h" : h,"ini_w" : w}
         self.position()
         self.color = color
         self.text = ""
         self.focus = False
-        self.taille = int(h)
+        self.taille = text_size
         self.surface = screen
         self.bg = bg
         self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg),self.pos)
@@ -90,8 +90,9 @@ class TextInput:
         self.update()
         self.cursor = pygame.mouse.get_cursor().copy()
 
-    def draw(self,event : pygame.event.Event) -> None:
+    def draw(self,event : pygame.event.Event,screen : pygame.Surface) -> None:
 
+        self.surface = screen
         pos_mouse = pygame.mouse.get_pos()
         click = True if pygame.mouse.get_pressed()[0] else False
         pygame.mouse.set_cursor(self.cursor)
@@ -129,11 +130,11 @@ class TextInput:
         possbile value : x,y,w,h\n
         change inition value of w,h : ini_w,ini_h
         """
-
         
         for i,j in changement.items():
             if i in self.info:
                 self.info[i] = j
+                print("er")
         
         self.position()
         try:
@@ -151,6 +152,7 @@ class TextInput:
             self.sub.fill(self.bg)
             self.sub.blit(self.surftext,self.pos)
             self.surface.blit(self.sub.copy(),self.pos)
+        pygame.display.flip()
 
     def texte_edit(self) -> None:
         self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg)
@@ -159,6 +161,7 @@ class TextInput:
             self.text = self.text[:-1]
             self.surftext = pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg)
             txt_size = self.surftext.get_width() if type(self.surftext) == pygame.surface.Surface else self.surftext.x
+
 
     def position(self) -> None:
         
