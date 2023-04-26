@@ -76,7 +76,7 @@ class TextInput:
     if using resizable display when display rizible use update_size()
     """
     def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100,text_size : int = 30, color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
-        self.info = {"x" : x,"y" : y,"w" : w,"h" : h,"ini_h" : h,"ini_w" : w}
+        self.info = {"x" : x,"y" : y,"w" : w,"h" : h}
         self.position()
         self.color = color
         self.text = ""
@@ -128,7 +128,6 @@ class TextInput:
         """
         update the size of the text input\n
         possbile value : x,y,w,h\n
-        change inition value of w,h : ini_w,ini_h
         """
         
         for i,j in changement.items():
@@ -165,6 +164,6 @@ class TextInput:
 
     def position(self) -> None:
         
-        self.info["w"] = pygame.display.get_window_size()[0] if self.info["w"] > pygame.display.get_window_size()[0] else self.info["ini_w"]
-        self.info["h"] = pygame.display.get_window_size()[1] if self.info["h"] > pygame.display.get_window_size()[1] else self.info["ini_h"]
+        self.info["w"] = pygame.display.get_window_size()[0] if self.info["w"] > pygame.display.get_window_size()[0] else self.info["w"]
+        self.info["h"] = pygame.display.get_window_size()[1] if self.info["h"] > pygame.display.get_window_size()[1] else self.info["h"]
         self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
