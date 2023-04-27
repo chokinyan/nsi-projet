@@ -223,7 +223,9 @@ class etat_screen:
         #print("test")
         ((self.disp).scr).fill((150,210,255,0))
         if "nom" not in textinp:
-            textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),color=(125,120,60,5),x = etat.taille_screen[0]/2,y = etat.taille_screen[1]/2,h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
+            x = int(etat.taille_screen[0]/2)
+            y = int(etat.taille_screen[1]/2)
+            textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x = x,y = y,h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
 
     def partie(self) -> None:
         self.etat = "partie"
@@ -260,7 +262,6 @@ class etat_screen:
     def test(self) -> None:
         self.etat = "test"
         print(pyg.display.get_driver())
-        pass
 
 #-------------------------------------------------------------
 why = 1
@@ -362,10 +363,8 @@ if why == 1:
 
         for event in pyg.event.get():
 
-            try:
+            if etat.etat == "choix_nom":
                 textinp["nom"].draw(event=event,screen = (etat.disp).scr)
-            except:
-                pass
 
             if event.type == pyg.QUIT:
                 end = True

@@ -75,10 +75,10 @@ class TextInput:
     bg = background\n
     if using resizable display when display rizible use update_size()
     """
-    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100,text_size : int = 30, color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
+    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100,text_size : int = 30, text_color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
         self.info = {"x" : x,"y" : y,"w" : w,"h" : h}
         self.position()
-        self.color = color
+        self.color = text_color
         self.text = ""
         self.focus = False
         self.taille = text_size
