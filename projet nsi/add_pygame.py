@@ -84,7 +84,7 @@ class TextInput:
         self.taille = text_size
         self.surface = screen
         self.bg = bg
-        self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg),self.pos)
+        self.surftext = self.surface.blit(pygame.font.SysFont(None, self.taille).render(self.text,False,self.color,self.bg),self.txt_pos)
         self.sub = screen.subsurface(self.pos)
         self.nb_max = nb_car_max
         self.update()
@@ -149,7 +149,7 @@ class TextInput:
 
         if type(self.surftext) == pygame.surface.Surface:
             self.sub.fill(self.bg)
-            self.sub.blit(self.surftext,self.pos)
+            self.sub.blit(self.surftext,self.txt_pos)
             self.surface.blit(self.sub.copy(),self.pos)
         pygame.display.flip()
 
@@ -167,3 +167,4 @@ class TextInput:
         self.info["w"] = pygame.display.get_window_size()[0] if self.info["w"] > pygame.display.get_window_size()[0] else self.info["w"]
         self.info["h"] = pygame.display.get_window_size()[1] if self.info["h"] > pygame.display.get_window_size()[1] else self.info["h"]
         self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
+        self.txt_pos = pygame.Rect(0,0,self.info["w"],self.info["h"])
