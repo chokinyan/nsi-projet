@@ -1,5 +1,6 @@
 #chokinyan 
 #juste voila
+import keyboard
 import os as os
 import random as rng
 import pygame as pyg
@@ -223,9 +224,7 @@ class etat_screen:
         #print("test")
         ((self.disp).scr).fill((150,210,255,0))
         if "nom" not in textinp:
-            x = int(etat.taille_screen[0]/2)
-            y = int(etat.taille_screen[1]/2)
-            textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x = x,y = y,h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
+            textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x=etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),y= etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
 
     def partie(self) -> None:
         self.etat = "partie"
@@ -361,6 +360,9 @@ if why == 1:
                     etat.partie()
                     quit()
 
+        if keyboard.is_pressed("Esc"):
+            end = True
+
         for event in pyg.event.get():
 
             if etat.etat == "choix_nom":
@@ -371,7 +373,7 @@ if why == 1:
             
             elif event.type == pyg.WINDOWRESIZED:
                 if etat.etat == "choix_nom":
-                    textinp["nom"].update_size()
+                    textinp["nom"].update_size({"x" : etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),"y" :  etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),"h" : etat.taille_screen[1]/3,"w" : etat.taille_screen[0]/3})
                 etat.reload_screen()
 
             elif event.type == pyg.KEYDOWN:

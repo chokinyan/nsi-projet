@@ -10,9 +10,8 @@ pygame.display.flip()
 end = False
 while not(end):
     pygame.display.flip()
-
     for event in pygame.event.get():
-        text.draw(event=event,screen = screen)
+        text.draw(event = event,screen = screen)
         if event.type == pygame.QUIT:
             end = True
         if event.type == pygame.KEYDOWN:

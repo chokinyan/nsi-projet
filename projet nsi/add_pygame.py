@@ -1,3 +1,9 @@
+try: 
+    import pygame
+except ModuleNotFoundError:
+    import os
+    os.system("python -m pip install pygame --pre")
+
 import pygame
 class Button:
     """comme son nom l'indique permet de cré de bouton clicable\n
@@ -75,7 +81,7 @@ class TextInput:
     bg = background\n
     if using resizable display when display rizible use update_size()
     """
-    def __init__(self,screen : pygame.Surface,x :int = 0, y :int = 0,w : int = 100, h : int = 100,text_size : int = 30, text_color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
+    def __init__(self,screen : pygame.Surface,x : float = 0, y : float = 0,w : float = 100, h : float = 100,text_size : int = 30, text_color : tuple[int,int,int,int] = (255,255,255,0), bg : tuple[int,int,int,int] = (0,0,0,0),nb_car_max : int = None) -> None:
         self.info = {"x" : x,"y" : y,"w" : w,"h" : h}
         self.position()
         self.color = text_color
@@ -107,15 +113,14 @@ class TextInput:
         if click and not(self.pos.collidepoint(pos_mouse)) and self.focus:
             self.focus = False
         
-        if self.focus:
-            if event.type == pygame.KEYDOWN:
-                if pygame.key.name(event.key) == "backspace":
-                    self.text = self.text[:-1]
-                elif event.unicode == "" or pygame.key.name(event.key) == "tab":
-                    pass
-                else:
-                    self.text += event.unicode
-                self.update()
+        if self.focus and event.type == pygame.KEYDOWN:
+            if pygame.key.name(event.key) == "backspace":
+                self.text = self.text[:-1]
+            elif event.unicode == "" or pygame.key.name(event.key) == "tab":
+                pass
+            else:
+                self.text += event.unicode
+            self.update()
 
     def update(self) -> None:
         
@@ -133,7 +138,6 @@ class TextInput:
         for i,j in changement.items():
             if i in self.info:
                 self.info[i] = j
-                print("er")
         
         self.position()
         try:
@@ -167,4 +171,4 @@ class TextInput:
         self.info["w"] = pygame.display.get_window_size()[0] if self.info["w"] > pygame.display.get_window_size()[0] else self.info["w"]
         self.info["h"] = pygame.display.get_window_size()[1] if self.info["h"] > pygame.display.get_window_size()[1] else self.info["h"]
         self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
-        self.txt_pos = pygame.Rect(0,0,self.info["w"],self.info["h"])
+        self.txt_pos = pygame.Rect(10,10,self.pos.width,self.pos.h)
