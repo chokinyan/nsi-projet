@@ -8,6 +8,7 @@ import add_pygame as addp
 import random as rng
 import math as math
 from time import sleep
+import sys
 test = "le test a été effectuer"
 why = 1
 #-------------------------------------------------------------
@@ -131,7 +132,6 @@ class etat_screen:
     def __init__(self,disp : screen) -> None:
         self.disp = disp
         self.size()
-        self.dée = False
         self.etat = ""
         self.image_R = pyg.image.load(r"projet nsi\image\retour\Sans titre.png")
         self.debut()
@@ -144,7 +144,7 @@ class etat_screen:
         getattr(self,self.etat)()
 
     def debut(self)-> None:
-        self.etat = "debut"
+        self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).scr).fill((0,0,0))
         pyg.display.flip()
         test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
@@ -171,7 +171,7 @@ class etat_screen:
         ((self.disp).scr).blit(texte,(image_N.get_width()/2,image_N.get_height()))
 
     def choix_nb_bot(self) -> None:
-        self.etat = "choix_nb_bot"
+        self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).scr).fill((150,210,255,0))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Avec combien de bot voulez-vous jouer ?',True,(240,0,30))
@@ -190,7 +190,7 @@ class etat_screen:
         ((self.disp).scr).blit(texte,(image_1.get_rect().center[0],0))
 
     def choix_nb_joueur(self) -> None:
-        self.etat = "choix_nb_joueur"
+        self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).scr).fill((150,210,255,0))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Combien etes-vous ?',True,(240,0,30))
@@ -222,7 +222,7 @@ class etat_screen:
     
     def choix_nom(self) -> None:
         global joueur
-        self.etat = "choix_nom"
+        self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).scr).fill((150,210,255,0))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Entre ton nom',True,(240,0,30))
@@ -233,7 +233,7 @@ class etat_screen:
         ((self.disp).scr).blit(texte,(self.center[0],0))
 
     def partie(self,dée : bool = False) -> None:
-        self.etat = "partie"
+        self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).scr).fill((150,210,255,0))
         haut = 0
         font = pyg.font.SysFont(name = 'None',size = 30)
@@ -263,10 +263,9 @@ class etat_screen:
                 dée_sound.play()
                 pyg.time.wait(300)
                 #Son\dée\test.mp3
-                #self.dée = False
     
     def test(self) -> None:
-        self.etat = "test"
+        self.etat = sys._getframe(0).f_code.co_name
         print(pyg.display.get_driver())
 
 #-------------------------------------------------------------
@@ -362,7 +361,6 @@ while not(end):
     
         case "partie":
             if bouton["Blance"].draw(screen = ecran.scr):
-                etat.dée = True
                 etat.partie(True)
 
     if keyboard.is_pressed("Esc"):
