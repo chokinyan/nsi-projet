@@ -116,7 +116,7 @@ class TextInput:
         if self.focus and event.type == pygame.KEYDOWN:
             if pygame.key.name(event.key) == "backspace":
                 self.text = self.text[:-1]
-            elif event.unicode == "" or pygame.key.name(event.key) == "tab":
+            elif event.unicode == "" or pygame.key.name(event.key) == "tab" or event.key == pygame.K_RETURN:
                 pass
             else:
                 self.text += event.unicode

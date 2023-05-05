@@ -9,6 +9,7 @@ import random as rng
 import math as math
 from time import sleep
 test = "le test a été effectuer"
+why = 1
 #-------------------------------------------------------------
 class joueur_info:
         def __init__(self,numero:int,bot:bool,nom :str = "") -> None:
@@ -220,13 +221,18 @@ class etat_screen:
         ((self.disp).scr).blit(texte,(self.center[0],0))
     
     def choix_nom(self) -> None:
+        global joueur
         self.etat = "choix_nom"
-        #print("test")
         ((self.disp).scr).fill((150,210,255,0))
+        font = pyg.font.SysFont('arial',50,italic=False,bold=True)
+        texte = font.render('Entre ton nom',True,(240,0,30))
         if "nom" not in textinp:
+            joueur = [joueur_info(i,False,f"joueur {i}") for i in range(nb_bot+nb_j)]
             textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x=etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),y= etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
+        bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
+        ((self.disp).scr).blit(texte,(self.center[0],0))
 
-    def partie(self) -> None:
+    def partie(self,dée : bool = False) -> None:
         self.etat = "partie"
         ((self.disp).scr).fill((150,210,255,0))
         haut = 0
@@ -237,15 +243,15 @@ class etat_screen:
         plateaux = pyg.transform.scale(plateaux,(self.taille_screen[0]*0.5,self.taille_screen[1]))
         bouton.update(Blance = addp.Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance))
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
-        (self.scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
-        (self.scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
+        ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
+        ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
         for i in joueur:
             texte = f"{i.nom} , postion : {i.position}"
             texte = font.render(texte,False,(0,0,0))
             ((self.disp).scr).blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0+haut))
             haut += texte.get_height()
 
-        if self.dée:
+        if dée:
         
             for i in range(10):
 
@@ -254,185 +260,173 @@ class etat_screen:
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
                 pyg.display.flip()
                 dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
-                #dée_sound.play()
+                dée_sound.play()
                 pyg.time.wait(300)
                 #Son\dée\test.mp3
+                #self.dée = False
     
     def test(self) -> None:
         self.etat = "test"
         print(pyg.display.get_driver())
 
 #-------------------------------------------------------------
-why = 1
-if why == 1:
-    nb_bot = 0
-    nb_j = 1
-    joueur = [joueur_info(i,False,f"joueur {i}") for i in range(4)]
-    pyg.init()
-    last_screen = 0
-    bouton = {}
-    textinp = {}
-    end = False
-    ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie")
-    etat = etat_screen(disp=ecran)
-    #--------------------------------------------------------------
+nb_bot = 0
+nb_j = 1
+pyg.init()
+last_screen = 0
+bouton = {}
+joueur = None 
+textinp = {}
+end = False
+ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie")
+etat = etat_screen(disp=ecran)
+#--------------------------------------------------------------
+
+#temp code test
+
+#--------------------------------------------------------------
+
+while not(end):
+
+    pyg.display.flip()
+
+    match etat.etat:
+
+        case "debut":
+            if bouton["B_jouer"].draw(screen = ecran.scr, precis= "center"):
+                etat.choix_bot_or_J()
+                pyg.time.wait(200)
+
+        case "choix_bot_or_J":
+            if bouton["B_botO"].draw(screen = ecran.scr):
+                etat.choix_nb_bot()
+                pyg.time.wait(200)
+            elif bouton["B_botN"].draw(screen = ecran.scr):
+                etat.choix_nb_joueur()
+                pyg.time.wait(200)
+
+        case "choix_nb_bot":
+            if bouton["bot1"].draw(screen = ecran.scr):
+                nb_bot = 1
+                etat.choix_nb_joueur()
+                pyg.time.wait(200)
+            elif bouton["bot2"].draw(screen = ecran.scr):
+                nb_bot = 2
+                etat.choix_nb_joueur()
+                pyg.time.wait(200)
+            elif bouton["bot3"].draw(screen = ecran.scr):
+                etat.partie()
+                pyg.time.wait(200)
+            elif bouton["B_retour"].draw(screen=ecran.scr):
+                etat.choix_bot_or_J()
+                pyg.time.wait(200)
     
-    #temp code test
+        case "choix_nb_joueur":
 
-    #--------------------------------------------------------------
+            if nb_bot == 0:
+                if bouton["BJ2"].draw(screen=ecran.scr):
+                    nb_j = 1
+                    etat.choix_nom()
+                elif bouton["BJ3"].draw(screen=ecran.scr):
+                    nb_j = 3
+                    etat.choix_nom()
+                elif bouton["BJ4"].draw(screen=ecran.scr):
+                    nb_j = 4
+                    etat.choix_nom()
+            elif nb_bot == 1:
+                if bouton["BJ2"].draw(screen=ecran.scr):
+                    nb_j = 2
+                    etat.choix_nom()
+                elif bouton["BJ3"].draw(screen=ecran.scr):
+                    nb_j = 3
+                    etat.choix_nom()
+                elif bouton["BJ4F"].draw(screen=ecran.scr):
+                    pass
+            elif nb_bot == 2:
+                if bouton["BJ2"].draw(screen=ecran.scr):
+                    nb_j = 2
+                    etat.choix_nom()
+                elif bouton["BJ3F"].draw(screen=ecran.scr):
+                    pass
+                elif bouton["BJ4F"].draw(screen=ecran.scr):
+                    pass
+            
+            if bouton["B_retour"].draw(screen=ecran.scr):
+                etat.choix_bot_or_J()
+                pyg.time.wait(200)
 
-    while not(end):
+        case "choix_nom":
+            if bouton["B_retour"].draw(screen=ecran.scr):
+                etat.debut()
+                pyg.time.wait(200)
+    
+        case "partie":
+            if bouton["Blance"].draw(screen = ecran.scr):
+                etat.dée = True
+                etat.partie(True)
 
-        pyg.display.flip()
+    if keyboard.is_pressed("Esc"):
+        end = True
 
-        match etat.etat:
+    for event in pyg.event.get():
 
-            case "debut":
-                if bouton["B_jouer"].draw(screen = ecran.scr, precis= "center"):
-                    etat.choix_bot_or_J()
-                    pyg.time.wait(200)
+        if etat.etat == "choix_nom":
+            textinp["nom"].draw(event=event,screen = (etat.disp).scr)
 
-            case "choix_bot_or_J":
-                if bouton["B_botO"].draw(screen = ecran.scr):
-                    etat.choix_nb_bot()
-                    pyg.time.wait(200)
-                elif bouton["B_botN"].draw(screen = ecran.scr):
-                    etat.choix_nb_joueur()
-                    pyg.time.wait(200)
-
-            case "choix_nb_bot":
-                if bouton["bot1"].draw(screen = ecran.scr):
-                    nb_bot = 1
-                    etat.choix_nb_joueur()
-                    pyg.time.wait(200)
-                elif bouton["bot2"].draw(screen = ecran.scr):
-                    nb_bot = 2
-                    etat.choix_nb_joueur()
-                    pyg.time.wait(200)
-                elif bouton["bot3"].draw(screen = ecran.scr):
-                    etat.partie()
-                    pyg.time.wait(200)
-                elif bouton["B_retour"].draw(screen=ecran.scr):
-                    etat.choix_bot_or_J()
-                    pyg.time.wait(200)
-        
-            case "choix_nb_joueur":
-
-                if nb_bot == 0:
-                    if bouton["BJ2"].draw(screen=ecran.scr):
-                        nb_j = 1
-                        etat.choix_nom()
-                    elif bouton["BJ3"].draw(screen=ecran.scr):
-                        nb_j = 3
-                        etat.choix_nom()
-                    elif bouton["BJ4"].draw(screen=ecran.scr):
-                        nb_j = 4
-                        etat.choix_nom()
-                elif nb_bot == 1:
-                    if bouton["BJ2"].draw(screen=ecran.scr):
-                        nb_j = 2
-                        etat.choix_nom()
-                    elif bouton["BJ3"].draw(screen=ecran.scr):
-                        nb_j = 3
-                        etat.choix_nom()
-                    elif bouton["BJ4F"].draw(screen=ecran.scr):
-                        pass
-                elif nb_bot == 2:
-                    if bouton["BJ2"].draw(screen=ecran.scr):
-                        nb_j = 2
-                        etat.choix_nom()
-                    elif bouton["BJ3F"].draw(screen=ecran.scr):
-                        pass
-                    elif bouton["BJ4F"].draw(screen=ecran.scr):
-                        pass
-                
-                if bouton["B_retour"].draw(screen=ecran.scr):
-                    etat.choix_bot_or_J()
-                    pyg.time.wait(200)
-
-            #case "choix_nom":
-            #    pass
-        
-            case "partie":
-                if bouton["Blance"].draw(screen = ecran.scr):
-                    print(joueur)
-                    etat.dée = True
-                    etat.partie()
-                    quit()
-
-        if keyboard.is_pressed("Esc"):
+        if event.type == pyg.QUIT:
             end = True
+        
+        elif event.type == pyg.WINDOWRESIZED:
+            etat.reload_screen()
+            if etat.etat == "choix_nom":
+                textinp["nom"].update_size({"x" : etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),"y" :  etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),"h" : etat.taille_screen[1]/3,"w" : etat.taille_screen[0]/3})
 
-        for event in pyg.event.get():
+        elif event.type == pyg.KEYDOWN:
 
             if etat.etat == "choix_nom":
-                textinp["nom"].draw(event=event,screen = (etat.disp).scr)
+                    if event.key == pyg.K_RETURN and textinp["nom"].focus:
+                        etat.partie()
 
-            if event.type == pyg.QUIT:
-                end = True
-            
-            elif event.type == pyg.WINDOWRESIZED:
-                if etat.etat == "choix_nom":
-                    textinp["nom"].update_size({"x" : etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),"y" :  etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),"h" : etat.taille_screen[1]/3,"w" : etat.taille_screen[0]/3})
-                etat.reload_screen()
+            if event.key == pyg.K_F11:
+                window = pyg.display.get_window_size()
+                ecran_taille = pyg.display.get_desktop_sizes()
 
-            elif event.type == pyg.KEYDOWN:
-                if event.key == pyg.K_F11:
-                    window = pyg.display.get_window_size()
-                    ecran_taille = pyg.display.get_desktop_sizes()
-
-                    if window == ecran_taille[0]:
-                        ecran.scr = pyg.display.set_mode(last_screen,pyg.RESIZABLE)
-                        etat.reload_screen()
-                    else:
-                        last_screen = pyg.display.get_window_size()
-                        ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
-                        etat.reload_screen()
-            
-            """elif event.type == pyg.WINDOWFOCUSLOST:
-                py.notification.notify(
-                    title = "TEST",
-                    message = "att c'est un test"
-                )"""
-
-
-    pyg.quit()
-    quit()
-
-else:
-    # int(input("nombre de joueur (entre 2 et 4) -->"))
-    stuck = ["prison","puits","hotel_2","hotel"]
-    joueur = [joueur_info(numero = i+1,bot=False) for i in range(3)]
-    plateau_jeu = [plateau(i+1) for i in range(63)]
-    fin = False
-    tour = 0
-    classement = []
-
-    print("3")
-    sleep(1)
-    print("2")
-    sleep(1)
-    print("1")
-    sleep(1)
-    print("GO!")
-
-    while not(fin):
-        for qui in joueur:
-            if qui.joue == False:
-                if qui.effet == "hotel_2":
-                    qui.effet = "hotel"
-                    continue
-                elif qui.effet == "hotel":
-                    qui.effet = ""
-                    qui.joue = True
-                    continue
+                if window == ecran_taille[0]:
+                    ecran.scr = pyg.display.set_mode(last_screen,pyg.RESIZABLE)
+                    etat.reload_screen()
                 else:
-                    continue
+                    last_screen = pyg.display.get_window_size()
+                    ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
+                    etat.reload_screen()
+                
+        """elif event.type == pyg.WINDOWFOCUSLOST:
+            py.notification.notify(
+                title = "TEST",
+                message = "att c'est un test"
+            )"""
+
+pyg.quit()
+quit()
+
+stuck = ["prison","puits","hotel_2","hotel"]
+joueur = [joueur_info(numero = i+1,bot=False) for i in range(3)]
+plateau_jeu = [plateau(i+1) for i in range(63)]
+fin = False
+tour = 0
+classement = []
+
+while not(fin):
+    for qui in joueur:
+        if qui.joue == False:
+            if qui.effet == "hotel_2":
+                qui.effet = "hotel"
+                continue
+            elif qui.effet == "hotel":
+                qui.effet = ""
+                qui.joue = True
+                continue
             else:
-                déP,déD = rng.randint(1,6),rng.randint(1,6)
-                qui.new_position(déP+déD)
-                print("----------------------------------------------------")
-                print(qui.position)
-                print(qui.effet)
-                print(déP,"  ",déD)
-                print(qui.numero)
+                continue
+        else:
+            déP,déD = rng.randint(1,6),rng.randint(1,6)
+            qui.new_position(déP+déD)
