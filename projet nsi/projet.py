@@ -233,9 +233,13 @@ class etat_screen:
         ((self.disp).scr).blit(texte,(self.center[0],0))
 
     def partie(self,dée : bool = False) -> None:
+        global pion
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).scr).fill((150,210,255,0))
         haut = 0
+        for i in range(len(joueur)):
+            pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
+            print(pion)
         font = pyg.font.SysFont(name = 'None',size = 30)
         image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
         image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
@@ -274,6 +278,7 @@ nb_j = 1
 pyg.init()
 last_screen = 0
 bouton = {}
+pion = {}
 joueur = None 
 textinp = {}
 end = False
