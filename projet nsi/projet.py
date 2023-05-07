@@ -260,8 +260,8 @@ class etat_screen:
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
                 pyg.display.flip()
                 dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
-                dée_sound.play()
-                pyg.time.wait(300)
+                #dée_sound.play()
+                #pyg.time.wait(300)
                 #Son\dée\test.mp3
     
     def test(self) -> None:
@@ -357,11 +357,13 @@ while not(end):
         case "choix_nom":
             if bouton["B_retour"].draw(screen=ecran.scr):
                 etat.debut()
+                textinp.clear()
                 pyg.time.wait(200)
     
         case "partie":
             if bouton["Blance"].draw(screen = ecran.scr):
                 etat.partie(True)
+                print(pyg.mouse.get_cursor())
 
     if keyboard.is_pressed("Esc"):
         end = True
@@ -383,6 +385,7 @@ while not(end):
 
             if etat.etat == "choix_nom":
                     if event.key == pyg.K_RETURN and textinp["nom"].focus:
+                        pyg.mouse.set_cursor(textinp["nom"].cursor)
                         etat.partie()
 
             if event.key == pyg.K_F11:
