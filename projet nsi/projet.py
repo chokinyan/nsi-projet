@@ -130,8 +130,8 @@ class screen:
             pyg.display.set_caption(dis_name)
         self.scr = pyg.display.set_mode((h,w),addon)
     
-    def clear(self,color : tuple[int,int,int,int] = (0,0,0,0)) -> None:
-        self.scr.fill(color)
+    def clear(self,bg : tuple[int,int,int,int] = (0,0,0,0)) -> None:
+        self.scr.fill(bg)
 
 class etat_screen:
     def __init__(self,disp : screen) -> None:
@@ -164,7 +164,7 @@ class etat_screen:
 
     def choix_bot_or_J(self) -> None:
         self.etat = "choix_bot_or_J"
-        ((self.disp).scr).fill((150,210,255,0))
+        ((self.disp).clear((150,210,255,0)))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Veux tu jouer avec des bots ?',True,(0,0,0))
         image_O = pyg.image.load(r"projet nsi\image\bouton\pas d_ami.png")
@@ -173,11 +173,11 @@ class etat_screen:
         image_O = pyg.transform.scale(image_O,(self.taille_screen[0]/2,self.taille_screen[1]*0.80))
         bouton.update(B_botO = addp.Button(fild=image_O,x=self.center[0]-4))
         bouton.update(B_botN = addp.Button(fild=image_N,x=4))
-        ((self.disp).scr).blit(texte,(self.center[0],image_N.get_height()))
+        ((self.disp).scr).blit(texte,(self.center[0]/2,image_N.get_height()))
 
     def choix_nb_bot(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).clear(150,210,255,0))
+        ((self.disp).clear((150,210,255,0)))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Avec combien de bot voulez-vous jouer ?',True,(240,0,30))
         image_1 = pyg.image.load(r"projet nsi\image\nb robot\1.jpg")
@@ -192,11 +192,11 @@ class etat_screen:
         bouton.update(bot2 = addp.Button(fild=image_2,x=self.center[0],y=self.center[1]-(image_1.get_height()/2)))
         bouton.update(bot3 = addp.Button(fild=image_3,x=image_2.get_width()+self.center[0]+image_3.get_width()*0.5,y=self.center[1]-(image_1.get_height()/2)))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(self.center[0],0))
+        ((self.disp).scr).blit(texte,(self.center[0]/2,0))
 
     def choix_nb_joueur(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).clear(150,210,255,0))
+        ((self.disp).clear((150,210,255,0)))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Combien etes-vous ?',True,(240,0,30))
         image_1 = pyg.image.load(r"projet nsi\image\nb joueur\2V.jpg")
@@ -223,12 +223,12 @@ class etat_screen:
         bouton.update(BJ4F = addp.Button(fild=image_3_F,x=image_2_F.get_width()+self.center[0]+image_3_F.get_width()*0.5,y=self.center[1]-(image_1_F.get_height()/2)))
 
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(self.disp.scr.get_rect().center[0],0))
+        ((self.disp).scr).blit(texte,(self.center[0]/2,0))
     
     def choix_nom(self) -> None:
         global joueur
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).clear(150,210,255,0))
+        ((self.disp).clear((150,210,255,0)))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Entre ton nom',True,(240,0,30))
         if "nom" not in textinp:
@@ -240,11 +240,10 @@ class etat_screen:
     def partie(self,dée : bool = False) -> None:
         global pion
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).clear(150,210,255,0))
+        ((self.disp).clear((150,210,255,0)))
         haut = 0
         for i in range(len(joueur)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
-            print(pion)
         font = pyg.font.SysFont(name = 'None',size = 30)
         image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
         image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
@@ -290,7 +289,6 @@ pion = {}
 joueur = None
 textinp = {}
 end = False
-print(pyg.display.get_desktop_sizes())
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
 #--------------------------------------------------------------
@@ -377,7 +375,6 @@ while not(end):
         case "partie":
             if bouton["Blance"].draw(screen = ecran.scr):
                 etat.partie(True)
-                print(pyg.mouse.get_cursor())
 
     if keyboard.is_pressed("Esc"):
         end = True
