@@ -27,7 +27,6 @@ class joueur_info:
             else:
                 self.nom = nom
             
-
         def new_position(self,total:int) -> None:
             global tour
             if tour < len(joueur):
@@ -171,7 +170,7 @@ class etat_screen:
         image_O = pyg.transform.scale(image_O,(self.taille_screen[0]/2,self.taille_screen[1]*0.80))
         bouton.update(B_botO = addp.Button(fild=image_O,x=self.center[0]-4))
         bouton.update(B_botN = addp.Button(fild=image_N,x=4))
-        ((self.disp).scr).blit(texte,(image_N.get_width()/2,image_N.get_height()))
+        ((self.disp).scr).blit(texte,(self.center[0],image_N.get_height()))
 
     def choix_nb_bot(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
@@ -190,7 +189,7 @@ class etat_screen:
         bouton.update(bot2 = addp.Button(fild=image_2,x=self.center[0],y=self.center[1]-(image_1.get_height()/2)))
         bouton.update(bot3 = addp.Button(fild=image_3,x=image_2.get_width()+self.center[0]+image_3.get_width()*0.5,y=self.center[1]-(image_1.get_height()/2)))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(image_1.get_rect().center[0],0))
+        ((self.disp).scr).blit(texte,(self.center[0],0))
 
     def choix_nb_joueur(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
@@ -221,7 +220,7 @@ class etat_screen:
         bouton.update(BJ4F = addp.Button(fild=image_3_F,x=image_2_F.get_width()+self.center[0]+image_3_F.get_width()*0.5,y=self.center[1]-(image_1_F.get_height()/2)))
 
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(self.center[0],0))
+        ((self.disp).scr).blit(texte,(self.disp.scr.get_rect().center[0],0))
     
     def choix_nom(self) -> None:
         global joueur
@@ -284,11 +283,11 @@ pyg.init()
 last_screen = 0
 bouton = {}
 pion = {}
-joueur = None 
+joueur = None
 textinp = {}
 end = False
 print(pyg.display.get_desktop_sizes())
-ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 20)
+ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
 #--------------------------------------------------------------
 
