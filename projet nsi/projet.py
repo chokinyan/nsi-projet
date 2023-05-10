@@ -22,10 +22,7 @@ class joueur_info:
             self.effet = ""
             self.joue = True
             self.bot = bot
-            if nom == "":
-                self.nom = f"joueur {numero}"
-            else:
-                self.nom = nom
+            self.nom = f"joueur {numero}"
             
         def new_position(self,total:int) -> None:
             global tour
@@ -244,6 +241,8 @@ class etat_screen:
         haut = 0
         for i in range(len(joueur)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
+            #pion[i+1] = pyg.transform.scale(pion[i+1])
+            pion[i+1]
         font = pyg.font.SysFont(name = 'None',size = 30)
         image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
         image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
@@ -387,10 +386,10 @@ while not(end):
         if event.type == pyg.QUIT:
             end = True
         
-        elif event.type == pyg.WINDOWRESIZED:
-            etat.reload_screen()
-            if etat.etat == "choix_nom":
-                textinp["nom"].update_size({"x" : etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),"y" :  etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),"h" : etat.taille_screen[1]/3,"w" : etat.taille_screen[0]/3})
+        #elif event.type == pyg.WINDOWRESIZED:
+        #    etat.reload_screen()
+        #    if etat.etat == "choix_nom":
+        #        textinp["nom"].update_size({"x" : etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),"y" :  etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),"h" : etat.taille_screen[1]/3,"w" : etat.taille_screen[0]/3})
 
         elif event.type == pyg.KEYDOWN:
 
