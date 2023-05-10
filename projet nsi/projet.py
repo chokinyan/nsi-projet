@@ -1,5 +1,8 @@
 #chokinyan 
 #juste voila
+"""
+les parties de code mis en commantaire sont ceux qui ne serront pas mis lors du rendu, du a un manque de temps faut dire je taffe casi seul
+"""
 import keyboard
 import os as os
 import random as rng
@@ -120,13 +123,13 @@ class plateau:
             return (plateau_jeu[case-1].effect)
 
 class screen:
-    def __init__(self,h : int = 500,w : int = 500,icone : str = "" , dis_name : str = "") -> None:
+    def __init__(self,h : int = 500,w : int = 500,icone : str = "" , dis_name : str = "", addon  : int = 0) -> None:
         if icone != "":
             self.icone = pyg.image.load(icone)
             pyg.display.set_icon(self.icone)
         if dis_name != "":
             pyg.display.set_caption(dis_name)
-        self.scr = pyg.display.set_mode((h,w),pyg.RESIZABLE)
+        self.scr = pyg.display.set_mode((h,w),addon)
 
 class etat_screen:
     def __init__(self,disp : screen) -> None:
@@ -249,6 +252,8 @@ class etat_screen:
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
         ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
         ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
+        for j in pion.values():
+            ((self.disp).scr).blit(j,plateaux.get_rect(bottom = self.bottom))
         for i in joueur:
             texte = f"{i.nom} , postion : {i.position}"
             texte = font.render(texte,False,(0,0,0))
@@ -282,7 +287,8 @@ pion = {}
 joueur = None 
 textinp = {}
 end = False
-ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie")
+print(pyg.display.get_desktop_sizes())
+ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 20)
 etat = etat_screen(disp=ecran)
 #--------------------------------------------------------------
 
@@ -393,23 +399,22 @@ while not(end):
                         pyg.mouse.set_cursor(textinp["nom"].cursor)
                         etat.partie()
 
-            if event.key == pyg.K_F11:
-                window = pyg.display.get_window_size()
-                ecran_taille = pyg.display.get_desktop_sizes()
-
-                if window == ecran_taille[0]:
-                    ecran.scr = pyg.display.set_mode(last_screen,pyg.RESIZABLE)
-                    etat.reload_screen()
-                else:
-                    last_screen = pyg.display.get_window_size()
-                    ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
-                    etat.reload_screen()
+        #    if event.key == pyg.K_F11:
+        #        window = pyg.display.get_window_size()
+        #        ecran_taille = pyg.display.get_desktop_sizes()
+        #        if window == ecran_taille[0]:
+        #            ecran.scr = pyg.display.set_mode(last_screen,pyg.RESIZABLE)
+        #            etat.reload_screen()
+        #        else:
+        #            last_screen = pyg.display.get_window_size()
+        #            ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
+        #            etat.reload_screen()
                 
-        """elif event.type == pyg.WINDOWFOCUSLOST:
-            py.notification.notify(
-                title = "TEST",
-                message = "att c'est un test"
-            )"""
+        #elif event.type == pyg.WINDOWFOCUSLOST:
+        #    py.notification.notify(
+        #        title = "TEST",
+        #        message = "att c'est un test"
+        #    )
 
 pyg.quit()
 quit()
