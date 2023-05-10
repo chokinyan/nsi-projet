@@ -129,6 +129,9 @@ class screen:
         if dis_name != "":
             pyg.display.set_caption(dis_name)
         self.scr = pyg.display.set_mode((h,w),addon)
+    
+    def clear(self,color : tuple[int,int,int,int] = (0,0,0,0)) -> None:
+        self.scr.fill(color)
 
 class etat_screen:
     def __init__(self,disp : screen) -> None:
@@ -147,7 +150,7 @@ class etat_screen:
 
     def debut(self)-> None:
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).scr).fill((0,0,0))
+        self.disp.clear()
         pyg.display.flip()
         test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
         image_size_fond = (self.taille_screen[0],self.taille_screen[1])
@@ -174,7 +177,7 @@ class etat_screen:
 
     def choix_nb_bot(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).scr).fill((150,210,255,0))
+        ((self.disp).clear(150,210,255,0))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Avec combien de bot voulez-vous jouer ?',True,(240,0,30))
         image_1 = pyg.image.load(r"projet nsi\image\nb robot\1.jpg")
@@ -193,7 +196,7 @@ class etat_screen:
 
     def choix_nb_joueur(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).scr).fill((150,210,255,0))
+        ((self.disp).clear(150,210,255,0))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Combien etes-vous ?',True,(240,0,30))
         image_1 = pyg.image.load(r"projet nsi\image\nb joueur\2V.jpg")
@@ -225,7 +228,7 @@ class etat_screen:
     def choix_nom(self) -> None:
         global joueur
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).scr).fill((150,210,255,0))
+        ((self.disp).clear(150,210,255,0))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Entre ton nom',True,(240,0,30))
         if "nom" not in textinp:
@@ -237,7 +240,7 @@ class etat_screen:
     def partie(self,dée : bool = False) -> None:
         global pion
         self.etat = sys._getframe(0).f_code.co_name
-        ((self.disp).scr).fill((150,210,255,0))
+        ((self.disp).clear(150,210,255,0))
         haut = 0
         for i in range(len(joueur)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
@@ -273,6 +276,7 @@ class etat_screen:
                 #Son\dée\test.mp3
     
     def test(self) -> None:
+        self.disp.clear()
         self.etat = sys._getframe(0).f_code.co_name
         print(pyg.display.get_driver())
 
