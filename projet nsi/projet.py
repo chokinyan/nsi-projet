@@ -243,11 +243,11 @@ class etat_screen:
         image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
         image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
         plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
-        plateaux = pyg.transform.scale(plateaux,(self.taille_screen[0]*0.7,self.taille_screen[1]))
+        plateaux = pyg.transform.scale(plateaux,(self.taille_screen[0]*0.75,self.taille_screen[1]))
         bouton.update(Blance = addp.Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance))
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
         ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
-        ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
+        ((self.disp).scr).blit(plateaux,self.topleft)
         for j in pion.values():
             ((self.disp).scr).blit(j,plateaux.get_rect(bottom = self.bottom))
         for i in joueur:
