@@ -238,13 +238,12 @@ class etat_screen:
         haut = 0
         for i in range(len(joueur)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
-            #pion[i+1] = pyg.transform.scale(pion[i+1])
-            pion[i+1]
+            pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         font = pyg.font.SysFont(name = 'None',size = 30)
         image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
         image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
         plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
-        plateaux = pyg.transform.scale(plateaux,(self.taille_screen[0]*0.5,self.taille_screen[1]))
+        plateaux = pyg.transform.scale(plateaux,(self.taille_screen[0]*0.7,self.taille_screen[1]))
         bouton.update(Blance = addp.Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance))
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
         ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
