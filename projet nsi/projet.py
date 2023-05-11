@@ -395,6 +395,8 @@ while not(end):
 
             if etat.etat == "choix_nom":
                     if event.key == pyg.K_RETURN and textinp["nom"].focus:
+                        if textinp["nom"].text != '':
+                            joueur[0].nom = textinp["nom"].text
                         pyg.mouse.set_cursor(textinp["nom"].cursor)
                         etat.partie()
 
