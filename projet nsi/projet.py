@@ -8,11 +8,8 @@ import os as os
 import random as rng
 import pygame as pyg
 import add_pygame as addp
-import random as rng
 import math as math
-from time import sleep
 import sys
-test = "le test a été effectuer"
 why = 1
 #-------------------------------------------------------------
 class joueur_info:
@@ -300,6 +297,8 @@ while not(end):
 
     pyg.display.flip()
 
+    click = pyg.mouse.get_pressed()[0]
+
     match etat.etat:
 
         case "debut":
@@ -380,6 +379,9 @@ while not(end):
 
     for event in pyg.event.get():
 
+        if click:
+            print(pyg.mouse.get_pos())
+
         if etat.etat == "choix_nom":
             textinp["nom"].draw(event=event,screen = (etat.disp).scr)
 
@@ -400,6 +402,7 @@ while not(end):
                         pyg.mouse.set_cursor(textinp["nom"].cursor)
                         etat.partie()
 
+
         #    if event.key == pyg.K_F11:
         #        window = pyg.display.get_window_size()
         #        ecran_taille = pyg.display.get_desktop_sizes()
@@ -413,9 +416,9 @@ while not(end):
                 
         #elif event.type == pyg.WINDOWFOCUSLOST:
         #    py.notification.notify(
-        #        title = "TEST",
-        #        message = "att c'est un test"
-        #    )
+        #       title = "TEST",
+        #       message = "att c'est un test"
+        #   )
 
 pyg.quit()
 quit()
