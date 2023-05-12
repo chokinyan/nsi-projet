@@ -100,7 +100,7 @@ class TextInput:
 
         self.surface = screen
         pos_mouse = pygame.mouse.get_pos()
-        click = True if pygame.mouse.get_pressed()[0] else False
+        click = pygame.mouse.get_pressed()[0]
         pygame.mouse.set_cursor(self.cursor)
 
         if self.pos.collidepoint(pos_mouse):

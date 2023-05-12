@@ -10,6 +10,7 @@ import pygame as pyg
 import add_pygame as addp
 import math as math
 import sys
+import plyer as py
 why = 1
 #-------------------------------------------------------------
 class joueur_info:
@@ -248,8 +249,8 @@ class etat_screen:
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
         ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
         ((self.disp).scr).blit(plateaux,self.topleft)
-        for j in pion.values():
-            ((self.disp).scr).blit(j,plateaux.get_rect(bottom = self.bottom))
+        for i,j in pion.items():
+            ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
         for i in joueur:
             texte = f"{i.nom} , postion : {i.position}"
             texte = font.render(texte,False,(0,0,0))
@@ -275,6 +276,7 @@ class etat_screen:
         print(pyg.display.get_driver())
 
 #-------------------------------------------------------------
+center_case = [pyg.Rect(147,180,0,0)]
 nb_bot = 0
 nb_j = 1
 pyg.init()
@@ -283,9 +285,9 @@ bouton = {}
 pion = {}
 joueur = None
 textinp = {}
-end = False
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
+end = False
 #--------------------------------------------------------------
 
 #temp code test
@@ -413,11 +415,11 @@ while not(end):
         #            ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
         #            etat.reload_screen()
                 
-        #elif event.type == pyg.WINDOWFOCUSLOST:
-        #    py.notification.notify(
-        #       title = "TEST",
-        #       message = "att c'est un test"
-        #   )
+        elif event.type == pyg.WINDOWFOCUSLOST:
+            py.notification.notify(
+               title = "TEST",
+               message = "att c'est un test"
+           )
 
 pyg.quit()
 quit()
