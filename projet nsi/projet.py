@@ -276,7 +276,7 @@ class etat_screen:
         print(pyg.display.get_driver())
 
 #-------------------------------------------------------------
-center_case = [pyg.Rect(147,180,0,0)]
+center_case = [pyg.Rect(142,180,0,0),pyg.Rect(142,234,0,0),pyg.Rect(142,281,0,0),pyg.Rect(142,323,0,0),pyg.Rect(142,377,0,0),pyg.Rect(142,425,0,0),pyg.Rect(142,478,0,0),pyg.Rect(149,524,0,0),pyg.Rect(182,578,0,0),pyg.Rect(237,621,0,0),pyg.Rect(296,652,0,0),pyg.Rect(359,668,0,0),pyg.Rect(359,478,0,0),pyg.Rect(427,679,0,0),pyg.Rect(502,682,0,0),pyg.Rect(583,671,0,0),pyg.Rect(647,656,0,0),pyg.Rect(703,630,0,0),pyg.Rect(768,584,0,0)]
 nb_bot = 0
 nb_j = 1
 pyg.init()
