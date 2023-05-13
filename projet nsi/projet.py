@@ -237,9 +237,6 @@ class etat_screen:
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         haut = 0
-        for i in range(len(joueur)):
-            pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
-            pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         font = pyg.font.SysFont(name = 'None',size = 30)
         image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
         image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
@@ -249,8 +246,7 @@ class etat_screen:
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
         ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
         ((self.disp).scr).blit(plateaux,self.topleft)
-        for i,j in pion.items():
-            ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
+        self.pion()
         for i in joueur:
             texte = f"{i.nom} , postion : {i.position}"
             texte = font.render(texte,False,(0,0,0))
@@ -275,71 +271,77 @@ class etat_screen:
         self.etat = sys._getframe(0).f_code.co_name
         print(pyg.display.get_driver())
 
+    def pion(self) -> None:
+        for i in range(len(joueur)):
+            pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
+            pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
+        for i,j in pion.items():
+            ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
+
 #-------------------------------------------------------------
-center_case = [pyg.Rect(139, 166,0,0),
-pyg.Rect(128, 223,0,0),
-pyg.Rect(131, 266,0,0),
-pyg.Rect(128, 314,0,0),
-pyg.Rect(133, 394,0,0),
-pyg.Rect(127, 415,0,0),
-pyg.Rect(122, 468,0,0),
-pyg.Rect(169, 579,0,0),
-pyg.Rect(181, 568,0,0),
-pyg.Rect(306, 648,0,0),
-pyg.Rect(357, 661,0,0),
-pyg.Rect(402, 670,0,0),
-pyg.Rect(521, 686,0,0),
-pyg.Rect(597, 677,0,0),
-pyg.Rect(627, 657,0,0),
-pyg.Rect(647, 641,0,0),
-pyg.Rect(718, 604,0,0),
-pyg.Rect(749, 569,0,0),
-pyg.Rect(790, 503,0,0),
-pyg.Rect(792, 446,0,0),
-pyg.Rect(794, 402,0,0),
-pyg.Rect(796, 360,0,0),
-pyg.Rect(797, 309,0,0),
-pyg.Rect(792, 261,0,0),
-pyg.Rect(794, 215,0,0),
-pyg.Rect(797, 169,0,0),
-pyg.Rect(773, 123,0,0),
-pyg.Rect(732, 85,0,0),
-pyg.Rect(671, 56,0,0),
-pyg.Rect(524, 56,0,0),
-pyg.Rect(550, 30,0,0),
-pyg.Rect(478, 35,0,0),
-pyg.Rect(406, 43,0,0),
-pyg.Rect(346, 65,0,0),
-pyg.Rect(282, 90,0,0),
-pyg.Rect(256, 134,0,0),
-pyg.Rect(250, 241,0,0),
-pyg.Rect(244, 221,0,0),
-pyg.Rect(244, 279,0,0),
-pyg.Rect(243, 313,0,0),
-pyg.Rect(245, 423,0,0),
-pyg.Rect(243, 416,0,0),
-pyg.Rect(232, 473,0,0),
-pyg.Rect(322, 582,0,0),
-pyg.Rect(317, 557,0,0),
-pyg.Rect(408, 592,0,0),
-pyg.Rect(476, 605,0,0),
-pyg.Rect(594, 601,0,0),
-pyg.Rect(644, 573,0,0),
-pyg.Rect(691, 518,0,0),
-pyg.Rect(710, 474,0,0),
-pyg.Rect(692, 378,0,0),
-pyg.Rect(689, 342,0,0),
-pyg.Rect(698, 281,0,0),
-pyg.Rect(701, 235,0,0),
-pyg.Rect(691, 201,0,0),
-pyg.Rect(690, 156,0,0),
-pyg.Rect(617, 125,0,0),
-pyg.Rect(447, 129,0,0),
-pyg.Rect(395, 142,0,0),
-pyg.Rect(381, 136,0,0),
-pyg.Rect(368, 248,0,0),
-pyg.Rect(908, 201,0,0)
-]
+center_case = [pyg.Rect(126, 149,0,0),
+pyg.Rect(126, 220,0,0),
+pyg.Rect(132, 267,0,0),
+pyg.Rect(130, 314,0,0),
+pyg.Rect(132, 363,0,0),
+pyg.Rect(134, 417,0,0),
+pyg.Rect(123, 467,0,0),
+pyg.Rect(131, 513,0,0),
+pyg.Rect(171, 560,0,0),
+pyg.Rect(221, 608,0,0),
+pyg.Rect(281, 637,0,0),
+pyg.Rect(342, 653,0,0),
+pyg.Rect(413, 669,0,0),
+pyg.Rect(488, 667,0,0),
+pyg.Rect(566, 659,0,0),
+pyg.Rect(630, 642,0,0),
+pyg.Rect(687, 618,0,0),
+pyg.Rect(752, 569,0,0),
+pyg.Rect(792, 500,0,0),
+pyg.Rect(798, 448,0,0),
+pyg.Rect(795, 404,0,0),
+pyg.Rect(796, 359,0,0),
+pyg.Rect(796, 308,0,0),
+pyg.Rect(796, 260,0,0),
+pyg.Rect(796, 217,0,0),
+pyg.Rect(798, 172,0,0),
+pyg.Rect(773, 122,0,0),
+pyg.Rect(735, 81,0,0),
+pyg.Rect(678, 57,0,0),
+pyg.Rect(617, 37,0,0),
+pyg.Rect(552, 29,0,0),
+pyg.Rect(471, 31,0,0),
+pyg.Rect(403, 43,0,0),
+pyg.Rect(348, 63,0,0),
+pyg.Rect(296, 93,0,0),
+pyg.Rect(258, 135,0,0),
+pyg.Rect(239, 179,0,0),
+pyg.Rect(242, 220,0,0),
+pyg.Rect(241, 265,0,0),
+pyg.Rect(241, 312,0,0),
+pyg.Rect(244, 365,0,0),
+pyg.Rect(245, 419,0,0),
+pyg.Rect(229, 471,0,0),
+pyg.Rect(252, 512,0,0),
+pyg.Rect(310, 554,0,0),
+pyg.Rect(380, 585,0,0),
+pyg.Rect(444, 596,0,0),
+pyg.Rect(505, 593,0,0),
+pyg.Rect(566, 581,0,0),
+pyg.Rect(634, 547,0,0),
+pyg.Rect(686, 502,0,0),
+pyg.Rect(685, 434,0,0),
+pyg.Rect(687, 369,0,0),
+pyg.Rect(686, 312,0,0),
+pyg.Rect(686, 261,0,0),
+pyg.Rect(691, 216,0,0),
+pyg.Rect(689, 169,0,0),
+pyg.Rect(620, 122,0,0),
+pyg.Rect(516, 111,0,0),
+pyg.Rect(431, 110,0,0),
+pyg.Rect(373, 133,0,0),
+pyg.Rect(350, 179,0,0),
+pyg.Rect(362, 246,0,0)]
 nb_bot = 0
 nb_j = 1
 pyg.init()
@@ -363,7 +365,6 @@ while not(end):
 
     pyg.display.flip()
 
-    pos = pyg.mouse.get_pos()
     click = pyg.mouse.get_pressed()[0]
 
     match etat.etat:
@@ -448,6 +449,7 @@ while not(end):
 
         if click and etat.etat == "partie":
             joueur[0].position += 1
+            #pos = pyg.mouse.get_pos()
             etat.reload_screen()
             
 
@@ -470,15 +472,18 @@ while not(end):
                             joueur[0].nom = textinp["nom"].text
                         pyg.mouse.set_cursor(textinp["nom"].cursor)
                         etat.partie()
-            #if etat.etat == "partie":
-            #    if event.key == pyg.K_RETURN:
-            #        str_pos = str(pos)
-            #        str_pos = str_pos[:-1]
-            #        str_pos = str_pos[1::]
-            #        nb_click += 1
-            #        print('enregistrer')
-            #        rect_list.write(f'{nb_click} pyg.Rect({str_pos},0,0),\n')
 
+            if etat.etat == "partie":
+                if event.key == pyg.K_RETURN:
+                    try:
+                        str_pos = str(pos)
+                        str_pos = str_pos[:-1]
+                        str_pos = str_pos[1::]
+                        nb_click += 1
+                        print('enregistrer')
+                        rect_list.write(f'{nb_click} pyg.Rect({str_pos},0,0),\n')
+                    except:
+                        pass
 
         #    if event.key == pyg.K_F11:
         #        window = pyg.display.get_window_size()
