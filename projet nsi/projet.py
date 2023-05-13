@@ -276,7 +276,7 @@ class etat_screen:
         print(pyg.display.get_driver())
 
 #-------------------------------------------------------------
-center_case = [pyg.Rect(142,180,0,0),pyg.Rect(142,234,0,0),pyg.Rect(142,281,0,0),pyg.Rect(142,323,0,0),pyg.Rect(142,377,0,0),pyg.Rect(142,425,0,0),pyg.Rect(142,478,0,0),pyg.Rect(149,524,0,0),pyg.Rect(182,578,0,0),pyg.Rect(237,621,0,0),pyg.Rect(296,652,0,0),pyg.Rect(359,668,0,0),pyg.Rect(359,478,0,0),pyg.Rect(427,679,0,0),pyg.Rect(502,682,0,0),pyg.Rect(583,671,0,0),pyg.Rect(647,656,0,0),pyg.Rect(703,630,0,0),pyg.Rect(768,584,0,0)]
+center_case = [pyg.Rect(142,180,0,0),pyg.Rect(142,234,0,0),pyg.Rect(142,281,0,0),pyg.Rect(142,323,0,0),pyg.Rect(142,377,0,0),pyg.Rect(142,425,0,0),pyg.Rect(142,478,0,0),pyg.Rect(149,524,0,0),pyg.Rect(182,578,0,0),pyg.Rect(237,621,0,0),pyg.Rect(296,652,0,0),pyg.Rect(359,668,0,0),pyg.Rect(359,478,0,0),pyg.Rect(427,679,0,0),pyg.Rect(502,682,0,0),pyg.Rect(583,671,0,0),pyg.Rect(647,656,0,0),pyg.Rect(703,630,0,0),pyg.Rect(768,584,0,0),pyg.Rect(142,478,0,0)]
 nb_bot = 0
 nb_j = 1
 pyg.init()
@@ -288,6 +288,8 @@ textinp = {}
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
 end = False
+nb_click = 0
+rect_list = open("rect_case_list.txt",'a+')
 #--------------------------------------------------------------
 
 #temp code test
@@ -380,8 +382,12 @@ while not(end):
 
     for event in pyg.event.get():
 
-        if click:
-            print(pyg.mouse.get_pos())
+        if click and etat.etat == "partie":
+            pos = str(pyg.mouse.get_pos())
+            nb_click += 1
+            pos = pos[:-1]
+            pos = pos[1::]
+            rect_list.write(f'{nb_click}pyg.Rect({pos},0,0),\n')
 
         if etat.etat == "choix_nom":
             textinp["nom"].draw(event=event,screen = (etat.disp).scr)
@@ -421,6 +427,7 @@ while not(end):
                message = "att c'est un test"
            )
 
+rect_list.close()
 pyg.quit()
 quit()
 
