@@ -232,7 +232,7 @@ class etat_screen:
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         ((self.disp).scr).blit(texte,(self.center[0],0))
 
-    def partie(self,dée : bool = False) -> None:
+    def partie(self,dée : bool = False,joueur : joueur_info = None) -> None:
         global pion
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
@@ -262,9 +262,12 @@ class etat_screen:
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
                 pyg.display.flip()
                 dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
-                #dée_sound.play()
-                #pyg.time.wait(300)
+                dée_sound.play()
+                pyg.time.wait(300)
                 #Son\dée\test.mp3
+                if joueur != None:
+                    
+                    joueur.new_position()
     
     def test(self) -> None:
         self.disp.clear()
@@ -277,6 +280,8 @@ class etat_screen:
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         for i,j in pion.items():
             ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
+
+            
 
 #-------------------------------------------------------------
 center_case = [pyg.Rect(126, 149,0,0),
@@ -447,10 +452,10 @@ while not(end):
 
     for event in pyg.event.get():
 
-        if click and etat.etat == "partie":
-            joueur[0].position += 1
-            #pos = pyg.mouse.get_pos()
-            etat.reload_screen()
+        #if click and etat.etat == "partie":
+        #    joueur[0].position += 1
+        #    #pos = pyg.mouse.get_pos()
+        #    etat.reload_screen()
             
 
         if etat.etat == "choix_nom":
@@ -472,18 +477,6 @@ while not(end):
                             joueur[0].nom = textinp["nom"].text
                         pyg.mouse.set_cursor(textinp["nom"].cursor)
                         etat.partie()
-
-            if etat.etat == "partie":
-                if event.key == pyg.K_RETURN:
-                    try:
-                        str_pos = str(pos)
-                        str_pos = str_pos[:-1]
-                        str_pos = str_pos[1::]
-                        nb_click += 1
-                        print('enregistrer')
-                        rect_list.write(f'{nb_click} pyg.Rect({str_pos},0,0),\n')
-                    except:
-                        pass
 
         #    if event.key == pyg.K_F11:
         #        window = pyg.display.get_window_size()
