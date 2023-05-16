@@ -235,9 +235,8 @@ class etat_screen:
 
     def partie(self,dée : bool = False,joueure : list[joueur_info] = None) -> None:
         global pion
-        print(type(joueure))
         if joueure != list:
-            raise ValueError("joueur et mal appeler")
+            raise ValueError("joueur et male appeler")
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         haut = 0
