@@ -348,17 +348,21 @@ pyg.Rect(373, 133,0,0),
 pyg.Rect(350, 179,0,0),
 pyg.Rect(362, 246,0,0)]
 nb_bot = 0
+plateau_jeu = [plateau(i+1) for i in range(63)]
+tour = 0
+stuck = ["prison","puits","hotel_2","hotel"]
 nb_j = 1
-pyg.init()
+classement = []
 last_screen = 0
 bouton = {}
 pion = {}
 joueur = None
 textinp = {}
+end = False
+pyg.init()
+nb_click = 0
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
-end = False
-nb_click = 0
 rect_list = open("rect_case_list.txt",'a+')
 #--------------------------------------------------------------
 
@@ -499,12 +503,9 @@ rect_list.close()
 pyg.quit()
 quit()
 
-stuck = ["prison","puits","hotel_2","hotel"]
 joueur = [joueur_info(numero = i+1,bot=False) for i in range(3)]
-plateau_jeu = [plateau(i+1) for i in range(63)]
 fin = False
 tour = 0
-classement = []
 
 while not(fin):
     for qui in joueur:
