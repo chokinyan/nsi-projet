@@ -233,8 +233,10 @@ class etat_screen:
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         ((self.disp).scr).blit(texte,(self.center[0],0))
 
-    def partie(self,dée : bool = False,joueur : joueur_info = None) -> None:
+    def partie(self,dée : bool = False,joueur : list[joueur_info] = None) -> None:
         global pion
+        if joueur != list:
+            raise
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         haut = 0
@@ -266,9 +268,8 @@ class etat_screen:
                 dée_sound.play()
                 pyg.time.wait(300)
                 #Son\dée\test.mp3
-            if joueur != None:
-                joueur[0].new_position()
-                self.pion()
+            joueur[0].new_position()
+            self.partie(joueur=joueur)
     
     def test(self) -> None:
         self.disp.clear()
