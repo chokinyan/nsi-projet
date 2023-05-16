@@ -11,7 +11,7 @@ import add_pygame as addp
 import math as math
 import sys
 import plyer as py
-why = 1
+
 #-------------------------------------------------------------
 class joueur_info:
         def __init__(self,numero:int,bot:bool,nom :str = "") -> None:
@@ -22,8 +22,9 @@ class joueur_info:
             self.bot = bot
             self.nom = f"joueur {numero}"
             
-        def new_position(self,total:int) -> None:
+        def new_position(self) -> None:
             global tour
+            déP = rng.randint(1,6);déD = rng.randint(1,6);total = déD + déP
             if tour < len(joueur):
                 if (déP == 6 and déD == 3) or (déP == 6 and déD == 3):
                     self.id_case(26)
@@ -266,8 +267,7 @@ class etat_screen:
                 pyg.time.wait(300)
                 #Son\dée\test.mp3
                 if joueur != None:
-                    
-                    joueur.new_position()
+                    joueur[0].new_position()
     
     def test(self) -> None:
         self.disp.clear()
@@ -397,7 +397,7 @@ while not(end):
                 etat.choix_nb_joueur()
                 pyg.time.wait(200)
             elif bouton["bot3"].draw(screen = ecran.scr):
-                etat.partie()
+                etat.partie(joueur=joueur)
                 pyg.time.wait(200)
             elif bouton["B_retour"].draw(screen=ecran.scr):
                 etat.choix_bot_or_J()
@@ -407,7 +407,7 @@ while not(end):
 
             if nb_bot == 0:
                 if bouton["BJ2"].draw(screen=ecran.scr):
-                    nb_j = 1
+                    nb_j = 2
                     etat.choix_nom()
                 elif bouton["BJ3"].draw(screen=ecran.scr):
                     nb_j = 3
@@ -445,7 +445,7 @@ while not(end):
     
         case "partie":
             if bouton["Blance"].draw(screen = ecran.scr):
-                etat.partie(True)
+                etat.partie(True,joueur=joueur)
 
     if keyboard.is_pressed("Esc"):
         end = True
@@ -476,7 +476,7 @@ while not(end):
                         if textinp["nom"].text != '':
                             joueur[0].nom = textinp["nom"].text
                         pyg.mouse.set_cursor(textinp["nom"].cursor)
-                        etat.partie()
+                        etat.partie(joueur=joueur)
 
         #    if event.key == pyg.K_F11:
         #        window = pyg.display.get_window_size()
@@ -519,5 +519,4 @@ while not(fin):
             else:
                 continue
         else:
-            déP,déD = rng.randint(1,6),rng.randint(1,6)
-            qui.new_position(déP+déD)
+            qui.new_position()
