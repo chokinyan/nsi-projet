@@ -266,8 +266,9 @@ class etat_screen:
                 dée_sound.play()
                 pyg.time.wait(300)
                 #Son\dée\test.mp3
-                if joueur != None:
-                    joueur[0].new_position()
+            if joueur != None:
+                joueur[0].new_position()
+                self.pion()
     
     def test(self) -> None:
         self.disp.clear()
