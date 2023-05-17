@@ -188,7 +188,7 @@ class etat_screen:
         bouton.update(bot2 = addp.Button(fild=image_2,x=self.center[0],y=self.center[1]-(image_1.get_height()/2)))
         bouton.update(bot3 = addp.Button(fild=image_3,x=image_2.get_width()+self.center[0]+image_3.get_width()*0.5,y=self.center[1]-(image_1.get_height()/2)))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(self.center[0]/2,0))
+        ((self.disp).scr).blit(texte,(self.center[0],0))
 
     def choix_nb_joueur(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
@@ -219,7 +219,7 @@ class etat_screen:
         bouton.update(BJ4F = addp.Button(fild=image_3_F,x=image_2_F.get_width()+self.center[0]+image_3_F.get_width()*0.5,y=self.center[1]-(image_1_F.get_height()/2)))
 
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(self.center[0]/2,0))
+        ((self.disp).scr).blit(texte,(self.center[0]//2,0))
     
     def choix_nom(self) -> None:
         global joueur
@@ -235,8 +235,8 @@ class etat_screen:
 
     def partie(self,dée : bool = False,joueure : list[joueur_info] = None) -> None:
         global pion
-        if joueure != list:
-            raise ValueError("joueur et male appeler")
+        if type(joueure) != list:
+            raise ValueError("joueur et mal appeler")
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         haut = 0
@@ -258,15 +258,16 @@ class etat_screen:
 
         if dée:
         
-            for i in range(10):
+            for i in range(5):
 
                 dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
                 ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
+                self.pion()
                 pyg.display.flip()
-                dée_sound = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
-                dée_sound.play()
-                pyg.time.wait(300)
+                dée_sond = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
+                dée_sond.play()
+                #pyg.time.wait(int(dée_sond.get_length()))
                 #Son\dée\test.mp3
             joueure[0].new_position()
             self.partie(joueure=joueure)
@@ -280,8 +281,8 @@ class etat_screen:
         for i in range(len(joueur)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
-        for i,j in pion.items():
-            ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
+        for i in pion.values():
+            ((self.disp).scr).blit(i,center_case[joueur[joueur_tour].position])
 
             
 
@@ -354,6 +355,7 @@ plateau_jeu = [plateau(i+1) for i in range(63)]
 tour = 0
 stuck = ["prison","puits","hotel_2","hotel"]
 nb_j = 1
+joueur_tour = 0
 classement = []
 last_screen = 0
 bouton = {}
@@ -362,10 +364,8 @@ joueur = None
 textinp = {}
 end = False
 pyg.init()
-nb_click = 0
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
-rect_list = open("rect_case_list.txt",'a+')
 #--------------------------------------------------------------
 
 #temp code test
@@ -451,7 +451,7 @@ while not(end):
     
         case "partie":
             if bouton["Blance"].draw(screen = ecran.scr):
-                etat.partie(True,joueur=joueur)
+                etat.partie(True,joueure=joueur)
 
     if keyboard.is_pressed("Esc"):
         end = True
@@ -501,7 +501,6 @@ while not(end):
                message = "att c'est un test"
            )
 
-rect_list.close()
 pyg.quit()
 quit()
 
