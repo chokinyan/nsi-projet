@@ -233,7 +233,7 @@ class etat_screen:
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         ((self.disp).scr).blit(texte,(self.center[0],0))
 
-    def partie(self,dée : bool = False,joueure : list[joueur_info] = None) -> None:
+    def partie(self,joueure : list[joueur_info],dée : bool = False) -> None:
         global pion
         if type(joueure) != list:
             raise ValueError("joueur et mal appeler")
@@ -257,7 +257,7 @@ class etat_screen:
             haut += texte.get_height()
 
         if dée:
-            joueur_tour = joueur_tour + 1 if joueur_tour + 1 >= len(joueure) else 0
+            
         
             for i in range(5):
 
@@ -278,12 +278,13 @@ class etat_screen:
         self.etat = sys._getframe(0).f_code.co_name
         print(pyg.display.get_driver())
 
-    def pion(self) -> None:
+    def pion(self,joueure : list[joueur_info]) -> None:
         for i in range(len(joueur)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         for i in pion.values():
             ((self.disp).scr).blit(i,center_case[joueur[joueur_tour].position])
+        joueur_tour = joueur_tour + 1 if joueur_tour + 1 >= len(joueur) else 0
 
             
 
