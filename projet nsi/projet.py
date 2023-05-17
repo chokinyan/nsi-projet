@@ -257,6 +257,7 @@ class etat_screen:
             haut += texte.get_height()
 
         if dée:
+            joueur_tour = joueur_tour + 1 if joueur_tour + 1 >= len(joueure) else 0
         
             for i in range(5):
 
