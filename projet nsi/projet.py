@@ -135,6 +135,7 @@ class etat_screen:
         self.size()
         self.etat = ""
         self.image_R = pyg.image.load(r"projet nsi\image\retour\Sans titre.png")
+        self.joueur_tour = 0
         self.debut()
 
     def size(self) -> None:
@@ -233,7 +234,7 @@ class etat_screen:
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         ((self.disp).scr).blit(texte,(self.center[0],0))
 
-    def partie(self,joueure : list[joueur_info],dée : bool = False) -> None:
+    def partie(self,dée : bool = False,joueure : list[joueur_info] = None) -> None:
         global pion
         if type(joueure) != list:
             raise ValueError("joueur et mal appeler")
@@ -249,7 +250,7 @@ class etat_screen:
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
         ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
         ((self.disp).scr).blit(plateaux,self.topleft)
-        self.pion()
+        self.pion(joueure=joueure)
         for i in joueur:
             texte = f"{i.nom} , postion : {i.position}"
             texte = font.render(texte,False,(0,0,0))
@@ -257,20 +258,21 @@ class etat_screen:
             haut += texte.get_height()
 
         if dée:
-            
         
             for i in range(5):
 
                 dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
                 ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
-                self.pion()
+                self.pion(joueure=joueure)
                 pyg.display.flip()
                 dée_sond = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
                 dée_sond.play()
                 #pyg.time.wait(int(dée_sond.get_length()))
                 #Son\dée\test.mp3
-            joueure[0].new_position()
+            self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 <= len(joueure) else 0
+            print(self.joueur_tour)
+            joueure[self.joueur_tour].new_position()
             self.partie(joueure=joueure)
     
     def test(self) -> None:
@@ -279,12 +281,11 @@ class etat_screen:
         print(pyg.display.get_driver())
 
     def pion(self,joueure : list[joueur_info]) -> None:
-        for i in range(len(joueur)):
+        for i in range(len(joueure)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         for i in pion.values():
-            ((self.disp).scr).blit(i,center_case[joueur[joueur_tour].position])
-        joueur_tour = joueur_tour + 1 if joueur_tour + 1 >= len(joueur) else 0
+            ((self.disp).scr).blit(i,center_case[joueur[self.joueur_tour].position])
 
             
 
@@ -357,7 +358,6 @@ plateau_jeu = [plateau(i+1) for i in range(63)]
 tour = 0
 stuck = ["prison","puits","hotel_2","hotel"]
 nb_j = 1
-joueur_tour = 0
 classement = []
 last_screen = 0
 bouton = {}
