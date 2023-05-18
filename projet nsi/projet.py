@@ -28,27 +28,22 @@ class joueur_info:
             déP = rng.randint(1,6);déD = rng.randint(1,6);total = déD + déP
             if tour < len(joueur):
                 if (déP == 6 and déD == 3) or (déP == 6 and déD == 3):
-                    self.id_case(26)
                     self.position = 26
 
                 elif (déP == 5 and déD == 4) or (déD == 4 and déP == 5):
-                    self.id_case(53)
                     self.position = 53
 
                 else:
-                    self.id_case(self.position+total)
                     self.position += total
                     self.effet = plateau.joueur_effet(self.position)
 
             else:
 
                 if (self.position+total) < 63:
-                    self.id_case(self.position+total)
                     self.position += total
                     self.effet = plateau.joueur_effet(self.position)
                 
                 elif (self.position+total) > 63:
-                    self.id_case(63 - (self.position - (63 - total)))
                     self.position = 63 - (self.position - (63 - total))
                     self.effet = plateau.joueur_effet(self.position)
                 
@@ -57,14 +52,8 @@ class joueur_info:
                     self.effet = "Fini"
                     print(f'joueur {self.numero} a gagner')
                     quit()
-                tour += 1
-                self.effect()
-
-        def id_case(self,new_pos:int) -> None:
-            for i in joueur:
-                if i.numero != self.numero:
-                    if i.position == new_pos:
-                        i.position == self.position
+            tour += 1
+            self.effect()
 
         def effect(self) -> None:
             if self.effet in stuck:
@@ -226,7 +215,7 @@ class etat_screen:
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Entre ton nom',True,(240,0,30))
         if "nom" not in textinp:
-            joueur = [joueur_info(i,False,f"joueur {i}") for i in range(nb_bot+nb_j)]
+            joueur = [joueur_info(i,False) for i in range(nb_bot+nb_j)]
             textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x=etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),y= etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         ((self.disp).scr).blit(texte,(self.center[0],0))
