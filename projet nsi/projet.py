@@ -2,7 +2,7 @@
 #juste voila
 #le code utilise "match/case" il faut donc avoir python 3.10
 """
-les parties de code mis en commantaire sont ceux qui ne serront pas mis lors du rendu, du a un manque de temps faut dire je taffe casi seul
+les parties de code mis en commantaire sont ceux qui ne serront pas mis lors du rendu, du a un manque de temps faut dire je taffe seul
 """
 import keyboard
 import os as os
@@ -273,8 +273,6 @@ class etat_screen:
         for i,j in pion.items():
             ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
 
-            
-
 #-------------------------------------------------------------
 center_case = [pyg.Rect(126, 149,0,0),
 pyg.Rect(126, 220,0,0),
@@ -491,10 +489,6 @@ while not(end):
 
 pyg.quit()
 quit()
-
-joueur = [joueur_info(numero = i+1,bot=False) for i in range(3)]
-fin = False
-tour = 0
 
 while not(fin):
     for qui in joueur:
