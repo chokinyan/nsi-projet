@@ -1,5 +1,6 @@
 #chokinyan 
 #juste voila
+#le code utilise "match/case" il faut donc avoir python 3.10
 """
 les parties de code mis en commantaire sont ceux qui ne serront pas mis lors du rendu, du a un manque de temps faut dire je taffe casi seul
 """
@@ -29,41 +30,35 @@ class joueur_info:
                 if (déP == 6 and déD == 3) or (déP == 6 and déD == 3):
                     self.id_case(26)
                     self.position = 26
-                    tour += 1
 
                 elif (déP == 5 and déD == 4) or (déD == 4 and déP == 5):
                     self.id_case(53)
                     self.position = 53
-                    tour +=1
 
                 else:
-                    tour += 1
                     self.id_case(self.position+total)
                     self.position += total
                     self.effet = plateau.joueur_effet(self.position)
-                    self.effect()
 
             else:
 
                 if (self.position+total) < 63:
-                    tour += 1
                     self.id_case(self.position+total)
                     self.position += total
                     self.effet = plateau.joueur_effet(self.position)
-                    self.effect()
                 
                 elif (self.position+total) > 63:
-                    tour += 1
                     self.id_case(63 - (self.position - (63 - total)))
                     self.position = 63 - (self.position - (63 - total))
                     self.effet = plateau.joueur_effet(self.position)
-                    self.effect()
                 
                 elif (self.position+total) == 63:
-                    tour += 1
                     self.joue = False
                     self.effet = "Fini"
+                    print(f'joueur {self.numero} a gagner')
                     quit()
+                tour += 1
+                self.effect()
 
         def id_case(self,new_pos:int) -> None:
             for i in joueur:
@@ -412,34 +407,34 @@ while not(end):
                 pyg.time.wait(200)
     
         case "choix_nb_joueur":
-
-            if nb_bot == 0:
-                if bouton["BJ2"].draw(screen=ecran.scr):
-                    nb_j = 2
-                    etat.choix_nom()
-                elif bouton["BJ3"].draw(screen=ecran.scr):
-                    nb_j = 3
-                    etat.choix_nom()
-                elif bouton["BJ4"].draw(screen=ecran.scr):
-                    nb_j = 4
-                    etat.choix_nom()
-            elif nb_bot == 1:
-                if bouton["BJ2"].draw(screen=ecran.scr):
-                    nb_j = 2
-                    etat.choix_nom()
-                elif bouton["BJ3"].draw(screen=ecran.scr):
-                    nb_j = 3
-                    etat.choix_nom()
-                elif bouton["BJ4F"].draw(screen=ecran.scr):
-                    pass
-            elif nb_bot == 2:
-                if bouton["BJ2"].draw(screen=ecran.scr):
-                    nb_j = 2
-                    etat.choix_nom()
-                elif bouton["BJ3F"].draw(screen=ecran.scr):
-                    pass
-                elif bouton["BJ4F"].draw(screen=ecran.scr):
-                    pass
+            match nb_bot:
+                case 0:
+                    if bouton["BJ2"].draw(screen=ecran.scr):
+                        nb_j = 2
+                        etat.choix_nom()
+                    elif bouton["BJ3"].draw(screen=ecran.scr):
+                        nb_j = 3
+                        etat.choix_nom()
+                    elif bouton["BJ4"].draw(screen=ecran.scr):
+                        nb_j = 4
+                        etat.choix_nom()
+                case 1:
+                    if bouton["BJ2"].draw(screen=ecran.scr):
+                        nb_j = 2
+                        etat.choix_nom()
+                    elif bouton["BJ3"].draw(screen=ecran.scr):
+                        nb_j = 3
+                        etat.choix_nom()
+                    elif bouton["BJ4F"].draw(screen=ecran.scr):
+                        pass
+                case 2:
+                    if bouton["BJ2"].draw(screen=ecran.scr):
+                        nb_j = 2
+                        etat.choix_nom()
+                    elif bouton["BJ3F"].draw(screen=ecran.scr):
+                        pass
+                    elif bouton["BJ4F"].draw(screen=ecran.scr):
+                        pass
             
             if bouton["B_retour"].draw(screen=ecran.scr):
                 etat.choix_bot_or_J()
