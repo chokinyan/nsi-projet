@@ -268,12 +268,11 @@ class etat_screen:
                 pyg.display.flip()
                 dée_sond = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
                 dée_sond.play()
-                #pyg.time.wait(int(dée_sond.get_length()))
+                pyg.time.wait(int(dée_sond.get_length()))
                 #Son\dée\test.mp3
-            self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 <= len(joueure) else 0
-            print(self.joueur_tour)
             joueure[self.joueur_tour].new_position()
             self.partie(joueure=joueure)
+            self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 < len(joueure) else 0
     
     def test(self) -> None:
         self.disp.clear()
@@ -281,11 +280,12 @@ class etat_screen:
         print(pyg.display.get_driver())
 
     def pion(self,joueure : list[joueur_info]) -> None:
+
         for i in range(len(joueure)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
-        for i in pion.values():
-            ((self.disp).scr).blit(i,center_case[joueur[self.joueur_tour].position])
+        for i,j in pion.items():
+            ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
 
             
 
