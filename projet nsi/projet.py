@@ -15,7 +15,7 @@ import plyer as py
 
 #-------------------------------------------------------------
 class joueur_info:
-        def __init__(self,numero:int,bot:bool,nom :str = "") -> None:
+        def __init__(self,numero:int,bot:bool) -> None:
             self.numero = numero
             self.position = 0
             self.effet = ""
@@ -69,45 +69,47 @@ class joueur_info:
         def effect(self) -> None:
             if self.effet in stuck:
                 self.joue = False
-                if self.effet == "prison":
-                    for test in joueur:
-                        if test.numero == self.numero:
-                            continue
-                        else:
-                            if test.effet == "prison":
-                                test.effet,self.effet = "",""
-                                test.joue,self.joue = True,True
-                elif self.effet == "puits":
-                    for test in joueur:
-                        if test.numero == self.numero:
-                            continue
-                        else:
-                            if test.effet == "puits":
-                                test.effet = ""
-                                test.joue = True
+                match self.effet:
+                    case "prison":
+                        for test in joueur:
+                            if test.numero == self.numero:
+                                continue
+                            else:
+                                if test.effet == "prison":
+                                    test.effet,self.effet = "",""
+                                    test.joue,self.joue = True,True
+                    case "puits":
+                        for test in joueur:
+                            if test.numero == self.numero:
+                                continue
+                            else:
+                                if test.effet == "puits":
+                                    test.effet = ""
+                                    test.joue = True
             elif self.effet == "mort":
                 self.position = 0
                 self.effet = ""
 
 class plateau:
         def __init__(self,numero_case : int) -> None:
-            if numero_case == 19:
-                self.effect = "hotel_2"
+            match numero_case:
+                case 19:
+                    self.effect = "hotel_2"
 
-            elif numero_case == 31:
-                self.effect = "puits"
-            
-            elif numero_case == 42:
-                self.effect = "labyrinthe"
-            
-            elif numero_case == 52:
-                self.effect = "prison"
-            
-            elif numero_case == 58:
-                self.effect = "mort"
-            
-            else:
-                self.effect = ""
+                case 31:
+                    self.effect = "puits"
+
+                case 42:
+                    self.effect = "labyrinthe"
+
+                case 52:
+                    self.effect = "prison"
+
+                case 58:
+                    self.effect = "mort"
+
+                case default:
+                    self.effect = ""
         
         def joueur_effet(case:int) -> str:
             return (plateau_jeu[case-1].effect)
