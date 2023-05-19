@@ -57,7 +57,7 @@ class joueur_info:
 
         def effect(self) -> None:
             match self.effet :
-
+                # cases qui empeche le joueur de jouer
                 case "prison":
                     self.joue = False
                     for j in joueur:
@@ -75,6 +75,18 @@ class joueur_info:
                                     test.effet = ""
                                     test.joue = True
                 
+                case "hotel_3":
+                    self.joue = False
+                    self.effet = "hotel_2"
+
+                case "hotel_2":
+                    self.effet = "hotel"
+
+                case "hotel":
+                    self.joue = True
+
+            # cases qui deplace le joueur
+
                 case "labyrinthe":
                     self.position = 30
                     self.effet = ""
@@ -90,7 +102,7 @@ class plateau:
         def __init__(self,numero_case : int) -> None:
             match numero_case:
                 case 19:
-                    self.effect = "hotel_2"
+                    self.effect = "hotel_3"
 
                 case 31:
                     self.effect = "puits"
@@ -264,9 +276,13 @@ class etat_screen:
                 dée_sond.play()
                 pyg.time.wait(int(dée_sond.get_length()))
                 #Son\dée\test.mp3
-            joueure[self.joueur_tour].new_position()
-            self.partie(joueure=joueure)
-            self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 < len(joueure) else 0
+            if joueure[self.joueur_tour].joue: 
+                joueure[self.joueur_tour].new_position()
+                self.partie(joueure=joueure)
+                self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 < len(joueure) else 0
+            else :
+                print(f'toure de {joueure[self.joueur_tour].nom} passer')
+                joueure[self.joueur_tour].effect()
     
     def test(self) -> None:
         self.disp.clear()
