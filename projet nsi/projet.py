@@ -23,9 +23,9 @@ class joueur_info:
             self.bot = bot
             self.nom = f"joueur {numero}"
             
-        def new_position(self) -> None:
+        def new_position(self,déP : int,déD : int) -> None:
             global tour
-            déP = rng.randint(1,6);déD = rng.randint(1,6);total = déD + déP
+            total = déP + déD
             if tour < len(joueur):
                 if (déP == 6 and déD == 3) or (déP == 6 and déD == 3):
                     self.position = 26
@@ -56,28 +56,35 @@ class joueur_info:
             self.effect()
 
         def effect(self) -> None:
-            if self.effet in stuck:
-                self.joue = False
-                match self.effet:
-                    case "prison":
-                        for test in joueur:
-                            if test.numero == self.numero:
-                                continue
-                            else:
-                                if test.effet == "prison":
-                                    test.effet,self.effet = "",""
-                                    test.joue,self.joue = True,True
-                    case "puits":
-                        for test in joueur:
+            match self.effet :
+
+                case "prison":
+                    self.joue = False
+                    for j in joueur:
+                        if j.numero != self.numero and j.effet == "prison":
+                                j.effet,self.effet = "",""
+                                j.joue,self.joue = True,True
+
+                case "puits":
+                    self.joue = False
+                    for test in joueur:
                             if test.numero == self.numero:
                                 continue
                             else:
                                 if test.effet == "puits":
                                     test.effet = ""
                                     test.joue = True
-            elif self.effet == "mort":
-                self.position = 0
-                self.effet = ""
+                
+                case "labyrinthe":
+                    self.position = 30
+                    self.effet = ""
+
+                case "mort":
+                    self.position = 0
+                    self.effet = ""
+
+                case default:
+                    print(default)
 
 class plateau:
         def __init__(self,numero_case : int) -> None:
@@ -248,6 +255,7 @@ class etat_screen:
             for i in range(5):
 
                 dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
+                dée_2_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
                 ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
                 self.pion(joueure=joueure)
@@ -352,17 +360,14 @@ end = False
 pyg.init()
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
-#--------------------------------------------------------------
 
-#temp code test
-
-#--------------------------------------------------------------
-
+#------------------------------------------------------------------------------------------------------------
 while not(end):
 
     pyg.display.flip()
 
-    click = pyg.mouse.get_pressed()[0]
+    click_G = pyg.mouse.get_pressed()[0]
+    click_D = pyg.mouse.get_pressed()[1]
 
     match etat.etat:
 
@@ -444,11 +449,12 @@ while not(end):
 
     for event in pyg.event.get():
 
-        #if click and etat.etat == "partie":
-        #    joueur[0].position += 1
-        #    #pos = pyg.mouse.get_pos()
-        #    etat.reload_screen()
-            
+        if click_G and etat.etat == "partie":
+            joueur[etat.joueur_tour].position += 1
+            #pos = pyg.mouse.get_pos()
+            etat.reload_screen()
+        if click_D and etat.etat == "partie":
+            etat.joueur_tour = etat.joueur_tour + 1 if etat.joueur_tour + 1 < len(joueur) else 0
 
         if etat.etat == "choix_nom":
             textinp["nom"].draw(event=event,screen = (etat.disp).scr)
