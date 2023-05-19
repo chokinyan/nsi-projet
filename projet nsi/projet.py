@@ -96,7 +96,7 @@ class joueur_info:
                     self.effet = ""
 
                 case default:
-                    print(default)
+                    pass
 
 class plateau:
         def __init__(self,numero_case : int) -> None:
@@ -265,9 +265,11 @@ class etat_screen:
         if dée:
         
             for i in range(5):
+                
 
-                dée_1_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
-                dée_2_img = pyg.image.load(f"projet nsi\image\dée\{rng.randint(1,6)}.png")
+                dée_1,dée_2 = rng.randint(1,6),rng.randint(1,6)
+                dée_1_img = pyg.image.load(f"projet nsi\image\dée\{dée_1}.png")
+                dée_2_img = pyg.image.load(f"projet nsi\image\dée\{dée_2}.png")
                 ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
                 self.pion(joueure=joueure)
@@ -275,14 +277,13 @@ class etat_screen:
                 dée_sond = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
                 dée_sond.play()
                 pyg.time.wait(int(dée_sond.get_length()))
-                #Son\dée\test.mp3
             if joueure[self.joueur_tour].joue: 
-                joueure[self.joueur_tour].new_position()
+                joueure[self.joueur_tour].new_position(dée_1,dée_2)
                 self.partie(joueure=joueure)
-                self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 < len(joueure) else 0
             else :
-                print(f'toure de {joueure[self.joueur_tour].nom} passer')
+                print(f'tour de {joueure[self.joueur_tour].nom} passer')
                 joueure[self.joueur_tour].effect()
+            self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 < len(joueure) else 0
     
     def test(self) -> None:
         self.disp.clear()
@@ -465,12 +466,12 @@ while not(end):
 
     for event in pyg.event.get():
 
-        if click_G and etat.etat == "partie":
-            joueur[etat.joueur_tour].position += 1
-            #pos = pyg.mouse.get_pos()
-            etat.reload_screen()
-        if click_D and etat.etat == "partie":
-            etat.joueur_tour = etat.joueur_tour + 1 if etat.joueur_tour + 1 < len(joueur) else 0
+        #if click_G and etat.etat == "partie":
+        #    joueur[etat.joueur_tour].position += 1
+        #    #pos = pyg.mouse.get_pos()
+        #    etat.reload_screen()
+        #if click_D and etat.etat == "partie":
+        #    etat.joueur_tour = etat.joueur_tour + 1 if etat.joueur_tour + 1 < len(joueur) else 0
 
         if etat.etat == "choix_nom":
             textinp["nom"].draw(event=event,screen = (etat.disp).scr)
