@@ -84,6 +84,7 @@ class joueur_info:
 
                 case "hotel":
                     self.joue = True
+                    self.effet = ""
 
             # cases qui deplace le joueur
 
@@ -253,7 +254,11 @@ class etat_screen:
         plateaux = pyg.transform.scale(plateaux,(self.taille_screen[0]*0.75,self.taille_screen[1]))
         bouton.update(Blance = addp.Button(x = pyg.display.get_window_size()[0]-image_lance.get_width(),y = pyg.display.get_window_size()[1]-image_lance.get_height() ,fild = image_lance))
         dée_1_img = pyg.image.load(r"projet nsi\image\dée\1.png")
+        dée_2_img = pyg.image.load(r"projet nsi\image\dée\1.png")
+        dée_1_img = pyg.transform.scale(dée_1_img,(dée_1_img.get_width()/2,dée_1_img.get_height()/2))
+        dée_2_img = pyg.transform.scale(dée_2_img,(dée_2_img.get_width()/2,dée_2_img.get_height()/2))
         ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
+        ((self.disp).scr).blit(dée_2_img,(pyg.display.get_window_size()[0]-dée_2_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_2_img.get_height()+dée_2_img.get_height())))
         ((self.disp).scr).blit(plateaux,self.topleft)
         self.pion(joueure=joueure)
         for i in joueur:
@@ -270,7 +275,10 @@ class etat_screen:
                 dée_1,dée_2 = rng.randint(1,6),rng.randint(1,6)
                 dée_1_img = pyg.image.load(f"projet nsi\image\dée\{dée_1}.png")
                 dée_2_img = pyg.image.load(f"projet nsi\image\dée\{dée_2}.png")
+                dée_1_img = pyg.transform.scale(dée_1_img,(dée_1_img.get_width()/2,dée_1_img.get_height()/2))
+                dée_2_img = pyg.transform.scale(dée_2_img,(dée_2_img.get_width()/2,dée_2_img.get_height()/2))
                 ((self.disp).scr).blit(dée_1_img,(pyg.display.get_window_size()[0]-dée_1_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_1_img.get_height())))
+                ((self.disp).scr).blit(dée_2_img,(pyg.display.get_window_size()[0]-dée_2_img.get_width(),pyg.display.get_window_size()[1]-(image_lance.get_height()+dée_2_img.get_height()+dée_2_img.get_height())))
                 ((self.disp).scr).blit(plateaux,plateaux.get_rect(bottom = self.bottom))
                 self.pion(joueure=joueure)
                 pyg.display.flip()
