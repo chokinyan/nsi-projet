@@ -4,14 +4,19 @@
 """
 les parties de code mis en commantaire sont ceux qui ne serront pas mis lors du rendu, du a un manque de temps faut dire je taffe seul
 """
-import keyboard
 import os as os
-import random as rng
-import pygame as pyg
-import add_pygame as addp
 import math as math
+import random as rng
 import sys
-import plyer as py
+import add_pygame as addp
+try:
+    import keyboard
+    import pygame as pyg
+    import plyer as py
+except ModuleNotFoundError:
+    os.system('py -m pip install keyboard')
+    os.system('py -m pip install pygame')
+    os.system('py -m pip install plyer')
 
 #-------------------------------------------------------------
 class joueur_info:
@@ -24,7 +29,7 @@ class joueur_info:
             self.nom = f"joueur {numero}"
             
         def new_position(self,déP : int,déD : int) -> None:
-            global tour
+            global tour,classement
             total = déP + déD
             if tour < len(joueur):
                 if (déP == 6 and déD == 3) or (déP == 6 and déD == 3):
@@ -39,19 +44,22 @@ class joueur_info:
 
             else:
 
-                if (self.position+total) < 63:
+                if (self.position+total) < 62:
                     self.position += total
                     self.effet = plateau.joueur_effet(self.position)
                 
-                elif (self.position+total) > 63:
-                    self.position = 63 - (self.position - (63 - total))
+                elif (self.position+total) > 62:
+                    self.position = 62 - (self.position - (62 - total))
                     self.effet = plateau.joueur_effet(self.position)
                 
-                elif (self.position+total) == 63:
+                elif (self.position+total) == 62:
                     self.joue = False
                     self.effet = "Fini"
-                    print(f'joueur {self.numero} a gagner')
-                    quit()
+                    print(f'joueur {self.nom} a gagner')
+                    classement.append(self)
+                    if classement.__len__() == joueur.__len__():
+                        print(i.nom for i in classement)
+                        quit()
             tour += 1
             self.effect()
 
@@ -289,7 +297,8 @@ class etat_screen:
                 joueure[self.joueur_tour].new_position(dée_1,dée_2)
                 self.partie(joueure=joueure)
             else :
-                print(f'tour de {joueure[self.joueur_tour].nom} passer')
+                #print(f'tour de {joueure[self.joueur_tour].nom} passer')
+                print(joueure[self.joueur_tour].effet)
                 joueure[self.joueur_tour].effect()
             self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 < len(joueure) else 0
     
@@ -299,79 +308,81 @@ class etat_screen:
         print(pyg.display.get_driver())
 
     def pion(self,joueure : list[joueur_info]) -> None:
-
+        global pion
         for i in range(len(joueure)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         for i,j in pion.items():
-            ((self.disp).scr).blit(j,center_case[joueur[i-1].position])
+            ((self.disp).scr).blit(j,center_case[(joueur[i-1].position)])
 
 #-------------------------------------------------------------
-center_case = [pyg.Rect(126, 149,0,0),
-pyg.Rect(126, 220,0,0),
-pyg.Rect(132, 267,0,0),
-pyg.Rect(130, 314,0,0),
-pyg.Rect(132, 363,0,0),
-pyg.Rect(134, 417,0,0),
-pyg.Rect(123, 467,0,0),
-pyg.Rect(131, 513,0,0),
-pyg.Rect(171, 560,0,0),
-pyg.Rect(221, 608,0,0),
-pyg.Rect(281, 637,0,0),
-pyg.Rect(342, 653,0,0),
-pyg.Rect(413, 669,0,0),
-pyg.Rect(488, 667,0,0),
-pyg.Rect(566, 659,0,0),
-pyg.Rect(630, 642,0,0),
-pyg.Rect(687, 618,0,0),
-pyg.Rect(752, 569,0,0),
-pyg.Rect(792, 500,0,0),
-pyg.Rect(798, 448,0,0),
-pyg.Rect(795, 404,0,0),
-pyg.Rect(796, 359,0,0),
-pyg.Rect(796, 308,0,0),
-pyg.Rect(796, 260,0,0),
-pyg.Rect(796, 217,0,0),
-pyg.Rect(798, 172,0,0),
-pyg.Rect(773, 122,0,0),
-pyg.Rect(735, 81,0,0),
-pyg.Rect(678, 57,0,0),
-pyg.Rect(617, 37,0,0),
-pyg.Rect(552, 29,0,0),
-pyg.Rect(471, 31,0,0),
-pyg.Rect(403, 43,0,0),
-pyg.Rect(348, 63,0,0),
-pyg.Rect(296, 93,0,0),
-pyg.Rect(258, 135,0,0),
-pyg.Rect(239, 179,0,0),
-pyg.Rect(242, 220,0,0),
-pyg.Rect(241, 265,0,0),
-pyg.Rect(241, 312,0,0),
-pyg.Rect(244, 365,0,0),
-pyg.Rect(245, 419,0,0),
-pyg.Rect(229, 471,0,0),
-pyg.Rect(252, 512,0,0),
-pyg.Rect(310, 554,0,0),
-pyg.Rect(380, 585,0,0),
-pyg.Rect(444, 596,0,0),
-pyg.Rect(505, 593,0,0),
-pyg.Rect(566, 581,0,0),
-pyg.Rect(634, 547,0,0),
-pyg.Rect(686, 502,0,0),
-pyg.Rect(685, 434,0,0),
-pyg.Rect(687, 369,0,0),
-pyg.Rect(686, 312,0,0),
-pyg.Rect(686, 261,0,0),
-pyg.Rect(691, 216,0,0),
-pyg.Rect(689, 169,0,0),
-pyg.Rect(620, 122,0,0),
-pyg.Rect(516, 111,0,0),
-pyg.Rect(431, 110,0,0),
-pyg.Rect(373, 133,0,0),
-pyg.Rect(350, 179,0,0),
-pyg.Rect(362, 246,0,0)]
+center_case = [
+    pyg.Rect(126, 149,0,0),
+    pyg.Rect(126, 220,0,0),
+    pyg.Rect(132, 267,0,0),
+    pyg.Rect(130, 314,0,0),
+    pyg.Rect(132, 363,0,0),
+    pyg.Rect(134, 417,0,0),
+    pyg.Rect(123, 467,0,0),
+    pyg.Rect(131, 513,0,0),
+    pyg.Rect(171, 560,0,0),
+    pyg.Rect(221, 608,0,0),
+    pyg.Rect(281, 637,0,0),
+    pyg.Rect(342, 653,0,0),
+    pyg.Rect(413, 669,0,0),
+    pyg.Rect(488, 667,0,0),
+    pyg.Rect(566, 659,0,0),
+    pyg.Rect(630, 642,0,0),
+    pyg.Rect(687, 618,0,0),
+    pyg.Rect(752, 569,0,0),
+    pyg.Rect(792, 500,0,0),
+    pyg.Rect(798, 448,0,0),
+    pyg.Rect(795, 404,0,0),
+    pyg.Rect(796, 359,0,0),
+    pyg.Rect(796, 308,0,0),
+    pyg.Rect(796, 260,0,0),
+    pyg.Rect(796, 217,0,0),
+    pyg.Rect(798, 172,0,0),
+    pyg.Rect(773, 122,0,0),
+    pyg.Rect(735, 81,0,0),
+    pyg.Rect(678, 57,0,0),
+    pyg.Rect(617, 37,0,0),
+    pyg.Rect(552, 29,0,0),
+    pyg.Rect(471, 31,0,0),
+    pyg.Rect(403, 43,0,0),
+    pyg.Rect(348, 63,0,0),
+    pyg.Rect(296, 93,0,0),
+    pyg.Rect(258, 135,0,0),
+    pyg.Rect(239, 179,0,0),
+    pyg.Rect(242, 220,0,0),
+    pyg.Rect(241, 265,0,0),
+    pyg.Rect(241, 312,0,0),
+    pyg.Rect(244, 365,0,0),
+    pyg.Rect(245, 419,0,0),
+    pyg.Rect(229, 471,0,0),
+    pyg.Rect(252, 512,0,0),
+    pyg.Rect(310, 554,0,0),
+    pyg.Rect(380, 585,0,0),
+    pyg.Rect(444, 596,0,0),
+    pyg.Rect(505, 593,0,0),
+    pyg.Rect(566, 581,0,0),
+    pyg.Rect(634, 547,0,0),
+    pyg.Rect(686, 502,0,0),
+    pyg.Rect(685, 434,0,0),
+    pyg.Rect(687, 369,0,0),
+    pyg.Rect(686, 312,0,0),
+    pyg.Rect(686, 261,0,0),
+    pyg.Rect(691, 216,0,0),
+    pyg.Rect(689, 169,0,0),
+    pyg.Rect(620, 122,0,0),
+    pyg.Rect(516, 111,0,0),
+    pyg.Rect(431, 110,0,0),
+    pyg.Rect(373, 133,0,0),
+    pyg.Rect(350, 179,0,0),
+    pyg.Rect(362, 246,0,0)
+]
 nb_bot = 0
-plateau_jeu = [plateau(i+1) for i in range(63)]
+plateau_jeu = [plateau(i+1) for i in range(62)]
 tour = 0
 stuck = ["prison","puits","hotel_2","hotel"]
 nb_j = 1
