@@ -26,10 +26,13 @@ class joueur_info:
             self.effet = ""
             self.joue = True
             self.bot = bot
-            self.nom = f"joueur {numero}"
+            if bot:
+                self.nom = f"BOT {numero}"
+            else :
+                self.nom = f"joueur {numero}"
             
         def new_position(self,déP : int,déD : int) -> None:
-            global tour,classement
+            global tour,classement,joueur
             total = déP + déD
             if tour < len(joueur):
                 if (déP == 6 and déD == 3) or (déP == 6 and déD == 3):
@@ -105,7 +108,7 @@ class joueur_info:
                     self.effet = ""
 
                 case default:
-                    pass
+                    return None
 
 class plateau:
         def __init__(self,numero_case : int) -> None:
@@ -295,11 +298,9 @@ class etat_screen:
                 pyg.time.wait(int(dée_sond.get_length()))
             if joueure[self.joueur_tour].joue: 
                 joueure[self.joueur_tour].new_position(dée_1,dée_2)
-                self.partie(joueure=joueure)
             else :
-                #print(f'tour de {joueure[self.joueur_tour].nom} passer')
-                print(joueure[self.joueur_tour].effet)
                 joueure[self.joueur_tour].effect()
+            self.partie(joueure=joueure)
             self.joueur_tour = self.joueur_tour + 1 if self.joueur_tour + 1 < len(joueure) else 0
     
     def test(self) -> None:
