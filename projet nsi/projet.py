@@ -61,12 +61,12 @@ class joueur_info:
                     print(f'joueur {self.nom} a gagner')
                     classement.append(self)
                     if classement.__len__() == joueur.__len__():
-                        print(i.nom for i in classement)
-                        quit()
+                        etat.classement()
             tour += 1
             self.effect()
 
         def effect(self) -> None:
+            global classement,joueur
             match self.effet :
                 # cases qui empeche le joueur de jouer
                 case "prison":
@@ -108,7 +108,11 @@ class joueur_info:
                     self.effet = ""
 
                 case default:
-                    return None
+                    pass
+                
+            if classement.__len__() == joueur.__len__()-1 and self.effet != "Fini":
+                self.effet = ""
+                self.joue = True
 
 class plateau:
         def __init__(self,numero_case : int) -> None:
@@ -318,6 +322,18 @@ class etat_screen:
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         for i,j in pion.items():
             ((self.disp).scr).blit(j,center_case[(joueur[i-1].position)])
+
+    def classement(self) -> None:
+        global classement
+        x = [i.nom for i in classement]
+        print(x)
+        haut = 0
+        font = pyg.font.SysFont(name = 'None',size = 50)
+        for i in classement:
+            text = i.nom
+            text = font.render(text,False,(0,0,0))
+            ((self.disp).scr).blit(text,(pyg.display.get_window_size()[0]-text.get_width(),0+haut))
+            haut += text.get_height()
 
 #-------------------------------------------------------------
 center_case = [
