@@ -242,7 +242,7 @@ class etat_screen:
         ((self.disp).scr).blit(texte,(self.center[0]//2,0))
     
     def choix_nom(self) -> None:
-        global joueur
+        global joueur,textinp
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
@@ -257,7 +257,7 @@ class etat_screen:
         ((self.disp).scr).blit(texte,(self.center[0]/2,0))
 
     def partie(self,dée : bool = False,joueure : list[joueur_info] = None) -> None:
-        global pion
+        global pion,textinp
         if type(joueure) != list:
             raise ValueError("joueur et mal appeler")
         self.etat = sys._getframe(0).f_code.co_name
@@ -329,7 +329,7 @@ class etat_screen:
         font = pyg.font.SysFont(name = 'None',size = 30)
         for i in x:
             text = font.render(i,False,(0,0,0))
-            ((self.disp).scr).blit(text,(pyg.display.get_window_size()[0]-text.get_width(),haut))
+            ((self.disp).scr).blit(text,(self.center[0]-text.get_width(),haut))
             haut += text.get_height()
 
 #-------------------------------------------------------------
