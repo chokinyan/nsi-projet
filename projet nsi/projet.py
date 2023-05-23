@@ -60,8 +60,6 @@ class joueur_info:
                     self.effet = "Fini"
                     print(f'joueur {self.nom} a gagner')
                     classement.append(self)
-                    if classement.__len__() == joueur.__len__():
-                        etat.classement()
             tour += 1
             self.effect()
 
@@ -282,7 +280,7 @@ class etat_screen:
         for i in joueur:
             texte = f"{i.nom} , postion : {i.position}"
             texte = font.render(texte,False,(0,0,0))
-            ((self.disp).scr).blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),0+haut))
+            ((self.disp).scr).blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),haut))
             haut += texte.get_height()
 
         if dée:
@@ -325,14 +323,13 @@ class etat_screen:
 
     def classement(self) -> None:
         global classement
+        ((self.disp).clear((150,210,255,0)))
         x = [i.nom for i in classement]
-        print(x)
         haut = 0
-        font = pyg.font.SysFont(name = 'None',size = 50)
-        for i in classement:
-            text = i.nom
-            text = font.render(text,False,(0,0,0))
-            ((self.disp).scr).blit(text,(pyg.display.get_window_size()[0]-text.get_width(),0+haut))
+        font = pyg.font.SysFont(name = 'None',size = 30)
+        for i in x:
+            text = font.render(i,False,(0,0,0))
+            ((self.disp).scr).blit(text,(pyg.display.get_window_size()[0]-text.get_width(),haut))
             haut += text.get_height()
 
 #-------------------------------------------------------------
@@ -421,6 +418,9 @@ etat = etat_screen(disp=ecran)
 while not(end):
 
     pyg.display.flip()
+
+    if classement.__len__() == joueur.__len__() and classement.__len__() != 0:
+        etat.classement()
 
     click_G = pyg.mouse.get_pressed()[0]
     click_D = pyg.mouse.get_pressed()[1]
@@ -546,7 +546,8 @@ while not(end):
         elif event.type == pyg.WINDOWFOCUSLOST:
             py.notification.notify(
                title = "TEST",
-               message = "att c'est un test"
+               message = "att c'est un test",
+               app_name = "jeu de l'oie"
            )
 
 pyg.quit()
