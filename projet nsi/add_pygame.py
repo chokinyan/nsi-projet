@@ -172,3 +172,13 @@ class TextInput:
         self.info["h"] = pygame.display.get_window_size()[1] if self.info["h"] > pygame.display.get_window_size()[1] else self.info["h"]
         self.pos = pygame.Rect(self.info["x"],self.info["y"],self.info["w"],self.info["h"])
         self.txt_pos = pygame.Rect(10,10,self.pos.width,self.pos.h)
+
+class text:
+    def __init__(self,texte : str,display : pygame.display,size : int,police : str,coo : tuple | pygame.Rect,color : pygame.Color,antialias : bool = False,bold : bool = False,italic : bool = False,background : pygame.Color = None) -> None:
+        self.font = pygame.font.SysFont(name=police,size=size,bold=bold,italic=italic)
+        self.txt = self.font.render(texte,antialias,color,background)
+        self.display = display
+        self.coo = coo
+    
+    def draw(self) -> None:
+        self.display.blit(self.txt,self.coo)

@@ -281,10 +281,25 @@ class etat_screen:
         ((self.disp).scr).blit(plateaux,self.topleft)
         self.pion(joueure=joueure)
         for i in joueur:
+            #orange : 255,165,0
+            #noir : 0,0,0
+            #rouge : 255,0,0
+            #violet : 244,12,244
             texte = f"{i.nom} , postion : {i.position}"
-            texte = font.render(texte,False,(0,0,0))
-            ((self.disp).scr).blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),haut))
-            haut += texte.get_height()
+            match i.numero:
+                case 1:
+                    #texte = font.render(texte,False,(244,12,244))
+                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(244,12,244)).font.get_height()
+                case 2:
+                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(255,0,0)).font.get_height()
+                case 4:
+                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(255,165,0)).font.get_height()
+                case default:
+                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(0,0,0)).font.get_height()
+                    #texte = font.render(texte,False,(0,0,0))
+            #if i.numero != 1:
+            #    ((self.disp).scr).blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),haut))
+            #    haut += texte.get_height()
 
         if dée:
         
@@ -326,12 +341,11 @@ class etat_screen:
 
     def classement(self) -> None:
         global classement
+        self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
-        x = [i.nom for i in classement]
-        haut = 0
         font = pyg.font.SysFont(name = 'None',size = 30)
-        for i in x:
-            text = font.render(i,False,(0,0,0))
+        for i in classement:
+            text = font.render(i.nom,False,(0,0,0))
             ((self.disp).scr).blit(text,(self.center[0]-text.get_width(),haut))
             haut += text.get_height()
 
@@ -507,7 +521,7 @@ while not(end):
                 etat.classement()
 
     if keyboard.is_pressed("Esc"):
-        end = True
+        quit()
 
     for event in pyg.event.get():
 
