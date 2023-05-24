@@ -213,8 +213,6 @@ class etat_screen:
     def choix_nb_joueur(self) -> None:
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
-        font = pyg.font.SysFont('arial',50,italic=False,bold=True)
-        texte = font.render('Combien etes-vous ?',True,(240,0,30))
         image_1 = pyg.image.load(r"projet nsi\image\nb joueur\2V.jpg")
         image_1_F = pyg.image.load(r"projet nsi\image\nb joueur\2X.jpg")
         image_2 = pyg.image.load(r"projet nsi\image\nb joueur\3V.jpg")
@@ -239,7 +237,7 @@ class etat_screen:
         bouton.update(BJ4F = addp.Button(fild=image_3_F,x=image_2_F.get_width()+self.center[0]+image_3_F.get_width()*0.5,y=self.center[1]-(image_1_F.get_height()/2)))
 
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(self.center[0]//2,0))
+        addp.text(texte='Combien etes-vous ?',antialias=True,color=(240,0,30),size = 50,police='arial',bold=True).draw((self.center[0]//2,0))
     
     def choix_nom(self) -> None:
         global joueur,textinp
