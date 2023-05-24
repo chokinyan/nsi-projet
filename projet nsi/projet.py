@@ -179,7 +179,7 @@ class etat_screen:
         pyg.display.flip()
 
     def choix_bot_or_J(self) -> None:
-        self.etat = "choix_bot_or_J"
+        self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         font = pyg.font.SysFont('arial',50,italic=False,bold=True)
         texte = font.render('Veux tu jouer avec des bots ?',True,(0,0,0))
@@ -245,8 +245,6 @@ class etat_screen:
         global joueur,textinp
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
-        font = pyg.font.SysFont('arial',50,italic=False,bold=True)
-        texte = font.render('Entre ton nom',True,(240,0,30))
         if "nom" not in textinp:
             for i in range(nb_j):
                 joueur.append(joueur_info(i+1,False))
@@ -254,7 +252,7 @@ class etat_screen:
                 joueur.append(joueur_info(nb_j+1+i,True))
             textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x=etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),y= etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        ((self.disp).scr).blit(texte,(self.center[0]/2,0))
+        addp.text(texte='Entre ton nom',display=self.disp.scr,size=50,bold=True,color=(240,0,30),police="arial",antialias=True).draw((self.center[0]/2,0))
 
     def partie(self,dée : bool = False,joueure : list[joueur_info] = None) -> None:
         global pion,textinp
@@ -264,7 +262,6 @@ class etat_screen:
         ((self.disp).clear((150,210,255,0)))
         haut = 0
         img_mod = pyg.image.load(r"projet nsi\image\vide\modo.png")
-        font = pyg.font.SysFont(name = 'None',size = 30)
         image_lance = pyg.image.load(r"projet nsi\image\dée\lance.png")
         image_lance = pyg.transform.scale(image_lance,(pyg.display.get_window_size()[0]/3,pyg.display.get_window_size()[1]/7))
         plateaux = pyg.image.load(r"projet nsi\image\image sans droit et utilisable\plateau\plateau.png")
@@ -289,17 +286,16 @@ class etat_screen:
             match i.numero:
                 case 1:
                     #texte = font.render(texte,False,(244,12,244))
-                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(244,12,244)).font.get_height()
+                    txt = addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",color=(244,12,244))
                 case 2:
-                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(255,0,0)).font.get_height()
+                    txt = addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",color=(255,0,0))
                 case 4:
-                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(255,165,0)).font.get_height()
+                    txt = addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",color=(255,165,0))
                 case default:
-                    haut += addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",coo=(pyg.display.get_window_size()[0]-texte.get_width()),color=(0,0,0)).font.get_height()
-                    #texte = font.render(texte,False,(0,0,0))
-            #if i.numero != 1:
-            #    ((self.disp).scr).blit(texte,(pyg.display.get_window_size()[0]-texte.get_width(),haut))
-            #    haut += texte.get_height()
+                    txt = addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",color=(0,0,0))
+                
+            txt.draw(coo = (pyg.display.get_window_size()[0]-txt.txt.get_width()))
+            haut += txt.font.get_height()
 
         if dée:
         
