@@ -167,7 +167,6 @@ class etat_screen:
     def debut(self)-> None:
         self.etat = sys._getframe(0).f_code.co_name
         self.disp.clear()
-        pyg.display.flip()
         test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
         image_size_fond = (self.taille_screen[0],self.taille_screen[1])
         test_fond = pyg.transform.scale(test_fond,image_size_fond)
@@ -336,7 +335,7 @@ class etat_screen:
     def classement(self) -> None:
         global classement
         #gold : (255,215,0)
-        #argent : (192,192,192)
+        #argent : (166,166,166)
         #bronze : (165,42,42)
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
@@ -346,11 +345,13 @@ class etat_screen:
                 case 0:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(255,215,0))
                 case 1:
-                    txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(192,192,192))
+                    txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(166,166,166))
                 case 2:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(165,42,42))
                 case default:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200)
+            self.image_R = pyg.transform.scale(self.image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
+            bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
             txt.draw(self.center[0]-txt.txt.get_width()/2,haut)
             haut += txt.txt.get_height()
 
@@ -440,7 +441,7 @@ while not(end):
 
     pyg.display.flip()
 
-    if classement.__len__() == joueur.__len__() and classement.__len__() != 0:
+    if classement.__len__() == joueur.__len__() and classement.__len__() != 0 and etat.etat != "classement":
         etat.classement()
 
     click_G = pyg.mouse.get_pressed()[0]
@@ -524,6 +525,10 @@ while not(end):
                 classement = joueur.copy()
                 etat.classement()
 
+        case "classement":
+            if bouton["B_retour"].draw(screen = ecran.scr):
+                etat.debut()
+
     if keyboard.is_pressed("Esc"):
         pyg.quit()
         quit()
@@ -581,18 +586,3 @@ while not(end):
 
 pyg.quit()
 quit()
-
-while not(fin):
-    for qui in joueur:
-        if qui.joue == False:
-            if qui.effet == "hotel_2":
-                qui.effet = "hotel"
-                continue
-            elif qui.effet == "hotel":
-                qui.effet = ""
-                qui.joue = True
-                continue
-            else:
-                continue
-        else:
-            qui.new_position()
