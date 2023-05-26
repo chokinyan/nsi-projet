@@ -237,7 +237,7 @@ class etat_screen:
         bouton.update(BJ4F = addp.Button(fild=image_3_F,x=image_2_F.get_width()+self.center[0]+image_3_F.get_width()*0.5,y=self.center[1]-(image_1_F.get_height()/2)))
 
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        addp.text(texte='Combien etes-vous ?',antialias=True,color=(240,0,30),size = 50,police='arial',bold=True).draw((self.center[0]//2,0))
+        addp.text(texte='Combien etes-vous ?',display = self.disp.scr,antialias=True,color=(240,0,30),size = 50,police='arial',bold=True).draw(self.center[0]//2,0)
     
     def choix_nom(self) -> None:
         global joueur,textinp
@@ -250,7 +250,7 @@ class etat_screen:
                 joueur.append(joueur_info(nb_j+1+i,True))
             textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x=etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),y= etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
-        addp.text(texte='Entre ton nom',display=self.disp.scr,size=50,bold=True,color=(240,0,30),police="arial",antialias=True).draw((self.center[0]/2,0))
+        addp.text(texte='Entre ton nom',display=self.disp.scr,size=50,bold=True,color=(240,0,30),police="arial",antialias=True).draw(self.center[0]/2,0)
 
     def partie(self,dée : bool = False,joueure : list[joueur_info] = None) -> None:
         global pion,textinp
@@ -292,7 +292,7 @@ class etat_screen:
                 case default:
                     txt = addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",color=(0,0,0))
                 
-            txt.draw(coo = (pyg.display.get_window_size()[0]-txt.txt.get_width()))
+            txt.draw(pyg.display.get_window_size()[0]-txt.txt.get_width(),haut)
             haut += txt.font.get_height()
 
         if dée:
@@ -337,11 +337,14 @@ class etat_screen:
         global classement
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
-        font = pyg.font.SysFont(name = 'None',size = 30)
+        haut = 0
+        #font = pyg.font.SysFont(name = 'None',size = 30)
         for i in classement:
-            text = font.render(i.nom,False,(0,0,0))
-            ((self.disp).scr).blit(text,(self.center[0]-text.get_width(),haut))
-            haut += text.get_height()
+            #text = font.render(i.nom,False,(0,0,0))
+            txt = addp.text(texte=i.nom,display=self.disp.scr,size=50)
+            txt.draw(self.center[0]-txt.txt.get_width(),haut)
+            #((self.disp).scr).blit(text,(self.center[0]-text.get_width(),haut))
+            haut += txt.txt.get_height()
 
 #-------------------------------------------------------------
 center_case = [
@@ -531,6 +534,7 @@ while not(end):
 
         if event.type == pyg.QUIT:
             end = True
+            quit()
         
         #elif event.type == pyg.WINDOWRESIZED:
         #    etat.reload_screen()
