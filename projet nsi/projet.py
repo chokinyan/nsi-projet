@@ -1,5 +1,5 @@
 #chokinyan 
-#juste voila
+#https://github.com/chokinyan/nsi-projet/tree/main/projet%20nsi
 #le code utilise "match/case" il faut donc avoir python 3.10
 """
 les parties de code mis en commantaire sont ceux qui ne serront pas mis lors du rendu, du a un manque de temps faut dire je taffe seul
@@ -327,23 +327,31 @@ class etat_screen:
 
     def pion(self,joueure : list[joueur_info]) -> None:
         global pion
-        for i in range(len(joueure)):
+        for i in range(len(joueure)-1):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         for i,j in pion.items():
             ((self.disp).scr).blit(j,center_case[(joueur[i-1].position)])
 
-    def classement(self ) -> None:
-        global classement,test_size
+    def classement(self) -> None:
+        global classement
+        #gold : (255,215,0)
+        #argent : (192,192,192)
+        #bronze : (165,42,42)
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         haut = 0
-        #font = pyg.font.SysFont(name = 'None',size = 30)
         for i in classement:
-            #text = font.render(i.nom,False,(0,0,0))
-            txt = addp.text(texte=i.nom,display=self.disp.scr,size=200)
+            match classement.index(i):
+                case 0:
+                    txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(255,215,0))
+                case 1:
+                    txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(192,192,192))
+                case 2:
+                    txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(165,42,42))
+                case default:
+                    txt = addp.text(texte=i.nom,display=self.disp.scr,size=200)
             txt.draw(self.center[0]-txt.txt.get_width()/2,haut)
-            #((self.disp).scr).blit(text,(self.center[0]-text.get_width(),haut))
             haut += txt.txt.get_height()
 
 #-------------------------------------------------------------
