@@ -333,15 +333,15 @@ class etat_screen:
         for i,j in pion.items():
             ((self.disp).scr).blit(j,center_case[(joueur[i-1].position)])
 
-    def classement(self) -> None:
-        global classement
+    def classement(self ) -> None:
+        global classement,test_size
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         haut = 0
         #font = pyg.font.SysFont(name = 'None',size = 30)
         for i in classement:
             #text = font.render(i.nom,False,(0,0,0))
-            txt = addp.text(texte=i.nom,display=self.disp.scr,size=50)
+            txt = addp.text(texte=i.nom,display=self.disp.scr,size=test_size)
             txt.draw(self.center[0]-txt.txt.get_width(),haut)
             #((self.disp).scr).blit(text,(self.center[0]-text.get_width(),haut))
             haut += txt.txt.get_height()
@@ -427,7 +427,7 @@ end = False
 pyg.init()
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
-
+test_size = 50
 #------------------------------------------------------------------------------------------------------------
 while not(end):
 
@@ -518,7 +518,13 @@ while not(end):
                 etat.classement()
 
     if keyboard.is_pressed("Esc"):
+        pyg.quit()
         quit()
+
+    if keyboard.is_pressed():
+        test_size += 1
+        print(test_size)
+        etat.reload_screen()
 
     for event in pyg.event.get():
 
