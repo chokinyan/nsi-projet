@@ -12,13 +12,22 @@ import add_pygame as addp
 try:
     import keyboard
     import pygame as pyg
-    import plyer as py
+    #import plyer as py
 except ModuleNotFoundError:
     os.system('py -m pip install keyboard')
-    os.system('py -m pip install pygame')
-    os.system('py -m pip install plyer')
+    os.system('py -m pip install pygame --pre')
+    #os.system('py -m pip install plyer')
 
 #-------------------------------------------------------------
+
+def reset_val():
+    global tour,nb_bot,nb_j,classement,joueur
+    tour = 0
+    nb_bot = 0
+    nb_j = 1
+    classement = []
+    joueur = []
+
 class joueur_info:
         def __init__(self,numero:int,bot:bool) -> None:
             self.numero = numero
@@ -56,8 +65,9 @@ class joueur_info:
                     self.effet = plateau.joueur_effet(self.position)
                 
                 elif (self.position+total) == 62:
-                    self.joue = False
+                    self.position = 62
                     self.effet = "Fini"
+                    self.joue = False
                     print(f'joueur {self.nom} a gagner')
                     classement.append(self)
             tour += 1
@@ -165,6 +175,7 @@ class etat_screen:
         getattr(self,self.etat)()
 
     def debut(self)-> None:
+        reset_val()
         self.etat = sys._getframe(0).f_code.co_name
         self.disp.clear()
         test_fond = pyg.image.load(r"projet nsi\image\fond\mare_naturelle.jpg")
@@ -282,7 +293,6 @@ class etat_screen:
             texte = f"{i.nom} , postion : {i.position}"
             match i.numero:
                 case 1:
-                    #texte = font.render(texte,False,(244,12,244))
                     txt = addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",color=(244,12,244))
                 case 2:
                     txt = addp.text(texte=texte,display=(self.disp).scr,size=30,police="None",color=(255,0,0))
@@ -326,7 +336,7 @@ class etat_screen:
 
     def pion(self,joueure : list[joueur_info]) -> None:
         global pion
-        for i in range(len(joueure)-1):
+        for i in range(len(joueure)):
             pion.__setitem__(i+1,pyg.image.load(f"projet nsi\image\pion\pion{i+1}.png"))
             pion[i+1] = pyg.transform.scale(pion[i+1],(pion[i+1].get_width()*0.5,pion[i+1].get_height()*0.5))
         for i,j in pion.items():
@@ -344,15 +354,22 @@ class etat_screen:
             match classement.index(i):
                 case 0:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(255,215,0))
+                    image_M = pyg.image.load(r"projet nsi\image\médaille\1.png")
                 case 1:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(166,166,166))
+                    image_M = pyg.image.load(r"projet nsi\image\médaille\2.png")
                 case 2:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200,color=(165,42,42))
+                    image_M = pyg.image.load(r"projet nsi\image\médaille\3.png")
                 case default:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200)
+                    image_M = None
             self.image_R = pyg.transform.scale(self.image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
             bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
             txt.draw(self.center[0]-txt.txt.get_width()/2,haut)
+            if type(image_M) == pyg.Surface:
+                image_M = pyg.transform.scale(image_M,(image_M.get_width()/2,image_M.get_height()/2))
+                ((self.disp).scr).blit(image_M,(txt.txt.get_width()+(self.center[0]-txt.txt.get_width()/2),txt.txt.get_height()/6+haut))
             haut += txt.txt.get_height()
 
 #-------------------------------------------------------------
@@ -421,10 +438,10 @@ center_case = [
     pyg.Rect(350, 179,0,0),
     pyg.Rect(362, 246,0,0)
 ]
-nb_bot = 0
 plateau_jeu = [plateau(i+1) for i in range(62)]
 tour = 0
 stuck = ["prison","puits","hotel_2","hotel"]
+nb_bot = 0
 nb_j = 1
 classement = []
 last_screen = 0
@@ -577,12 +594,12 @@ while not(end):
         #            ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
         #            etat.reload_screen()
                 
-        elif event.type == pyg.WINDOWFOCUSLOST:
-            py.notification.notify(
-               title = "TEST",
-               message = "att c'est un test",
-               app_name = "jeu de l'oie"
-           )
+        #elif event.type == pyg.WINDOWFOCUSLOST:
+        #    py.notification.notify(
+        #       title = "TEST",
+        #       message = "att c'est un test",
+        #       app_name = "jeu de l'oie"
+        #   )
 
 pyg.quit()
 quit()
