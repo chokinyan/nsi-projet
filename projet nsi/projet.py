@@ -499,7 +499,8 @@ while not(end):
                 etat.choix_nb_joueur()
                 pyg.time.wait(200)
             elif bouton["bot3"].draw(screen = ecran.scr):
-                etat.partie(joueur=joueur)
+                nb_bot = 3
+                etat.choix_nom()
                 pyg.time.wait(200)
             elif bouton["B_retour"].draw(screen=ecran.scr):
                 etat.choix_bot_or_J()
@@ -556,7 +557,10 @@ while not(end):
             if bouton["B_retour"].draw(screen = ecran.scr):
                 etat.debut()
             if bouton["B_replay"].draw(screen = ecran.scr):
-                print("rejoue")
+                reset_val("game")
+                for i in joueur:
+                    i.position,i.effet,i.joue = 0,"",True
+                etat.partie(joueure=joueur)
 
     if keyboard.is_pressed("Esc"):
         pyg.quit()
