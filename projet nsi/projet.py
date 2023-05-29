@@ -20,13 +20,21 @@ except ModuleNotFoundError:
 
 #-------------------------------------------------------------
 
-def reset_val():
-    global tour,nb_bot,nb_j,classement,joueur
-    tour = 0
-    nb_bot = 0
-    nb_j = 1
-    classement = []
-    joueur = []
+def reset_val(val : str = "full"):
+    global tour,nb_bot,nb_j,classement,joueur,pion,textinp
+    match val:
+        case "full":
+            textinp.clear()
+            pion.clear()
+            tour = 0
+            nb_bot = 0
+            nb_j = 1
+            classement.clear()
+            joueur.clear()
+        case "game":
+            tour = 0
+            classement.clear()
+            pion.clear()
 
 class joueur_info:
         def __init__(self,numero:int,bot:bool) -> None:
@@ -256,8 +264,8 @@ class etat_screen:
         if "nom" not in textinp:
             for i in range(nb_j):
                 joueur.append(joueur_info(i+1,False))
-            for i in range(nb_bot):
-                joueur.append(joueur_info(nb_j+1+i,True))
+            for j in range(nb_bot):
+                joueur.append(joueur_info(nb_j+1+j,True))
             textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x=etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),y= etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         addp.text(texte='Entre ton nom',display=self.disp.scr,size=50,bold=True,color=(240,0,30),police="arial",antialias=True).draw(self.center[0]/2,0)
@@ -364,13 +372,15 @@ class etat_screen:
                 case default:
                     txt = addp.text(texte=i.nom,display=self.disp.scr,size=200)
                     image_M = None
-            self.image_R = pyg.transform.scale(self.image_R,(pyg.display.get_window_size()[0]/2,pyg.display.get_window_size()[1]/10))
-            bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
             txt.draw(self.center[0]-txt.txt.get_width()/2,haut)
             if type(image_M) == pyg.Surface:
                 image_M = pyg.transform.scale(image_M,(image_M.get_width()/2,image_M.get_height()/2))
                 ((self.disp).scr).blit(image_M,(txt.txt.get_width()+(self.center[0]-txt.txt.get_width()/2),txt.txt.get_height()/6+haut))
             haut += txt.txt.get_height()
+        image_replay = pyg.image.load(r'projet nsi\image\rejouer\rejouer.png')
+        self.image_R = pyg.transform.scale(self.image_R,image_replay.get_size())
+        bouton.update(B_retour = addp.Button(fild=self.image_R,y=image_replay.get_height()))
+        bouton.update(B_replay = addp.Button(fild=image_replay,y=0))
 
 #-------------------------------------------------------------
 center_case = [
@@ -545,6 +555,8 @@ while not(end):
         case "classement":
             if bouton["B_retour"].draw(screen = ecran.scr):
                 etat.debut()
+            if bouton["B_replay"].draw(screen = ecran.scr):
+                print("rejoue")
 
     if keyboard.is_pressed("Esc"):
         pyg.quit()
