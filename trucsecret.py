@@ -12,11 +12,11 @@ import keyboard
 
 def main():
     pygame.init()
-    ecran = pygame.display.set_mode((1280,720))
+    ecran = pygame.display.set_mode((1720,780))
     pygame.display.set_caption("Bataille navale")
     end = False
-    plateau_joueur = [[-1 for i in range(10)] for i in range(10)]
-    plateau_bot = [[-1 for i in range(10)] for i in range(10)]
+    plateau_joueur = [[0 for i in range(10)] for i in range(10)]
+    plateau_bot = [[0 for i in range(10)] for i in range(10)]
     plateau_rect = [[] for i in range(10)]
     for j in range(10):
         for i in range(10):
@@ -25,6 +25,10 @@ def main():
             pygame.draw.rect(ecran,(255,255,255),rect)
     pygame.display.flip()
     while not(end):
+        for collone in plateau_rect:
+            for case in collone:
+                if case.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+                    print("ok")
         if keyboard.is_pressed("Esc"):
             pygame.quit()
             quit()
