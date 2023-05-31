@@ -1,9 +1,4 @@
-#chokinyan 
-#https://github.com/chokinyan/nsi-projet/tree/main/projet%20nsi
 #le code utilise "match/case" il faut donc avoir python 3.10
-"""
-les parties de code mis en commantaire sont ceux qui ne serront pas mis lors du rendu, du a un manque de temps faut dire je taffe seul
-"""
 import os as os
 import math as math
 import random as rng
@@ -12,11 +7,9 @@ import add_pygame as addp
 try:
     import keyboard
     import pygame as pyg
-    #import plyer as py
 except ModuleNotFoundError:
     os.system('py -m pip install keyboard')
     os.system('py -m pip install pygame --pre')
-    #os.system('py -m pip install plyer')
 
 #-------------------------------------------------------------
 
@@ -571,24 +564,12 @@ while not(end):
 
     for event in pyg.event.get():
 
-        #if click_G and etat.etat == "partie":
-        #    joueur[etat.joueur_tour].position += 1
-        #    #pos = pyg.mouse.get_pos()
-        #    etat.reload_screen()
-        #if click_D and etat.etat == "partie":
-        #    etat.joueur_tour = etat.joueur_tour + 1 if etat.joueur_tour + 1 < len(joueur) else 0
-
         if etat.etat == "choix_nom":
             textinp["nom"].draw(event=event,screen = (etat.disp).scr)
 
         if event.type == pyg.QUIT:
             end = True
             quit()
-        
-        #elif event.type == pyg.WINDOWRESIZED:
-        #    etat.reload_screen()
-        #    if etat.etat == "choix_nom":
-        #        textinp["nom"].update_size({"x" : etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),"y" :  etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),"h" : etat.taille_screen[1]/3,"w" : etat.taille_screen[0]/3})
 
         elif event.type == pyg.KEYDOWN:
 
@@ -599,23 +580,7 @@ while not(end):
                         pyg.mouse.set_cursor(textinp["nom"].cursor)
                         etat.partie(joueure=joueur)
 
-        #    if event.key == pyg.K_F11:
-        #        window = pyg.display.get_window_size()
-        #        ecran_taille = pyg.display.get_desktop_sizes()
-        #        if window == ecran_taille[0]:
-        #            ecran.scr = pyg.display.set_mode(last_screen,pyg.RESIZABLE)
-        #            etat.reload_screen()
-        #        else:
-        #            last_screen = pyg.display.get_window_size()
-        #            ecran.scr = pyg.display.set_mode((0,0),pyg.FULLSCREEN)
-        #            etat.reload_screen()
-                
-        #elif event.type == pyg.WINDOWFOCUSLOST:
-        #    py.notification.notify(
-        #       title = "TEST",
-        #       message = "att c'est un test",
-        #       app_name = "jeu de l'oie"
-        #   )
-
 pyg.quit()
 quit()
+#write by chokinyan
+#https://github.com/chokinyan/nsi-projet/tree/main/projet%20nsi
