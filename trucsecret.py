@@ -15,20 +15,21 @@ def main():
     ecran = pygame.display.set_mode((1720,780))
     pygame.display.set_caption("Bataille navale")
     end = False
+    plateau_rect = phase_jeu(1,ecran)
     plateau_joueur = [[0 for i in range(10)] for i in range(10)]
     plateau_bot = [[0 for i in range(10)] for i in range(10)]
-    plateau_rect = [[] for i in range(10)]
-    for j in range(10):
-        for i in range(10):
-            rect = pygame.Rect(i*ecran.get_width()/10+1,j*ecran.get_height()/10+1,ecran.get_width()/10-5,ecran.get_height()/10-5)
-            plateau_rect[j].append(rect)
-            pygame.draw.rect(ecran,(255,255,255),rect)
+    tour = 0
+    piece_placer = 0
+    croix_pas_toucher = None
+    croix_toucher = None
+    pygame.draw.
     pygame.display.flip()
     while not(end):
         for collone in plateau_rect:
             for case in collone:
                 if case.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
                     print("ok")
+                    pygame.time.wait(110)
         if keyboard.is_pressed("Esc"):
             pygame.quit()
             quit()
@@ -38,6 +39,23 @@ def main():
 
     pygame.quit()
     quit()
+
+def phase_jeu(phase,ecran):
+    if phase == 1:
+        plateau_rect = [[] for i in range(10)]
+        for j in range(10):
+            for i in range(10):
+                rect = pygame.Rect(i*80,j*80,75,75)
+                plateau_rect[j].append(rect)
+                pygame.draw.rect(ecran,(255,255,255),rect)
+        return plateau_rect
+    elif phase == 2:
+        pass
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
