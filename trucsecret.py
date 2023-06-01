@@ -15,7 +15,6 @@ def genere_plateau():
     for j in range(10):
         for i in range(10):
             if plateau_rect[j][i]["rect"] == None:
-                print("non")
                 rect = pygame.Rect(i*77,j*77,73,73)
                 plateau_rect[j][i]["rect"] = rect
                 pygame.draw.rect(ecran,(255,255,255),rect)
@@ -27,11 +26,11 @@ def genere_plateau():
                 else :
                     pygame.draw.rect(ecran,(255,255,255),rect)
                 if plateau_rect[j][i]["Croix"] and plateau_rect[j][i]["toucher"]:
-                    pygame.draw.line(ecran,(0,0,0),(case["rect"].x,case["rect"].y),(case["rect"].x + case["rect"].width,case.y + case["rect"].height),width=3)
-                    pygame.draw.line(ecran,(0,0,0),(case["rect"].x,case["rect"].y + case["rect"].height),(case["rect"].x + case["rect"].width,case["rect"].y),width=3)
-                elif plateau_rect[j][i]["Croix"] and not(plateau_rect[j][i]["toucher"]):
-                    pygame.draw.line(ecran,(255,0,0),(case["rect"].x,case["rect"].y),(case["rect"].x + case["rect"].width,case["rect"].y + case["rect"].height),width=3)
-                    pygame.draw.line(ecran,(255,0,0),(case["rect"].x,case["rect"].y + case["rect"].height),(case["rect"].x + case["rect"].width,case["rect"].y),width=3)
+                    pygame.draw.line(ecran,(255,0,0),(plateau_rect[j][i]["rect"].x,plateau_rect[j][i]["rect"].y),(plateau_rect[j][i]["rect"].x + plateau_rect[j][i]["rect"].width,plateau_rect[j][i]["rect"].y + plateau_rect[j][i]["rect"].height),width=3)
+                    pygame.draw.line(ecran,(255,0,0),(plateau_rect[j][i]["rect"].x,plateau_rect[j][i]["rect"].y + plateau_rect[j][i]["rect"].height),(plateau_rect[j][i]["rect"].x + plateau_rect[j][i]["rect"].width,plateau_rect[j][i]["rect"].y),width=3)
+                elif plateau_rect[j][i]["Croix"]:
+                    pygame.draw.line(ecran,(0,0,0),(plateau_rect[j][i]["rect"].x,plateau_rect[j][i]["rect"].y),(plateau_rect[j][i]["rect"].x + plateau_rect[j][i]["rect"].width,plateau_rect[j][i]["rect"].y + plateau_rect[j][i]["rect"].height),width=3)
+                    pygame.draw.line(ecran,(0,0,0),(plateau_rect[j][i]["rect"].x,plateau_rect[j][i]["rect"].y + plateau_rect[j][i]["rect"].height),(plateau_rect[j][i]["rect"].x + plateau_rect[j][i]["rect"].width,plateau_rect[j][i]["rect"].y),width=3)
 #766
 pygame.init()
 ecran = pygame.display.set_mode((1720,780))
@@ -47,6 +46,10 @@ piece_placer = 0
 Porte_avions = ecran.subsurface(pygame.Rect((1607,380),(73,385)))
 Porte_avions.fill((0,255,0))
 #(1607,329)
+bateau = []
+for i in range(5):
+    if i == 0:
+        bateau.append(ecran.subsurface(pygame.Rect((1607,380),(73,385))))
 Croiseur = None
 Contre_torpilleurs1 = None
 Contre_torpilleurs2 = None
@@ -99,8 +102,7 @@ while not(end):
                         pygame.draw.line(ecran,(0,0,0),(case["rect"].x,case["rect"].y),(case["rect"].x + case["rect"].width,case["rect"].y + case["rect"].height),width=3)
                         pygame.draw.line(ecran,(0,0,0),(case["rect"].x,case["rect"].y + case["rect"].height),(case["rect"].x + case["rect"].width,case["rect"].y),width=3)
                         
-                    case["croix"] = True
-                    print(case)
+                    case["Croix"] = True
                     tour += 1
                     tour_texte = tour_texte_fond.render(f"tour numero : {str(tour)}",False,(255,255,255))
                     tour_surf.fill((0,0,0))
