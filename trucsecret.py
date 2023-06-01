@@ -10,7 +10,7 @@ import keyboard
 # 2 Contre-torpilleurs (3 cases) ;
 # 1 Torpilleur (2 cases).
 
-def phase_jeu(phase,ecran):
+def phase_jeu():
     if phase == 1:
         plateau_rect = [[] for i in range(10)]
         for j in range(10):
@@ -52,7 +52,7 @@ tour_surf = ecran.subsurface(tour_rect)
 tour_surf.blit(tour_texte,(0,0))
 ecran.blit(tour_surf.copy(),tour_rect)
 #75*75 les case
-text_rect = pygame.rect.Rect((plateau_rect[3][-1].x + plateau_rect[3][-1].width + 20,plateau_rect[3][-1].y),(930,plateau_rect[6][-1].y))
+text_rect = pygame.rect.Rect((plateau_rect[3][-1].x + plateau_rect[3][-1].width + 20,plateau_rect[3][-1].y),(930,plateau_rect[4][-1].y))
 txt_surf = ecran.subsurface(text_rect)
 texte_fond = pygame.font.SysFont("None",60)
 text = texte_fond.render("Clicker sur le bouton pour commencer",False,(255,0,0))
@@ -65,16 +65,25 @@ bt_txt_fond = pygame.font.SysFont("None",100,bold=True)
 bt_txt = bt_txt_fond.render("Jouer",False,(0,0,0))
 bouton_surf.blit(bt_txt,bt_txt.get_rect(center = bouton_surf.get_rect().center))
 ecran.blit(bouton_surf.copy(),bouton_rect)
+
 while not(end):
+
     pygame.display.flip()
+
     if game_play:
+
         for collone in plateau_rect:
+
             for case in collone:
+
                 if case.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+
                     if toucher:
+
                         pygame.draw.line(ecran,(255,0,0),(case.x,case.y),(case.x + case.width,case.y + case.height),width=3)
                         pygame.draw.line(ecran,(255,0,0),(case.x,case.y + case.height),(case.x + case.width,case.y),width=3)
                     else:
+
                         pygame.draw.line(ecran,(0,0,0),(case.x,case.y),(case.x + case.width,case.y + case.height),width=3)
                         pygame.draw.line(ecran,(0,0,0),(case.x,case.y + case.height),(case.x + case.width,case.y),width=3)
                     tour += 1
@@ -85,11 +94,28 @@ while not(end):
                     pygame.display.flip()
                     pygame.time.wait(250)
 
+    if bouton_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0] and not(game_play):
+        
+        game_play = True
+        txt_surf.fill((0,0,0))
+        text = texte_fond.render("Poser les piece, quand cela est fait appyue sur le bouton",False,(255,0,0))
+        txt_surf.blit(text,(0,0))
+        bouton_surf.fill((255,0,0))
+        bt_txt = bt_txt_fond.render("Validé les piece",False,(0,0,0))
+        bouton_surf.blit(bt_txt,bt_txt.get_rect(center = bouton_surf.get_rect().center))
+        ecran.blit(txt_surf.copy(),text_rect)
+        ecran.blit(bouton_surf.copy(),bouton_rect)
+
     if keyboard.is_pressed("Esc"):
+
         pygame.quit()
         quit()
+    
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
+
             end = True
+
 pygame.quit()
 quit()
