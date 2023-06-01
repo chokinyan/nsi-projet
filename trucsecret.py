@@ -3,7 +3,7 @@ import random
 import keyboard
 
 
-# 90 case donc un jeu de 10*10
+# 100 case donc un jeu de 10*10
 # A-J ↓↑  || 1-10 ←→
 # 1 Porte-avions (5 cases) ;
 # 1 Croiseur (4 cases) ;
@@ -43,17 +43,15 @@ plateau_bot = [[0 for i in range(10)] for i in range(10)]
 tour = 0
 piece_placer = 0
 #max 5
-Porte_avions = ecran.subsurface(pygame.Rect((1607,380),(73,385)))
-Porte_avions.fill((0,255,0))
 #(1607,329)
-bateau = []
+bateau = [ecran.subsurface(pygame.Rect((1607,380),(73,361))),ecran.subsurface(pygame.Rect((1525,380),(73,288))),ecran.subsurface(pygame.Rect((1450,380),(73,215))),ecran.subsurface(pygame.Rect((1360,380),(73,215))),ecran.subsurface(pygame.Rect((1280,380),(73,142)))]
 for i in range(5):
-    if i == 0:
-        bateau.append(ecran.subsurface(pygame.Rect((1607,380),(73,385))))
-Croiseur = None
-Contre_torpilleurs1 = None
-Contre_torpilleurs2 = None
-Torpilleur = None
+    bateau[i].fill((0,255,0))
+Porte_avion = False
+Croiseur = False
+Contre_torpilleurs1 = False
+Contre_torpilleurs2 = False
+Torpilleur = False
 toucher = False
 joueur_joue = False
 game_play = False
@@ -78,7 +76,10 @@ bt_txt_fond = pygame.font.SysFont("None",100,bold=True)
 bt_txt = bt_txt_fond.render("Jouer",False,(0,0,0))
 bouton_surf.blit(bt_txt,bt_txt.get_rect(center = bouton_surf.get_rect().center))
 ecran.blit(bouton_surf.copy(),bouton_rect)
-ecran.blit(Porte_avions.copy(),pygame.Rect((1607,380),(73,385)))
+for i in bateau:
+    ecran.blit(i.copy(),i.get_rect())
+
+
 
 while not(end):
 
