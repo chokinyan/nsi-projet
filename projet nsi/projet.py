@@ -13,7 +13,7 @@ except ModuleNotFoundError:
 
 #-------------------------------------------------------------
 
-def reset_val(val : str = "full"):
+def reset_val(val : str = "full") -> None:
     global tour,nb_bot,nb_j,classement,joueur,pion,textinp
     match val:
         case "full":
@@ -250,15 +250,16 @@ class etat_screen:
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         addp.text(texte='Combien etes-vous ?',display = self.disp.scr,antialias=True,color=(240,0,30),size = 50,police='arial',bold=True).draw(self.center[0]//2,0)
     
-    def choix_nom(self) -> None:
+    def choix_nom(self,choisi : bool = False) -> None:
         global joueur,textinp
         self.etat = sys._getframe(0).f_code.co_name
         ((self.disp).clear((150,210,255,0)))
         if "nom" not in textinp:
-            for i in range(nb_j):
-                joueur.append(joueur_info(i+1,False))
-            for j in range(nb_bot):
-                joueur.append(joueur_info(nb_j+1+j,True))
+            if not(choisi):
+                for i in range(nb_j):
+                    joueur.append(joueur_info(i+1,False))
+                for j in range(nb_bot):
+                    joueur.append(joueur_info(nb_j+1+j,True))
             textinp.update(nom = addp.TextInput(screen = (etat.disp).scr,bg = (255,255,255),text_color=(0,0,0),x=etat.taille_screen[0] - (2*(etat.taille_screen[0]/3)),y= etat.taille_screen[1] - (2*(etat.taille_screen[1]/3)),h = etat.taille_screen[1]/3,w = etat.taille_screen[0]/3))
         bouton.update(B_retour = addp.Button(fild=self.image_R,y=pyg.display.get_window_size()[1]-self.image_R.get_height(),x=self.center[0]-self.image_R.get_width()/2))
         addp.text(texte='Entre ton nom',display=self.disp.scr,size=50,bold=True,color=(240,0,30),police="arial",antialias=True).draw(self.center[0]/2,0)
@@ -323,6 +324,7 @@ class etat_screen:
                 dée_sond = pyg.mixer.Sound(r"projet nsi\Son\test\dée.mp3")
                 dée_sond.play()
                 pyg.time.wait(int(dée_sond.get_length()))
+            
             if joueure[self.joueur_tour].joue: 
                 joueure[self.joueur_tour].new_position(dée_1,dée_2)
             else :
@@ -453,6 +455,7 @@ pion = {}
 joueur = []
 textinp = {}
 end = False
+n_ok = 0
 pyg.init()
 ecran = screen(icone = r"projet nsi/image/icone/images.png",dis_name="Jeu de l'oie",h=1280,w= 720)
 etat = etat_screen(disp=ecran)
@@ -574,10 +577,15 @@ while not(end):
         elif event.type == pyg.KEYDOWN:
 
             if etat.etat == "choix_nom":
-                    if event.key == pyg.K_RETURN and textinp["nom"].focus:
-                        if textinp["nom"].text != '':
-                            joueur[0].nom = textinp["nom"].text
-                        pyg.mouse.set_cursor(textinp["nom"].cursor)
+                    if n_ok != nb_j-1:
+                        if event.key == pyg.K_RETURN and textinp["nom"].focus:
+                            if textinp["nom"].text != '':
+                                joueur[n_ok].nom = textinp["nom"].text
+                            pyg.mouse.set_cursor(textinp["nom"].cursor)
+                            n_ok += 1
+                            textinp.clear()
+                            etat.choix_nom(True)
+                    else:
                         etat.partie(joueure=joueur)
 
 pyg.quit()

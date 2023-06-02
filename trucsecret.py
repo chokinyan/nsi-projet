@@ -1,6 +1,5 @@
 import pygame
 import random
-import keyboard
 
 
 # 100 case donc un jeu de 10*10
@@ -44,9 +43,7 @@ tour = 0
 piece_placer = 0
 #max 5
 #(1607,329)
-bateau = [ecran.subsurface(pygame.Rect((1607,380),(73,361))),ecran.subsurface(pygame.Rect((1525,380),(73,288))),ecran.subsurface(pygame.Rect((1450,380),(73,215))),ecran.subsurface(pygame.Rect((1360,380),(73,215))),ecran.subsurface(pygame.Rect((1280,380),(73,142)))]
-for i in range(5):
-    bateau[i].fill((0,255,0))
+
 Porte_avion = False
 Croiseur = False
 Contre_torpilleurs1 = False
@@ -63,9 +60,9 @@ tour_rect = pygame.Rect(925,0,575,68)
 tour_surf = ecran.subsurface(tour_rect)
 tour_surf.blit(tour_texte,(0,0))
 ecran.blit(tour_surf.copy(),tour_rect)
-text_rect = pygame.Rect((plateau_rect[3][-1]["rect"].x + plateau_rect[3][-1]["rect"].width + 20,plateau_rect[3][-1]["rect"].y),(930,plateau_rect[4][-1]["rect"].y))
+text_rect = pygame.Rect((plateau_rect[3][-1]["rect"].x + plateau_rect[3][-1]["rect"].width + 20,plateau_rect[3][-1]["rect"].y),(700,50))
 txt_surf = ecran.subsurface(text_rect)
-texte_fond = pygame.font.SysFont("None",60)
+texte_fond = pygame.font.SysFont("None",45)
 text = texte_fond.render("Clicker sur le bouton pour commencer",False,(255,0,0))
 txt_surf.blit(text,(0,0))
 ecran.blit(txt_surf.copy(),text_rect)
@@ -76,10 +73,6 @@ bt_txt_fond = pygame.font.SysFont("None",100,bold=True)
 bt_txt = bt_txt_fond.render("Jouer",False,(0,0,0))
 bouton_surf.blit(bt_txt,bt_txt.get_rect(center = bouton_surf.get_rect().center))
 ecran.blit(bouton_surf.copy(),bouton_rect)
-for i in bateau:
-    ecran.blit(i.copy(),i.get_rect())
-
-
 
 while not(end):
 
@@ -113,8 +106,13 @@ while not(end):
 
     if bouton_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0] and not(Placement_piece):
         
-        #Placement_piece = True
-        game_play = True
+        
+        bateau = [ecran.subsurface(pygame.Rect((1607,380),(73,361))),ecran.subsurface(pygame.Rect((1525,380),(73,288))),ecran.subsurface(pygame.Rect((1450,380),(73,215))),ecran.subsurface(pygame.Rect((1360,380),(73,215))),ecran.subsurface(pygame.Rect((1280,380),(73,142)))]
+        bateau_rect = [pygame.Rect((1607,380),(73,361)),pygame.Rect((1525,380),(73,288)),pygame.Rect((1450,380),(73,215)),pygame.Rect((1360,380),(73,215)),pygame.Rect((1280,380),(73,142))]
+        for i in range(5):
+            bateau[i].fill((0,255,0))
+        Placement_piece = True
+        #game_play = True
         txt_surf.fill((0,0,0))
         text = texte_fond.render("Poser les piece, puis appyue sur le bouton",False,(255,0,0))
         txt_surf.blit(text,(0,0))
@@ -123,6 +121,8 @@ while not(end):
         bouton_surf.blit(bt_txt,bt_txt.get_rect(center = bouton_surf.get_rect().center))
         ecran.blit(txt_surf.copy(),text_rect)
         ecran.blit(bouton_surf.copy(),bouton_rect)
+        for i in bateau:
+            ecran.blit(i.copy(),i.get_rect())
     
     if pygame.mouse.get_pressed()[0]:
         #print(pygame.mouse.get_pos())
@@ -131,11 +131,14 @@ while not(end):
         genere_plateau()
         pygame.time.wait(1)
 
-
-    if keyboard.is_pressed("Esc"):
-
-        pygame.quit()
-        quit()
+    if Placement_piece:
+        for b in range(len(bateau)):
+            if bateau_rect[b].collidepoint(pygame.mouse.get_pos()) and not(piece_placer) and pygame.mouse.get_pressed()[0]:
+                bateau[b].fill((34,56,89))
+                piece_placer = True
+            elif not(bateau_rect[b].collidepoint(pygame.mouse.get_pos())) and not(piece_placer):
+                bateau[b].fill((0,255,0))
+            ecran.blit(bateau[b].copy(),bateau_rect[b])
     
     for event in pygame.event.get():
 
