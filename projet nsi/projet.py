@@ -1,6 +1,5 @@
 #le code utilise "match/case" il faut donc avoir python 3.10
 import os as os
-import math as math
 import random as rng
 import sys
 import add_pygame as addp
@@ -575,18 +574,17 @@ while not(end):
             quit()
 
         elif event.type == pyg.KEYDOWN:
-
             if etat.etat == "choix_nom":
-                    if n_ok != nb_j-1:
-                        if event.key == pyg.K_RETURN and textinp["nom"].focus:
-                            if textinp["nom"].text != '':
-                                joueur[n_ok].nom = textinp["nom"].text
-                            pyg.mouse.set_cursor(textinp["nom"].cursor)
-                            n_ok += 1
-                            textinp.clear()
-                            etat.choix_nom(True)
-                    else:
-                        etat.partie(joueure=joueur)
+                if n_ok != nb_j-1:
+                    if event.key == pyg.K_RETURN and textinp["nom"].focus:
+                        if textinp["nom"].text != '':
+                            joueur[n_ok].nom = textinp["nom"].text
+                        pyg.mouse.set_cursor(textinp["nom"].cursor)
+                        n_ok += 1
+                        textinp.clear()
+                        etat.choix_nom(True)
+                else:
+                    etat.partie(joueure=joueur)
 
 pyg.quit()
 quit()
